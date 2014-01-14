@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'email_validator'
+
 gem 'devise'
 gem "rails_admin", "~> 0.5.0"
 
