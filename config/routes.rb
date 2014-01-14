@@ -1,4 +1,8 @@
 Vitalpatch::Application.routes.draw do
+
+  mount RailsAdmin::Engine => '/cms', :as => 'rails_admin'
+  devise_for :admins
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # You can have the root of your site routed with "root"

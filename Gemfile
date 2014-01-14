@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'devise'
+gem "rails_admin", "~> 0.5.0"
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0.beta'
