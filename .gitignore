@@ -17,3 +17,5 @@
 
 # Heroku foreman env
 .env
+
+*.DS_Store
