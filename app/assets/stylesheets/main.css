@@ -156,3 +156,10 @@ i {
 	font-weight: 300;
 	letter-spacing: 1px;
 }
+
+.alert {
+    position: fixed;
+    width: 100%;
+    padding-top: 80px; 
+    
+}
