@@ -5,8 +5,10 @@ class HomeController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      # Email
+      UserMailer.welcome_email(@user).deliver
       flash[:notice] = "Successfully added"
-      redirect_to root_path 
+      redirect_to root_path
     else
       flash[:error] = "Could not add: %s" % @user.errors.full_messages
       redirect_to root_path
