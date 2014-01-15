@@ -91,9 +91,10 @@
 			<div class="col-lg-7">
 				<h1>Independence seniors deserve, <br/>
 				peace of mind for their families.</h1>
-				<form class="form-inline" role="form">
+				<form class="form-inline" role="form" method="post" action=<%= create_path %>>
 				  <div class="form-group">
-				    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email address">
+				    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email address">
+				    <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 				  </div>
 				  <button type="submit" class="btn btn-warning btn-lg">Invite Me!</button>
 				</form>					
