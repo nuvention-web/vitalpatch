@@ -1,8 +1,8 @@
 // Sam changed this
 // document.write("<script type='text/javascript' charset='utf-8' src='file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/javascript/jim-min.js'></script>");
 // document.write("<script type='text/javascript' charset='utf-8' src='file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/javascript/mobile/ios/ios7/iphone/jim-iphone-min.js'></script>");
-document.write("<script type='text/javascript' charset='utf-8' src='other/jim-min.js'></script>");
-document.write("<script type='text/javascript' charset='utf-8' src='other/jim-iphone-min.js'></script>");
+document.write("<script type='text/javascript' charset='utf-8' src='resources/_jim/javascript/jim-min.js'></script>");
+document.write("<script type='text/javascript' charset='utf-8' src='resources/_jim/javascript/mobile/ios/ios7/iphone/jim-iphone-min.js'></script>");
 // End Sam changed this
 
 document.write("<script type='text/javascript' charset='utf-8' src='./resources/scroll-1390881174324.js'></script>");
