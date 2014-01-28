@@ -1,5 +1,10 @@
-document.write("<script type='text/javascript' charset='utf-8' src='file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/javascript/jim-min.js'></script>");
-document.write("<script type='text/javascript' charset='utf-8' src='file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/javascript/mobile/ios/ios7/iphone/jim-iphone-min.js'></script>");
+// Sam changed this
+// document.write("<script type='text/javascript' charset='utf-8' src='file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/javascript/jim-min.js'></script>");
+// document.write("<script type='text/javascript' charset='utf-8' src='file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/javascript/mobile/ios/ios7/iphone/jim-iphone-min.js'></script>");
+document.write("<script type='text/javascript' charset='utf-8' src='other/jim-min.js'></script>");
+document.write("<script type='text/javascript' charset='utf-8' src='other/jim-iphone-min.js'></script>");
+// End Sam changed this
+
 document.write("<script type='text/javascript' charset='utf-8' src='./resources/scroll-1390881174324.js'></script>");
 document.write("<script type='text/javascript' charset='utf-8' src='./resources/lookup-1390881174324.js'></script>");
 document.write("<script type='text/javascript' charset='utf-8' src='./resources/screens/8b620454-b996-4c10-aab3-81553933e8a7-1390881174324.js'></script>");
