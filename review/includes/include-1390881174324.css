@@ -1,6 +1,14 @@
 @charset "utf-8";
-@import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/jim-min.css");
+
+/* Sam changed */
+/*@import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/jim-min.css");
 @import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/mobile/jim-mobile-min.css");
 @import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/mobile/ios/jim-ios-common-min.css");
-@import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/mobile/ios/ios7/iphone5/jim-iphone5-min.css");
+@import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/mobile/ios/ios7/iphone5/jim-iphone5-min.css");*/
+@import url("resources/_jim/css/jim-min.css");
+@import url("resources/_jim/css/mobile/jim-mobile-min.css");
+@import url("resources/_jim/css/mobile/ios/jim-ios-common-min.css");
+@import url("resources/_jim/css/mobile/ios/ios7/iphone5/jim-iphone5-min.css");
+/* End Sam changed */
+
 @import url("../../resources/fonts-1390881174324.css");
