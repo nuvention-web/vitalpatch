@@ -4,7 +4,7 @@
 /*@import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/jim-ie.css");
 @import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/mobile/function-jim-mobile-ie.css");
 @import url("file:////Applications/Prototyper Pro.app/Contents/Resources/Java/resources/_jim/css/mobile/ios/ios7/iphone5/function-jim-iphone5-ie.css");*/
-@import url("resources/_jim/css/jim-ie.css");
-@import url("resources/_jim/css/mobile/function-jim-mobile-ie.css");
-@import url("resources/_jim/css/mobile/ios/ios7/iphone5/function-jim-iphone5-ie.css");
+@import url("../../resources/_jim/css/jim-ie.css");
+@import url("../../resources/_jim/css/mobile/function-jim-mobile-ie.css");
+@import url("../../resources/_jim/css/mobile/ios/ios7/iphone5/function-jim-iphone5-ie.css");
 /* End Sam changed */
