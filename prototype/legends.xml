@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Legends>
+  <legend>
+    <name>Template</name>
+    <legend-item>
+      <name>Completed</name>
+      <color red="194" green="255" blue="176" />
+    </legend-item>
+    <legend-item>
+      <name>To change</name>
+      <color red="255" green="255" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="240" green="240" blue="240" />
+    </legend-item>
+  </legend>
+  <legend>
+    <name>CommentModel</name>
+    <legend-item>
+      <name>Priority: High</name>
+      <color red="255" green="128" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Priority: Normal</name>
+      <color red="194" green="255" blue="176" />
+    </legend-item>
+    <legend-item>
+      <name>Priority: Low</name>
+      <color red="187" green="221" blue="255" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="255" green="255" blue="255" />
+    </legend-item>
+  </legend>
+  <legend>
+    <name>CustomComponent</name>
+    <legend-item>
+      <name>Completed</name>
+      <color red="194" green="255" blue="176" />
+    </legend-item>
+    <legend-item>
+      <name>To change</name>
+      <color red="255" green="255" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="240" green="240" blue="240" />
+    </legend-item>
+  </legend>
+  <legend>
+    <name>BusinessObject</name>
+    <legend-item>
+      <name>Completed</name>
+      <color red="194" green="255" blue="176" />
+    </legend-item>
+    <legend-item>
+      <name>To change</name>
+      <color red="255" green="255" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="240" green="240" blue="240" />
+    </legend-item>
+  </legend>
+  <legend>
+    <name>RequirementModel</name>
+    <legend-item>
+      <name>Accepted</name>
+      <color red="187" green="248" blue="167" />
+    </legend-item>
+    <legend-item>
+      <name>Confirmation required</name>
+      <color red="255" green="255" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Purposed</name>
+      <color red="0" green="128" blue="255" />
+    </legend-item>
+    <legend-item>
+      <name>Revised</name>
+      <color red="255" green="255" blue="255" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="255" green="255" blue="255" />
+    </legend-item>
+  </legend>
+  <legend>
+    <name>ActivityScenario</name>
+    <legend-item>
+      <name>Completed</name>
+      <color red="194" green="255" blue="176" />
+    </legend-item>
+    <legend-item>
+      <name>To change</name>
+      <color red="255" green="255" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="240" green="240" blue="240" />
+    </legend-item>
+  </legend>
+  <legend>
+    <name>PageAction</name>
+    <legend-item>
+      <name>Completed</name>
+      <color red="187" green="248" blue="167" />
+    </legend-item>
+    <legend-item>
+      <name>To change</name>
+      <color red="255" green="255" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>Discarded</name>
+      <color red="0" green="64" blue="128" />
+    </legend-item>
+    <legend-item>
+      <name>None</name>
+      <color red="240" green="240" blue="240" />
+    </legend-item>
+  </legend>
+</Legends>
+
