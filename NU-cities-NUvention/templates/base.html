@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Whereintheworldiswillie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/sticky-footer.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../static/js/bootstrap.min.js"></script>
+    {% block head %}
+    {% endblock head %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body style>
+    <div id="wrapper">
+      <div id="header"></div>
+      <div id="content">
+        {% block content %}
+        {% endblock %}
+
+      </div>
+      <br>
+      <br>
+      <div id="footer">
+        <div style="clear: both;" class="container">
+          <p id="alignleft"> <span style="line-height:30px" id="footer-text" class="text-muted"> 
+            Made with love for you by NU class of '14 student <a href="http://about.me/scottneaves" target="_blank">Scott Neaves</a>. Feel free to send <a href="mailto:whereintheworldiswillie@gmail.com?Subject=Feedback" target="_blank">feedback!</a> </span> </p>
+
+          <p id="alignright"><span style="line-height:30px"vd="footer-text" class="text-muted"> <a href="{{ url_for('logout') }}">Logout</a></span></p>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

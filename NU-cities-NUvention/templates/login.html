@@ -1,0 +1,82 @@
+    {% extends "base.html" %}
+
+        {% block head %}
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        
+        <style type="text/css">
+          html { height: 100% }
+          body { height: 100%; margin: 0; padding: 0 }
+          #map-canvas { height: 100% }
+        </style>
+        
+        <script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOS9quCxiDEqhhfV-kK1oKpLYOgPXRzeA&sensor=false">
+        </script>
+        
+        <script type="text/javascript">
+            var marker;
+            var map;
+            var locations = new Array();
+
+            {% for obj in users %}
+                locations.push(new google.maps.LatLng({{obj.latitude}}, {{obj.longitude}} ));
+            {% endfor %}
+
+            function placeMarkers(locations) {
+              for (var i=0; i<locations.length; i++){
+                if (!(locations[i].lat()==0 && locations[i].lng()==0)){
+                    marker = new google.maps.Marker({
+                      position: locations[i],
+                      map: map
+                    });
+                }
+                }
+            }
+
+            function initialize() {
+                var mapOptions = {
+                  center: new google.maps.LatLng(42.060, -87.674),
+                  zoom: 4
+                };
+                map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+                placeMarkers(locations);
+              }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+          </script>
+    {% endblock head %}
+
+    {% block content %}
+
+    <!--**********************Page Header**********************-->
+    <div class="jumbotron"> 
+      <div class="container">
+        <h1>Where in the World is Willie?</h1>
+          <p>
+            Where in the World is Willie is a website Northwestern's class of '14 can use to find out where our class is heading after graduation! Log in or sign up to get started.  
+          </p>
+        <button type="button" class="btn btn-default btn-lg" onclick="window.location.href='/register'"><a href="/register">Sign up!</a></button>
+      </div>
+    </div>
+
+    <!--**********************Map of locations**********************-->
+    <div  class="well">  
+      <div id="map-canvas" style="text-align:center; width:75%; height:400px; margin-left:auto; margin-right:auto"></div>
+    </div>
+
+    <!--**********************Login Form**********************-->
+    <div class="container" style="width:40%">
+        <h3> Already have an account? Log in to see who will be living near you.</h3>
+      <form class="form-signin" role="form" action="{{ url_for('login') }}" method="post">
+        <p class="form-signin-heading">{{ status }}</p>
+        <input name="email" type="text" class="form-control" placeholder="Email Address" required>
+        <input name="password" type="password" class="form-control" placeholder="Password" required>
+
+        <button class="btn btn-lg btn-primary btn-block" value="Submit" type="submit">Log In</button>
+        <a href="{{ url_for('forgot_password')}}">Forgot your password?</a>
+      </form>
+    </div> <!-- /container -->
+
+    {% endblock content %}
