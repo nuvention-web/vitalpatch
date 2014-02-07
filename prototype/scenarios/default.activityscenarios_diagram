@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmi:version="2.0" type="ActivityScenarios" name="default" measurementUnit="Pixel">
+  
+  
+  <styles xsi:type="notation:DiagramStyle" />
+  
+  
+  <element href="default.activityscenarios#/" />
+  
+
+</notation:Diagram>
+

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+  <parentCode />
+  <folderPosition>1</folderPosition>
+  <name>Login</name>
+  <code>95adc887-3e85-4566-95d6-d7b6077c8c85</code>
+  <templateID>1e8a452c-0c3e-434b-9a69-9f88c989dab1</templateID>
+  <date>27/01/2014 21:37:23</date>
+  <note></note>
+  <legend-item></legend-item>
+  <pageAlignment>LEFT</pageAlignment>
+  <item-group id="136ee2d3-dae3-400e-9a6b-8561404cd34a" visible="true">
+    <image id="239a20ae-2d78-4132-80f7-3ff14d33c779" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <image-name>73e56078-3138-4f1b-b76f-c38163c3ff42.png</image-name>
+      <original-name>Screen shot 2014-01-27 at 7.42.46 PM.png</original-name>
+      <style name="LnFImage">
+        <DimensionStyle width="320" height="573" />
+        <PositioningStyle left="0" top="0" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TransparencyStyle value="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Image_1</userID>
+    </image>
+    <tabbedBox id="b1d0b39d-6eaf-4ecb-9ca0-6415d033fccf" default="0" selected="0" content-editable="true" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <tab id="2a627012-2d37-4374-b111-acab8ad2dfe2" identifier="63491d74-1b27-4a46-a19b-16454c16d06c" hScroll="0" vScroll="0" visible="true">
+        <name>Panel_50</name>
+        <userID>Panel_50</userID>
+        <item-group id="35b0a6f3-1450-43c3-a92d-443e0a7bf8d0" visible="true">
+          <group-container id="7017f39d-7be4-4482-aaea-dad968cc9975" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+            <label id="546bb66d-4e29-4540-b254-064e61acbd03" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+              <text>Username</text>
+              <style name="LnFTextBox">
+                <DimensionStyle width="291" height="43" />
+                <PositioningStyle left="0" top="0" />
+                <BackgroundStyle type="color" value="255r255g255b" />
+                <BorderStyle radius="30" leftColor="255r255g255b" topColor="255r255g255b" rightColor="255r255g255b" bottomColor="255r255g255b" leftStyle="solid" topStyle="solid" rightStyle="solid" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+                <TextStyle color="128r128g128b" hAlign="left" vAlign="center" decoration="none" line-height="0" />
+                <FontStyle size="13" height="23">
+                  <family>Roboto</family>
+                  <style name="Regular" weight="400" italic="normal" />
+                  <evc-file>Roboto-Regular</evc-file>
+                </FontStyle>
+                <TransparencyStyle value="0" />
+                <PaddingStyle top="0" left="15" bottom="0" right="0" />
+                <RotationStyle angle="0" />
+                <ShadowStyle>
+                  <Box enable="false" />
+                  <Text enable="false" />
+                </ShadowStyle>
+              </style>
+              <userID>Label_32</userID>
+            </label>
+            <attribute-form id="43a1a60c-0a3b-4472-b8df-19730617ff40" writable="true" hidden="false" locked="true" lockType="vertical" onTop="false" visible="true">
+              <attStyle>InputText</attStyle>
+              <type>text</type>
+              <style name="LnFAttributeForm">
+                <DimensionStyle width="160" height="23" />
+                <PositioningStyle left="118" top="10" />
+                <BackgroundStyle type="color" value="255r255g255b" />
+                <BorderStyle radius="0" leftColor="200r200g200b" topColor="200r200g200b" rightColor="200r200g200b" bottomColor="200r200g200b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+                <TextStyle color="0r0g0b" hAlign="left" vAlign="center" decoration="none" line-height="0" />
+                <FontStyle size="11" height="19">
+                  <family>Roboto</family>
+                  <style name="Regular" weight="400" italic="normal" />
+                  <evc-file>Roboto-Regular</evc-file>
+                </FontStyle>
+                <TransparencyStyle value="0" />
+                <PaddingStyle top="0" left="0" bottom="0" right="0" />
+                <ShadowStyle>
+                  <Box enable="false" />
+                  <Text enable="false" />
+                </ShadowStyle>
+              </style>
+              <defaultValue></defaultValue>
+              <userID>Input_2</userID>
+            </attribute-form>
+            <style name="LnFGroup">
+              <DimensionStyle width="291" height="43" />
+              <PositioningStyle left="2" top="0" />
+            </style>
+            <userID>Group_1</userID>
+          </group-container>
+          <line id="08b7ab16-8cde-45a6-87c5-be8a5e927232" start-marker="NONE" end-marker="NONE" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+            <style name="LnFSeparationLine">
+              <DimensionStyle width="291" height="1" />
+              <PositioningStyle left="2" top="43" />
+              <BorderStyle radius="0" leftColor="64r64g64b" topColor="192r192g192b" rightColor="64r64g64b" bottomColor="64r64g64b" leftStyle="none" topStyle="solid" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+              <TransparencyStyle value="0" />
+              <RotationStyle angle="0" />
+              <ShadowStyle>
+                <Box enable="false" />
+              </ShadowStyle>
+            </style>
+            <userID>Line_17</userID>
+          </line>
+          <group-container id="59771540-b3ac-4a78-8913-20fb464aa595" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+            <label id="bb39af36-0155-4bb6-bed6-144f07d836f6" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+              <text>Password</text>
+              <style name="LnFTextBox">
+                <DimensionStyle width="291" height="42" />
+                <PositioningStyle left="0" top="0" />
+                <BackgroundStyle type="color" value="255r255g255b" />
+                <BorderStyle radius="30" leftColor="255r255g255b" topColor="255r255g255b" rightColor="255r255g255b" bottomColor="255r255g255b" leftStyle="solid" topStyle="none" rightStyle="solid" bottomStyle="solid" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+                <TextStyle color="128r128g128b" hAlign="left" vAlign="center" decoration="none" line-height="0" />
+                <FontStyle size="13" height="23">
+                  <family>Roboto</family>
+                  <style name="Regular" weight="400" italic="normal" />
+                  <evc-file>Roboto-Regular</evc-file>
+                </FontStyle>
+                <TransparencyStyle value="0" />
+                <PaddingStyle top="0" left="15" bottom="0" right="0" />
+                <RotationStyle angle="0" />
+                <ShadowStyle>
+                  <Box enable="false" />
+                  <Text enable="false" />
+                </ShadowStyle>
+              </style>
+              <userID>Label_33</userID>
+            </label>
+            <attribute-form id="be241b39-2ffb-451d-8447-c96830407430" writable="true" hidden="false" locked="true" lockType="vertical" onTop="false" visible="true">
+              <attStyle>Password</attStyle>
+              <type>text</type>
+              <style name="LnFAttributeForm">
+                <DimensionStyle width="160" height="23" />
+                <PositioningStyle left="118" top="9" />
+                <BackgroundStyle type="color" value="255r255g255b" />
+                <BorderStyle radius="0" leftColor="200r200g200b" topColor="200r200g200b" rightColor="200r200g200b" bottomColor="200r200g200b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+                <TextStyle color="64r64g64b" hAlign="left" vAlign="center" decoration="none" line-height="0" />
+                <FontStyle size="11" height="19">
+                  <family>Roboto</family>
+                  <style name="Regular" weight="400" italic="normal" />
+                  <evc-file>Roboto-Regular</evc-file>
+                </FontStyle>
+                <TransparencyStyle value="0" />
+                <PaddingStyle top="0" left="0" bottom="0" right="0" />
+                <ShadowStyle>
+                  <Box enable="false" />
+                  <Text enable="false" />
+                </ShadowStyle>
+              </style>
+              <defaultValue></defaultValue>
+              <userID>Input_3</userID>
+            </attribute-form>
+            <style name="LnFGroup">
+              <DimensionStyle width="291" height="42" />
+              <PositioningStyle left="2" top="44" />
+            </style>
+            <userID>Group_2</userID>
+          </group-container>
+          <style name="LnFCell">
+            <DimensionStyle width="293" height="87" />
+            <PositioningStyle left="13" top="204" />
+            <BackgroundStyle type="transparent" />
+            <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+            <TransparencyStyle value="0" />
+            <LayoutStyle type="layoutVertical" hAlign="3" vAlign="1" />
+            <ShadowStyle>
+              <Box enable="false" />
+            </ShadowStyle>
+          </style>
+        </item-group>
+      </tab>
+      <style name="LnFTabbedBox">
+        <DimensionStyle width="0" height="0" />
+        <PositioningStyle left="13" top="204" />
+      </style>
+      <info>List</info>
+      <userID>Dynamic_Panel_48</userID>
+    </tabbedBox>
+    <label id="0963adef-3528-4804-89ed-46f18214e98b" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Log in</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="297" height="42" />
+        <PositioningStyle left="11" top="508" />
+        <BackgroundStyle type="color" value="255r255g255b" />
+        <BorderStyle radius="20" leftColor="255r255g255b" topColor="255r255g255b" rightColor="255r255g255b" bottomColor="255r255g255b" leftStyle="solid" topStyle="solid" rightStyle="solid" bottomStyle="solid" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="21r126g251b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="14" height="24">
+          <family>Roboto</family>
+          <style name="Medium" weight="500" italic="normal" />
+          <evc-file>Roboto-Medium</evc-file>
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_1</userID>
+    </label>
+    <label id="4d3754b6-d109-4594-a9af-7c0b962f255d" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Vital Patch</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="320" height="127" />
+        <PositioningStyle left="0" top="64" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="36" height="58">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_2</userID>
+    </label>
+    <image id="dbddbced-5056-43b6-a72b-4056f48346e9" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <image-name>4617a7fd-a143-49ac-9224-e5c7cbcbafb8.png</image-name>
+      <original-name>icon_10412.png</original-name>
+      <style name="LnFImage">
+        <DimensionStyle width="150" height="150" />
+        <PositioningStyle left="85" top="310" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TransparencyStyle value="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Image_2</userID>
+    </image>
+    <style name="LnFCanvas">
+      <DimensionStyle width="320" height="573" />
+      <PositioningStyle left="0" top="0" />
+      <BackgroundStyle type="transparent" />
+      <TransparencyStyle value="0" />
+    </style>
+  </item-group>
+  <Events>
+    <event id="0963adef-3528-4804-89ed-46f18214e98b" trigger="onClick">
+      <case>
+        <description>Interaction</description>
+        <block>
+          <eventCondition>
+            <Function name="Or">
+              <Function name="Difference">
+                <Value type="mutable" mutableType="0">
+                  <holderId>43a1a60c-0a3b-4472-b8df-19730617ff40</holderId>
+                </Value>
+                <Value type="textConstant">
+                  <value>sam</value>
+                </Value>
+              </Function>
+              <Function name="Difference">
+                <Value type="mutable" mutableType="0">
+                  <holderId>be241b39-2ffb-451d-8447-c96830407430</holderId>
+                </Value>
+                <Value type="textConstant">
+                  <value>sam</value>
+                </Value>
+              </Function>
+            </Function>
+          </eventCondition>
+          <hideElement hide="true" item="0963adef-3528-4804-89ed-46f18214e98b">
+            <effect type="shake" length="100" />
+          </hideElement>
+        </block>
+        <block>
+          <navigateLink>
+            <screen id="8a638ee1-d936-47c6-b4d7-1fa17ca84294">Patches</screen>
+            <transition type="slideleft" />
+          </navigateLink>
+        </block>
+      </case>
+    </event>
+  </Events>
+</screen>
+

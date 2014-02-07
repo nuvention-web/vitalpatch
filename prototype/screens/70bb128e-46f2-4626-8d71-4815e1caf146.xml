@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+  <parentCode />
+  <folderPosition>0</folderPosition>
+  <name>Loading screen</name>
+  <code>70bb128e-46f2-4626-8d71-4815e1caf146</code>
+  <templateID>1e8a452c-0c3e-434b-9a69-9f88c989dab1</templateID>
+  <date>27/01/2014 21:36:45</date>
+  <note></note>
+  <legend-item></legend-item>
+  <pageAlignment>LEFT</pageAlignment>
+  <item-group id="9baede0d-d47a-4051-a482-8ed5ab5a5ced" visible="true">
+    <image id="496b4722-fc0f-47bc-91df-8ffe6b1bc71a" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <image-name>73e56078-3138-4f1b-b76f-c38163c3ff42.png</image-name>
+      <original-name>Screen shot 2014-01-27 at 7.42.46 PM.png</original-name>
+      <style name="LnFImage">
+        <DimensionStyle width="320" height="569" />
+        <PositioningStyle left="0" top="0" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TransparencyStyle value="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Image_1</userID>
+    </image>
+    <label id="7bdb0c28-71d8-425f-844e-425df96caf71" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Vital Patch</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="320" height="127" />
+        <PositioningStyle left="0" top="64" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="36" height="58">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_1</userID>
+    </label>
+    <image id="6a6648b2-cbb0-4226-8be3-c6adcab885e3" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <image-name>4617a7fd-a143-49ac-9224-e5c7cbcbafb8.png</image-name>
+      <original-name>icon_10412.png</original-name>
+      <style name="LnFImage">
+        <DimensionStyle width="150" height="150" />
+        <PositioningStyle left="85" top="310" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TransparencyStyle value="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Image_2</userID>
+    </image>
+    <style name="LnFCanvas">
+      <DimensionStyle width="320" height="569" />
+      <PositioningStyle left="0" top="0" />
+      <BackgroundStyle type="transparent" />
+      <TransparencyStyle value="0" />
+    </style>
+  </item-group>
+  <Events>
+    <event id="9baede0d-d47a-4051-a482-8ed5ab5a5ced" trigger="onPageLoad">
+      <case>
+        <description>Interaction</description>
+        <block>
+          <delayTime delay="1000" />
+          <navigateLink>
+            <screen id="95adc887-3e85-4566-95d6-d7b6077c8c85">Login</screen>
+            <transition type="fade" />
+          </navigateLink>
+        </block>
+      </case>
+    </event>
+  </Events>
+</screen>
+
