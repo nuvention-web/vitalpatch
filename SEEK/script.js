@@ -22,7 +22,6 @@ $(document).ready(function() {
 	$("p.waiting").fadeOut("slow", function() {
 		$(".button-wrapper").fadeIn("slow");
 	});
-	getLocation();
 });
 
 function amIFirst() {
@@ -89,16 +88,11 @@ function positionSuccess(position) {
 
 			// Change background color
 			if (d > 100)
-				$("body").style("background-color", "rgb(0, 0, 255)");
+				$("body").css("background-color", "rgb(0, 0, 255)");
 			else
-				$("body").style("background-color", "rgb(" + 255/d + ", 0," + 255 - 255/d + ")");	
-
-			for (var i = 100; i > 0; i--) {
-				$("body").style("background-color", "rgb(" + 255/i + ", 0," + 255 - 255/i + ")");
-
-			}
+				$("body").css("background-color", "rgb(" + String(255/d) + ", 0," + String(255 - 255/d) + ")");	
     	}
-    	else {
+    	else if (otherCoords.isHere != null) {
     		// Other user signed off
     		$("body").html("<p>The other player stopped seeking you :(</p>");
     	}
