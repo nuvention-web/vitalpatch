@@ -29,12 +29,15 @@ function amIFirst() {
 }
 
 // Let's Go!
-$( "button" ).click(function() {
-  // While loop to continue seeking until through
-  var seeking = true;
-  while (seeking) {
-  	seeking = getLocation();
-  }
+$("button").click(function() {
+	$(this).fadeOut();
+	// While loop to continue seeking until through
+	var seeking = true;
+	// while (seeking) {
+	// 	seeking = getLocation();
+	// 	window.setTimeout(function(){}, 1000);
+	// }
+	getLocation();
 });
 
 // Make sure you tell the other person to stop looking for you
@@ -51,9 +54,11 @@ $(window).unload(function() {
 function getLocation() {
 	if (navigator.geolocation) {		
 	    navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+	    return true;
     }
 	else {
 		$("body").append("<p>Geolocation is not supported by this browser.<p>");
+		return false;
 	}
 } 
 // If the position is successful
@@ -66,8 +71,32 @@ function positionSuccess(position) {
 		data: { isHere: true, latitude: position.coords.latitude, longitude: position.coords.longitude }
 	}).done(function(coords) {
     	if (isHere) {
-			// CALCULATION
-			
+			// Calculate distance
+			var R = 6371; // km
+			var dLat = (lat2-lat1).toRad();
+			var dLon = (lon2-lon1).toRad();
+			var lat1 = lat1.toRad();
+			var lat2 = lat2.toRad();
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = R * c;
+			console.log(d);
+
+			// No divide-by-zero errors
+			if (d < 0) 
+				d = 1;
+
+			// Change background color
+			if (d > 100)
+				$("body").style("background-color", "rgb(0, 0, 255)");
+			else
+				$("body").style("background-color", "rgb(" + 255/d + ", 0," + 255 - 255/d + ")");	
+
+			for (var i = 100; i > 0; i--) {
+				$("body").style("background-color", "rgb(" + 255/i + ", 0," + 255 - 255/i + ")");
+
+			}
     	}
     	else {
     		// Other user signed off
