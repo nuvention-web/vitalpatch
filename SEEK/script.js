@@ -50,7 +50,7 @@ function getLocation() {
 } 
 // If the position is successful
 function positionSuccess(position) {
-	$("body").append("<p>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude + "</p>");
+	// $("body").append("<p>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude + "</p>");
 
 	$.ajax({
 		type: "POST",
@@ -68,6 +68,7 @@ function positionSuccess(position) {
 
 	    	// If they pressed the button
 	    	if (seeking) {
+	    		$("body").append("<p>Latitude: " + otherCoords.latitude + "<br>Longitude: " + otherCoords.longitude + "</p>");
 				// Calculate distance
 				var R = 6371; // km
 				var dLat = (otherCoords.latitude-position.latitude).toRad();
