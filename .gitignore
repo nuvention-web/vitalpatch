@@ -17,5 +17,5 @@
 
 # Heroku foreman env
 .env
-
+*.pyc
 .DS_Store

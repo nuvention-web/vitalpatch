@@ -1,0 +1,37 @@
+body {
+	text-align: center;
+	background-color: #0066FF;
+	color: white;
+	padding-top: 30px;
+
+	/*background: url("images/hot.jpg") no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;*/
+}
+
+/* Desktop */
+@media only screen and (min-device-width: 1224px) {
+	h1 {
+		font-size: 120px;
+	}
+	p {
+		font-size: 20px;
+	}
+}
+
+/* Mobile */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+	h1 {
+		font-size: 300px;
+		display: none;
+	}
+	p {
+		font-size: 75px;
+	}
+}
+
+.button-wrapper {
+	display: none;
+}
