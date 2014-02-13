@@ -10,7 +10,7 @@ app.secret_key=os.urandom(24)
 redis_url = os.getenv('REDISTOGO_URL')
 redis_instance = Redis.from_url(redis_url)
 
-
+# App routes
 @app.route("/", methods=['GET', 'POST'])
 def index():
 	if request.method=='GET':
