@@ -5,6 +5,10 @@ form {
 	position: relative;
 }
 
+ul {
+	list-style-type: none;
+}
+
 .result {
 	border: 1px solid grey;
 	height: 100px;
