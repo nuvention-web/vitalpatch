@@ -1,8 +1,11 @@
-head {
-	position: fixed;
+form {
+	border: 1px solid grey;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
 }
 
-div.result {
+.result {
 	border: 1px solid grey;
 	height: 100px;
 	width: 50%;
@@ -11,7 +14,7 @@ div.result {
 	position: relative;
 }
 
-div.result:hover {
+.result:hover {
 	background-color: lightgrey;
 	cursor: hand;
 }

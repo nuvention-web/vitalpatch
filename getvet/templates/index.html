@@ -9,27 +9,77 @@
 <link rel=stylesheet type=text/css href='../static/bootstrap-responsive.css'>
 <link rel=stylesheet type=text/css href='../static/custom.css'>
 
-<!-- <form>
-	<div class="btn-group">
-		<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-			{% procedure %} <span class="caret"></span>
+<form id="procedure-form" action="{{ url_for('search') }}" method=post>
+	<select class="form-control" name="procedure">
+		<!-- {% if query=="neuter" %} -->
+		<!-- <option value="neuter" selected="selected">Neuter</option> -->
+		<!-- {% else %} -->
+	    <option value="neuter">Neuter</option>
+	    <!-- {% endif %} -->
+
+	    <!-- {% if query=="spay" %} -->
+		<!-- <option value="spay" selected="selected">Spay</option> -->
+		<!-- {% else %} -->
+		<option value="spay">Spay</option>
+	 	<!-- {% endif %} -->
+
+		<!-- {% if query=="tumor-removal" %} -->
+		<!-- <option value="tumor-removal" selected="selected">Tumor Removal</option> -->
+		<!-- {% else %} -->
+		<option value="tumor-removal">Tumor Removal</option>
+		<!-- {% endif %} -->
+	</select>
+</form>
+
+<!-- <form id="procedure-form" action="{{ url_for('search') }}" method=post>
+	<div name="procedure" class="btn-group btn-input clearfix">
+		<button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+			<span data-bind="label">Select One</span> <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" role="menu">
-			<li><a href="#a">Neuter</a></li>
-			<li><a href="#b">Spay</a></li>
-			<li><a href="#c">Tumor Removal</a></li>
+			<li><a href="#">Neuter</a></li>
+			<li><a href="#">Spay</a></li>
+			<li><a href="#">Tumor Removal</a></li>
 		</ul>
 	</div>
 </form> -->
+    <!-- Collect the nav links, forms, and other content for toggling -->
+      <!-- <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul> -->
 
-<form action="{{ url_for('search') }}">
-	<select name="procedure">
-		<option value="neuter">Neuter</option>
-		<option value="spay">Spay</option>
-		<option value="tumor-removal">Tumor Removal</option>
-	</select>
-	<button type="submit" class="btn btn-default">Submit</button>
-</form>
 
 </head>
 
@@ -37,26 +87,19 @@
 
 <ul>
 	{% for result in results %}
-	<div class="result">
+	<li class="result">
 		<span class="name">{{ result.name }}</span>
 		<span class="distance">0.2 miles</span>
-		<span class="address">{{ result.address }}</span>
+		<span class="address"><a href="http://google.com/maps/search/{{ result.address_url }}" target="_blank">{{ result.address }}</a></span>
 		<span class="phone">{{ result.phone }}</span>
 		<span class="price">${{ result.price }}</span>
-	</div>
-	<li><h2>{{ results.title }}</h2>{{ entry.text|safe }}
+	</li>
 	{% else %}
 	<li><em>No results for your selection.</em>
-	{% end for %}
+	{% endfor %}
 </ul>
 
-<div class="result">
-	<span class="name">The Best Vet</span>
-	<span class="distance">0.2 miles</span>
-	<span class="address">33 Street, Evanston, IL</span>
-	<span class="phone">(847) 555-abcd</span>
-	<span class="price">$50</span>
-</div>
+
 <div class="result">
 	<span class="name">The Best Vet</span>
 	<span class="distance">0.2 miles</span>
@@ -69,5 +112,6 @@
 
 <script type="text/javascript" src="../static/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="../static/bootstrap.js"></script>
+<script type="text/javascript" src="../static/custom.js"></script>
 
 </html>
