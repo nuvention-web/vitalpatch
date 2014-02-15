@@ -8,29 +8,6 @@
 <link rel=stylesheet type=text/css href='../static/bootstrap.css'>
 <link rel=stylesheet type=text/css href='../static/bootstrap-responsive.css'>
 <link rel=stylesheet type=text/css href='../static/custom.css'>
-
-<form id="procedure-form" action="{{ url_for('search') }}" method=post>
-	<select class="form-control" name="procedure">
-		{% if query=="neuter" %}
-		<option value="neuter" selected="selected">Neuter</option>
-		{% else %}
-	    <option value="neuter">Neuter</option>
-	    {% endif %}
-
-	    {% if query=="spay" %}
-		<option value="spay" selected="selected">Spay</option>
-		{% else %}
-		<option value="spay">Spay</option>
-	 	{% endif %}
-
-		{% if query=="tumor-removal" %}
-		<option value="tumor-removal" selected="selected">Tumor Removal</option>
-		{% else %}
-		<option value="tumor-removal">Tumor Removal</option>
-		{% endif %}
-	</select>
-</form>
-
 <!-- <form id="procedure-form" action="{{ url_for('search') }}" method=post>
 	<div name="procedure" class="btn-group btn-input clearfix">
 		<button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
@@ -79,9 +56,32 @@
           </ul>
         </li>
       </ul> -->
-
-
 </head>
+
+<header>
+    <h1 id="title"> GetVet </h1>
+    <form id="procedure-form" action="{{ url_for('search') }}" method=post>
+        <select class="form-control" name="procedure">
+            {% if query=="neuter" %}
+            <option value="neuter" selected="selected">Neuter</option>
+            {% else %}
+            <option value="neuter">Neuter</option>
+            {% endif %}
+
+            {% if query=="spay" %}
+            <option value="spay" selected="selected">Spay</option>
+            {% else %}
+            <option value="spay">Spay</option>
+            {% endif %}
+
+            {% if query=="tumor-removal" %}
+            <option value="tumor-removal" selected="selected">Tumor Removal</option>
+            {% else %}
+            <option value="tumor-removal">Tumor Removal</option>
+            {% endif %}
+        </select>
+    </form>
+</header>
 
 <body>
 

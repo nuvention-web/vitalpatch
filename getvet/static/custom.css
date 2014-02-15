@@ -1,8 +1,9 @@
 form {
-	border: 1px solid grey;
+	padding-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
+	width: 200px;
 }
 
 ul {
@@ -16,6 +17,16 @@ ul {
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
+}
+
+#title {
+	height: 100px;
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	padding-top: 20px;
+	font-size: 500%;
 }
 
 .result:hover {
@@ -66,4 +77,12 @@ ul {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+}
+
+header{
+	margin:auto;
+}
+
+#procedure-form{
+	margin:auto;
 }
