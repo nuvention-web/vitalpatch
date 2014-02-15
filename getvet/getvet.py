@@ -30,9 +30,9 @@ def search():
         price = price * 2.2
         results.append({"name":"Skokie Animal Hospital", "address":"7550 Lincoln Ave, Skokie, IL 60077", "address_url":"7550+Lincoln+Ave,+Skokie,+IL+60077", "phone":"678-543-6789", "price":price})
         print result
-        return render_template("index1.html", results=result, query=request.form['procedure'])
+        return render_template("index.html", results=result, query=request.form['procedure'])
     if request.method=='GET':
-        return render_template("index1.html")
+        return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
