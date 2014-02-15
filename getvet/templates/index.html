@@ -11,23 +11,23 @@
 
 <form id="procedure-form" action="{{ url_for('search') }}" method=post>
 	<select class="form-control" name="procedure">
-		<!-- {% if query=="neuter" %} -->
-		<!-- <option value="neuter" selected="selected">Neuter</option> -->
-		<!-- {% else %} -->
+		{% if query=="neuter" %}
+		<option value="neuter" selected="selected">Neuter</option>
+		{% else %}
 	    <option value="neuter">Neuter</option>
-	    <!-- {% endif %} -->
+	    {% endif %}
 
-	    <!-- {% if query=="spay" %} -->
-		<!-- <option value="spay" selected="selected">Spay</option> -->
-		<!-- {% else %} -->
+	    {% if query=="spay" %}
+		<option value="spay" selected="selected">Spay</option>
+		{% else %}
 		<option value="spay">Spay</option>
-	 	<!-- {% endif %} -->
+	 	{% endif %}
 
-		<!-- {% if query=="tumor-removal" %} -->
-		<!-- <option value="tumor-removal" selected="selected">Tumor Removal</option> -->
-		<!-- {% else %} -->
+		{% if query=="tumor-removal" %}
+		<option value="tumor-removal" selected="selected">Tumor Removal</option>
+		{% else %}
 		<option value="tumor-removal">Tumor Removal</option>
-		<!-- {% endif %} -->
+		{% endif %}
 	</select>
 </form>
 
