@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block page %}
+
+<title>GetVet: Compare Vet Prices</title>
+
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+</head>
+
+<header>
+    <h1 id="title"><a href="{{ url_for('index') }}">GetVet</a></h1>
+    <form id="procedure-form" action="{{ url_for('search') }}">
+        <select class="form-control" name="procedure">
+            {% if procedure=="neuter" %}
+            <option value="neuter" selected="selected">Neuter</option>
+            {% else %}
+            <option value="neuter">Neuter</option>
+            {% endif %}
+
+            {% if procedure=="spay" %}
+            <option value="spay" selected="selected">Spay</option>
+            {% else %}
+            <option value="spay">Spay</option>
+            {% endif %}
+
+            {% if procedure=="tumor-removal" %}
+            <option value="tumor-removal" selected="selected">Tumor Removal</option>
+            {% else %}
+            <option value="tumor-removal">Tumor Removal</option>
+            {% endif %}
+        </select>
+    </form>
+</header>
+
+<body>
+
+<ul>
+	{% for result in results %}
+	<li class="result">
+		<span class="name">{{ result.name }}</span>
+		<span class="distance">0.2 miles</span>
+		<span class="address"><a href="http://google.com/maps/search/{{ result.address_url }}" target="_blank">{{ result.address }}</a></span>
+		<span class="phone">{{ result.phone }}</span>
+		<span class="price">${{ result.price }}</span>
+	</li>
+	{% else %}
+	<li><em>No results for your selection.</em>
+	{% endfor %}
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+  <li class="result">
+    <span class="name">Another</span>
+    <span class="distance">0.2 miles</span>
+    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+    <span class="phone">#####</span>
+    <span class="price">$400</span>
+  </li>
+
+</ul>
+
+</body>
+
+<script type="text/javascript" src={{ url_for('static', filename='jquery-1.10.2.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='bootstrap.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script>
+
+{% endblock %}

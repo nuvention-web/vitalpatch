@@ -17,5 +17,6 @@
 
 # Heroku foreman env
 .env
-
+*.pyc
 .DS_Store
+getvet/GETVET_ENV/**
