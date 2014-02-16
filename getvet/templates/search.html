@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block page %}
 
 <title>GetVet: Compare Vet Prices</title>
 
@@ -119,4 +120,4 @@
 <script type="text/javascript" src={{ url_for('static', filename='bootstrap.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script>
 
-</html>
+{% endblock %}

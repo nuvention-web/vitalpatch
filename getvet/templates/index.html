@@ -1,7 +1,8 @@
-<html>
-
+{% extends "layout.html" %}
+{% block page %}
 <title>GetVet: Compare Vet Prices</title>
 
+<link href='http://fonts.googleapis.com/css?family=Allura' rel='stylesheet' type='text/css'>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='landing.css') }}">
@@ -11,18 +12,24 @@
 </header>
 
 <body>
-	<form id="procedure-form" action="{{ url_for('search') }}">
-        <select class="form-control" name="procedure">
-            <option value="placeholder">Choose Procedure</option>
-            <option value="neuter">Neuter</option>
-            <option value="spay">Spay</option>
-            <option value="tumor-removal">Tumor Removal</option>
-        </select>
-    </form>
+<div class="explain">
+	Costs for veterinary procedures vary greatly.
+</div>
+<form id="procedure-form" action="{{ url_for('search') }}">
+    <select class="form-control" name="procedure">
+        <option value="placeholder">Choose Procedure</option>
+        <option value="neuter">Neuter</option>
+        <option value="spay">Spay</option>
+        <option value="tumor-removal">Tumor Removal</option>
+    </select>
+</form>
+<div class="explain">
+	Compare prices here.
+</div>
 </body>
 
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='landing.js') }}"></script>
 
-</html>
+{% endblock %}
