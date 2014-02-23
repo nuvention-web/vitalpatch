@@ -1,49 +1,45 @@
 from flask import Flask, jsonify, request, render_template, json
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.sqlalchemy import SQLAlchemy 
+from flask.ext.admin.contrib.sqla import ModelView
+import os
+
+app = Flask(__name__) 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] #'mysql://root:8hub9jin@localhost:3306/GETVET'
+app.config['TRAP_BAD_REQUEST_ERRORS'] = True
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
+db = SQLAlchemy(app)
+
+## Models
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    practice_name = db.Column(db.String(80))
+    spay_u_25_price = db.Column(db.Integer)
+    spay_o_25_price = db.Column(db.Integer)
+    neuter_u_25_price = db.Column(db.Integer)
+    neuter_o_25_price = db.Column(db.Integer)
+
+
+    def __init__(self, practice_name, spay_u_25_price, spay_o_25_price, neuter_u_25_price, neuter_o_25_price):
+        self.practice_name = practice_name
+        self.spay_u_25_price = spay_u_25_price
+        self.spay_o_25_price = spay_o_25_price
+        self.neuter_u_25_price = neuter_u_25_price
+        self.neuter_o_25_price = neuter_o_25_price
+
+    def __repr__(self):
+        return '<User %r>' % self.practice_name
 
 class MyView(BaseView):
     @expose('/')
     def index(self):
         return self.render('index.html')
 
-app = Flask(__name__)
 app.debug = True
-db = SQLAlchemy(app)
 admin = Admin(app, name='GetVet Admin Console')
 admin.add_view(MyView(name='Hello'))
+admin.add_view(ModelView(User, db.session))
 
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(80))
-    email = db.Column(db.String(120), unique=True)
-    country = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    city = db.Column(db.String(120))
-    latitude = db.Column(db.Float)
-    longitude = db.Column(db.Float)
-    pw_hash = db.Column(db.String(120))
-    validation_code = db.Column(db.String(10))
-    activated_bool = db.Column(db.String(1))
-
-    def __init__(self, fname, lname, email, password, validation_code, activated_bool ):
-        self.first_name = fname
-        self.last_name = lname
-        self.email = email
-        self.set_password(password)
-        self.validation_code = validation_code
-        self.activated_bool = activated_bool
-
-    def set_password(self, password):
-        self.pw_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.pw_hash, password)
-
-    def __repr__(self):
-        return '<User %r>' % self.email
 
 @app.route('/')
 def index():
