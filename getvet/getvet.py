@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 db = SQLAlchemy(app)
 
 ## Models
-class User(db.Model):
+class Practice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     practice_name = db.Column(db.String(80))
     spay_u_25_price = db.Column(db.Integer)
@@ -20,7 +20,7 @@ class User(db.Model):
     neuter_o_25_price = db.Column(db.Integer)
 
 
-    def __init__(self, practice_name, spay_u_25_price, spay_o_25_price, neuter_u_25_price, neuter_o_25_price):
+    def __init__(self, practice_name=None, spay_u_25_price=None, spay_o_25_price=None, neuter_u_25_price=None, neuter_o_25_price=None):
         self.practice_name = practice_name
         self.spay_u_25_price = spay_u_25_price
         self.spay_o_25_price = spay_o_25_price
@@ -28,7 +28,7 @@ class User(db.Model):
         self.neuter_o_25_price = neuter_o_25_price
 
     def __repr__(self):
-        return '<User %r>' % self.practice_name
+        return '<Practice %r>' % self.practice_name
 
 class MyView(BaseView):
     @expose('/')
@@ -38,14 +38,14 @@ class MyView(BaseView):
 app.debug = True
 admin = Admin(app, name='GetVet Admin Console')
 admin.add_view(MyView(name='Hello'))
-admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Practice, db.session))
 
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
-@app.route('/search', methods = ['GET', 'POST'])
+@app.route('/search', methods = ['GET'])
 def search():
     procedure = request.args.get('procedure')    
     price = "0"
