@@ -6,8 +6,7 @@ import os
 import rauth # OAuth for Yelp
 
 app = Flask(__name__) 
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] #'mysql://root:8hub9jin@localhost:3306/GETVET'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:8hub9jin@localhost:3306/GETVET'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] #'mysql://root:8hub9jin@localhost:3306/GETVET'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 db = SQLAlchemy(app)
