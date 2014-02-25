@@ -61,14 +61,17 @@ ul {
 	padding-top: 10px;
 }
 
-.address {
-	padding-top: 10px;
+.result-left-col {
+	font-size: 15px;
+	padding-left: 20px;
 }
 
-.address, .phone {
-	font-size: 15px;
+.result-left-col > span {
 	display: block;
-	padding-left: 20px;
+}
+
+.address {
+	padding-top: 10px;
 }
 
 .distance {
@@ -94,4 +97,11 @@ ul {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+}
+
+#yelp {
+	position: fixed;
+	padding: 10px;
+	bottom: 0;
+
 }
