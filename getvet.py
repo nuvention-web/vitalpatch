@@ -2,58 +2,88 @@ from flask import Flask, jsonify, request, render_template, json
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.sqlalchemy import SQLAlchemy 
 from flask.ext.admin.contrib.sqla import ModelView
+from wtforms.fields import SelectField
 import os
 import rauth # OAuth for Yelp
 
 app = Flask(__name__) 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] #'mysql://root:8hub9jin@localhost:3306/GETVET'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 db = SQLAlchemy(app)
 
+# API Keys
+# Yelp
+yelp_consumer_key = "mxc7iaic-fTArlp9TzlDdQ"
+yelp_consumer_secret = "m4K6l7_vZZm8QAOEHTqUXiqEon4"
+yelp_token = "lYpeNoecLXLbH7FGD96waKqRQpsBtCOI"
+yelp_token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
+# Google Maps
+google_maps_key = 'AIzaSyA9a1FhUt8S46UrlxOGIOikYWp8uz5v3Zc'
+
+
 ## Models
-class Practice(db.Model):
+class Clinics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     practice_name = db.Column(db.String(80))
-    spay_u_25_price = db.Column(db.Integer)
-    spay_o_25_price = db.Column(db.Integer)
-    neuter_u_25_price = db.Column(db.Integer)
-    neuter_o_25_price = db.Column(db.Integer)
-
-
-    def __init__(self, practice_name=None, spay_u_25_price=None, spay_o_25_price=None, neuter_u_25_price=None, neuter_o_25_price=None):
-        self.practice_name = practice_name
-        self.spay_u_25_price = spay_u_25_price
-        self.spay_o_25_price = spay_o_25_price
-        self.neuter_u_25_price = neuter_u_25_price
-        self.neuter_o_25_price = neuter_o_25_price
+    street_address = db.Column(db.String(80))
+    city = db.Column(db.String(80))
+    state = db.Column(db.String(80))
+    zip = db.Column(db.Integer)
+    yelp_url = db.Column(db.String(150))
 
     def __repr__(self):
-        return '<Practice %r>' % self.practice_name
+        return self.practice_name
+
+class ClinicsView(ModelView):
+    column_list = ('id', 'practice_name', 'street_address', 'city', 'state', 'zip', 'yelp_url')
+
+class Procedures(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+
+    def __repr__(self):
+        return self.name
+
+class ProceduresView(ModelView):
+    column_list = ('id', 'name')
+
+class Prices(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    clinic_id = db.Column(db.Integer, db.ForeignKey('clinics.id'))
+    clinic = db.relationship('Clinics', backref=db.backref('price', lazy='dynamic'))    
+    procedure_id = db.Column(db.Integer, db.ForeignKey('procedures.id'))
+    procedure = db.relationship('Procedures', backref=db.backref('price', lazy='dynamic'))
+    weight_low_bound = db.Column(db.Float)
+    weight_high_bound = db.Column(db.Float)
+    price = db.Column(db.Float)
+
+
+class PricesView(ModelView):
+    column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
+
 
 class MyView(BaseView):
     @expose('/')
     def index(self):
-        return self.render('index.html')
+        return self.render('index.html')    
 
 app.debug = True
+db.create_all()
 admin = Admin(app, name='GetVet Admin Console')
-admin.add_view(MyView(name='Hello'))
-admin.add_view(ModelView(Practice, db.session))
+admin.add_view(ClinicsView(Clinics, db.session, name='Clinics', endpoint='clinics', category='Add Data'))
+admin.add_view(ProceduresView(Procedures, db.session, name='Procedures', endpoint='procedures', category='Add Data'))
+admin.add_view(PricesView(Prices, db.session, name='Prices', endpoint='prices', category='Add Data'))
 
 # Yelp
 def get_results(businessID):
     # Session setup
-    consumer_key = "mxc7iaic-fTArlp9TzlDdQ"
-    consumer_secret = "m4K6l7_vZZm8QAOEHTqUXiqEon4"
-    token = "lYpeNoecLXLbH7FGD96waKqRQpsBtCOI"
-    token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
-
     session = rauth.OAuth1Session(
-        consumer_key = consumer_key, 
-        consumer_secret = consumer_secret, 
-        access_token = token, 
-        access_token_secret = token_secret)
+        consumer_key = yelp_consumer_key, 
+        consumer_secret = yelp_consumer_secret, 
+        access_token = yelp_token, 
+        access_token_secret = yelp_token_secret)
 
     request = session.get('http://api.yelp.com/v2/business/' + businessID)
 
