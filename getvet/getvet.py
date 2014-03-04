@@ -50,7 +50,6 @@ class ClinicView(ModelView):
     # Input latitude and longitude when user enters data
     def on_model_change(self, form, model):
         business = get_yelp_results(model.yelp_id)
-        print business
         model.name = business['name']
         model.phone = business['phone']
         model.street_address = business['location']['address'][0]
@@ -58,7 +57,6 @@ class ClinicView(ModelView):
         model.state = business['location']['state_code']
         model.zip = business['location']['postal_code']
         full_address = make_full_address(model)
-        print full_address
         model.latitude, model.longitude = get_lat_long(full_address)
 
 class Procedure(db.Model):
