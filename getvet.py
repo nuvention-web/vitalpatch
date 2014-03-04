@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, render_template, json
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 from flask.ext.admin.contrib.sqla import ModelView
 from wtforms.fields import SelectField
 import os
@@ -145,9 +146,9 @@ def search():
     procedure = request.args.get('procedure').lower()
     weight = request.args.get('weight')
     procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
-    businesses = Price.query.filter(Price.procedure_id == procedure.id)      \
-                            .filter(Price.weight_low_bound <= weight)        \
-                            .filter(Price.weight_high_bound > weight).all()
+    businesses = Price.query.filter(Price.procedure_id == procedure.id) \
+                            .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
+                            .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)).all()
     
     results = []
     for business in businesses:
