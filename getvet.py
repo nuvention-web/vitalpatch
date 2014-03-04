@@ -9,8 +9,8 @@ from pygeocoder import Geocoder
 import math
 
 app = Flask(__name__) 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 db = SQLAlchemy(app)
@@ -142,7 +142,7 @@ def index():
 
 @app.route('/search', methods = ['GET'])
 def search():
-    procedure = request.args.get('procedure')
+    procedure = request.args.get('procedure').lower()
     weight = request.args.get('weight')
     procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
     businesses = Price.query.filter(Price.procedure_id == procedure.id)      \
