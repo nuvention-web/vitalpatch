@@ -40,7 +40,7 @@
 	{% for result in results %}
 	<li class="result">
 		<span class="name">{{ result.name }}</span>
-		<span class="distance">0.2 miles</span>
+		<span class="distance">{{ result.distance }} miles</span>
     <span class="price">${{ result.price }}</span>
     <div class="result-left-col">
       <span class="address"><a href={{ result.address_url }}>{{ result.address }}</a></span>

@@ -49,7 +49,7 @@ class ClinicView(ModelView):
 
     # Input latitude and longitude when user enters data
     def on_model_change(self, form, model):
-        business = get_results(model.yelp_id)
+        business = get_yelp_results(model.yelp_id)
         print business
         model.name = business['name']
         model.phone = business['phone']
@@ -59,9 +59,7 @@ class ClinicView(ModelView):
         model.zip = business['location']['postal_code']
         full_address = make_full_address(model)
         print full_address
-        data = Geocoder.geocode(full_address)
-        model.latitude = data.latitude
-        model.longitude = data.longitude
+        model.latitude, model.longitude = get_lat_long(full_address)
 
 class Procedure(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -101,7 +99,7 @@ admin.add_view(ProcedureView(Procedure, db.session, name='Procedure', endpoint='
 admin.add_view(PriceView(Price, db.session, name='Price', endpoint='prices', category='Data'))
 
 # Yelp
-def get_results(businessID):
+def get_yelp_results(businessID):
     # Session setup
     session = rauth.OAuth1Session(
         consumer_key = yelp_consumer_key, 
@@ -116,6 +114,10 @@ def get_results(businessID):
     session.close()
 
     return data
+
+def get_lat_long(address):
+    data = Geocoder.geocode(address)
+    return (data.latitude, data.longitude)
 
 # Make full address string with "Street, City, State Zip"
 def make_full_address(model):
@@ -134,7 +136,7 @@ def longlat_distance(start, destination):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     d = radius * c
 
-    return d
+    return '%.2f' % d
 
 # Routes
 @app.route('/')
@@ -145,41 +147,28 @@ def index():
 def search():
     procedure = request.args.get('procedure').lower()
     weight = request.args.get('weight')
+    zip = request.args.get('zip')
     procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
     businesses = Price.query.filter(Price.procedure_id == procedure.id) \
                             .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
                             .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)).all()
-    
+    zipLatLong = get_lat_long(zip)
+
     results = []
     for business in businesses:
-        yelp_result = get_results(business.clinic.yelp_id)
+        yelp_result = get_yelp_results(business.clinic.yelp_id)
         full_address = make_full_address(business.clinic)
         results.append({
             'name': business.clinic.name,
             'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
             'address': full_address,
             'address_url': full_address.replace(' ', '+'),
+            'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
             'price': business.price,
             'yelp_rating_url': yelp_result['rating_img_url'],
             'yelp_url': yelp_result['url']
         })
 
-    # price = "0"
-    # if procedure == "neuter":
-    #     price="10"
-    # elif procedure == "spay":
-    #     price = "20"
-    # elif procedure =="tumor-removal":
-    #     price="50"
-
-    # r1 = get_results('bramer-animal-hospital-evanston')
-    # r2 = get_results('fox-animal-hospital-evanston')
-    # r3 = get_results('skokie-animal-hospital-skokie')
-
-    # Bramer = {"name":"Bramer Animal Hospital Ltd.", "address":"1021 Davis St, Evanston, IL 60201", "address_url":"1021+Davis+St,+Evanston,+IL+60201", "phone":"(847) 864-1700", "price":price, "yelp":r1}
-    # Fox = {"name":"Fox Animal Hospital", "address":"2107 Crawford Ave, Evanston, IL 60201", "address_url":"2107+Crawford+Ave,+Evanston,+IL+60201", "phone":"(847) 869-4900", "price":int(price)*2, "yelp":r2}
-    # Skokie = {"name":"Skokie Animal Hospital", "address":"7550 Lincoln Ave, Skokie, IL 60077", "address_url":"7550+Lincoln+Ave,+Skokie,+IL+60077", "phone":"(847) 673-3100", "price":int(int(price)*2.2), "yelp":r3}
-    # results = (Bramer, Fox, Skokie)
     return render_template("search.html", results=results, procedure=procedure)
 
 if __name__ == '__main__':
