@@ -6,13 +6,14 @@
 <head>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
 </head>
 
 <header>
     <h1 id="title"><a href="{{ url_for('index') }}">GetVet</a></h1>
     <form id="procedure-form" action="{{ url_for('search') }}">
-        <input type="text" name="procedure" placeholder="Procedure" value={{ procedure }}>
+        <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
         <div class="label-input">
           <label for="weight">Weight</label>
           <input type="text" name="weight" placeholder="Weight" value={{ weight }}>
@@ -50,6 +51,7 @@
 </body>
 
 <script type="text/javascript" src={{ url_for('static', filename='jquery-1.10.2.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='bootstrap.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script>
 
