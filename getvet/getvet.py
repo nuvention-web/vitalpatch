@@ -151,7 +151,8 @@ def search():
     procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
     businesses = Price.query.filter(Price.procedure_id == procedure.id) \
                             .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
-                            .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)).all()
+                            .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
+                            .order_by(Price.price).all()
     zipLatLong = get_lat_long(zip)
 
     results = []
@@ -169,7 +170,7 @@ def search():
             'yelp_url': yelp_result['url']
         })
 
-    return render_template("search.html", results=results, procedure=procedure)
+    return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
