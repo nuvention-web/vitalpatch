@@ -40,10 +40,13 @@
 	{% for result in results %}
 	<li class="result">
 		<span class="name">{{ result.name }}</span>
-		<span class="distance">0.2 miles</span>
-		<span class="address"><a href="http://google.com/maps/search/{{ result.address_url }}" target="_blank">{{ result.address }}</a></span>
-		<span class="phone">{{ result.phone }}</span>
-		<span class="price">${{ result.price }}</span>
+		<span class="distance">{{ result.distance }} miles</span>
+    <span class="price">${{ result.price }}</span>
+    <div class="result-left-col">
+      <span class="address"><a href={{ result.address_url }}>{{ result.address }}</a></span>
+      <span class="phone">{{ result.phone }}</span>
+      <img class="rating" src={{ result.yelp_rating_url }}> <a href={{ result.yelp_url }} target="_blank">Read reviews...</a>
+    </div>
 	</li>
 	{% else %}
 	<li><em>No results for your selection.</em>
@@ -51,68 +54,89 @@
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
   <li class="result">
     <span class="name">Another</span>
     <span class="distance">0.2 miles</span>
-    <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-    <span class="phone">#####</span>
     <span class="price">$400</span>
+    <div class="result-left-col">
+      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
+      <span class="phone">#####</span>
+    </div>
   </li>
 
 </ul>
+
+<!-- Required for Yelp API -->
+<a href="http://yelp.com" target="_blank"><img id="yelp" src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/65526d1a519b/developers/Powered_By_Yelp_Red.png"></a>
 
 </body>
 
