@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block page %}
 
-<title>GetVet: Compare Vet Prices</title>
+<title>VetCompare: Compare Vet Prices</title>
 
 <head>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
@@ -11,7 +11,7 @@
 </head>
 
 <header>
-    <h1 id="title"><a href="{{ url_for('index') }}">GetVet</a></h1>
+    <h1 id="title"><a href="{{ url_for('index') }}">VetCompare</a></h1>
     <form id="procedure-form" action="{{ url_for('search') }}">
         <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
         <div class="label-input">
