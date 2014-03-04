@@ -12,25 +12,16 @@
 <header>
     <h1 id="title"><a href="{{ url_for('index') }}">GetVet</a></h1>
     <form id="procedure-form" action="{{ url_for('search') }}">
-        <select class="form-control" name="procedure">
-            {% if procedure=="neuter" %}
-            <option value="neuter" selected="selected">Neuter</option>
-            {% else %}
-            <option value="neuter">Neuter</option>
-            {% endif %}
-
-            {% if procedure=="spay" %}
-            <option value="spay" selected="selected">Spay</option>
-            {% else %}
-            <option value="spay">Spay</option>
-            {% endif %}
-
-            {% if procedure=="tumor-removal" %}
-            <option value="tumor-removal" selected="selected">Tumor Removal</option>
-            {% else %}
-            <option value="tumor-removal">Tumor Removal</option>
-            {% endif %}
-        </select>
+        <input type="text" name="procedure" placeholder="Procedure" value={{ procedure }}>
+        <div class="label-input">
+          <label for="weight">Weight</label>
+          <input type="text" name="weight" placeholder="Weight" value={{ weight }}>
+        </div>
+        <div class="label-input">
+          <label for="zip">Zip</label>
+          <input type="text" name="zip" placeholder="Zip" value={{ zip }}>
+        </div>
+        <input type="submit" value="Search">
     </form>
 </header>
 
@@ -51,88 +42,6 @@
 	{% else %}
 	<li><em>No results for your selection.</em>
 	{% endfor %}
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-
 </ul>
 
 <!-- Required for Yelp API -->
