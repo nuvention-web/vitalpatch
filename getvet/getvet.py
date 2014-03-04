@@ -142,7 +142,7 @@ def index():
 
 @app.route('/search', methods = ['GET'])
 def search():
-    procedure = request.args.get('procedure')
+    procedure = request.args.get('procedure').lower()
     weight = request.args.get('weight')
     procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
     businesses = Price.query.filter(Price.procedure_id == procedure.id)      \

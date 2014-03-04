@@ -133,18 +133,46 @@ form {
 	z-index: 1;
 }
 
-select {
+form * {
 	width: 500px;
-	height: 100px;
-	font-size: 50px;	
+	height: 50px !important;
+	font-size: 40px !important;
 }
 
-.explain {
+div#other-inputs * {
+    float: left;
+    width: 240px;
+    line-height: 50px !important;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+input[type='submit'] {
+    width: 500px;
+    border: 1px #267ed4 solid;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #7fb2e5;
+    color: white;
+}
+
+input[type='submit']:hover {
+    background-color: #267ed4;
+}
+
+#explain-top, #explain-bottom {
 	color: white;
-	/*font-style: italic;*/
 	font-size: 60px;
 	position: relative;
-	padding-top: 200px;
 	text-align: center;
-	font-family: 'Allura', cursive;
+	font-family: 'Flamenco', cursive;
+}
+
+#explain-top {
+    padding-top: 200px;
+}
+
+#explain-bottom {
+    padding-top: 250px;
 }
