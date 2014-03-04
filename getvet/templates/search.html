@@ -1,36 +1,28 @@
 {% extends "layout.html" %}
 {% block page %}
 
-<title>GetVet: Compare Vet Prices</title>
+<title>VetCompare: Compare Vet Prices</title>
 
 <head>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
 </head>
 
 <header>
-    <h1 id="title"><a href="{{ url_for('index') }}">GetVet</a></h1>
+    <h1 id="title"><a href="{{ url_for('index') }}">VetCompare</a></h1>
     <form id="procedure-form" action="{{ url_for('search') }}">
-        <select class="form-control" name="procedure">
-            {% if procedure=="neuter" %}
-            <option value="neuter" selected="selected">Neuter</option>
-            {% else %}
-            <option value="neuter">Neuter</option>
-            {% endif %}
-
-            {% if procedure=="spay" %}
-            <option value="spay" selected="selected">Spay</option>
-            {% else %}
-            <option value="spay">Spay</option>
-            {% endif %}
-
-            {% if procedure=="tumor-removal" %}
-            <option value="tumor-removal" selected="selected">Tumor Removal</option>
-            {% else %}
-            <option value="tumor-removal">Tumor Removal</option>
-            {% endif %}
-        </select>
+        <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
+        <div class="label-input">
+          <label for="weight">Weight</label>
+          <input type="text" name="weight" placeholder="Weight" value={{ weight }}>
+        </div>
+        <div class="label-input">
+          <label for="zip">Zip</label>
+          <input type="text" name="zip" placeholder="Zip" value={{ zip }}>
+        </div>
+        <input type="submit" value="Search">
     </form>
 </header>
 
@@ -51,88 +43,6 @@
 	{% else %}
 	<li><em>No results for your selection.</em>
 	{% endfor %}
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-  <li class="result">
-    <span class="name">Another</span>
-    <span class="distance">0.2 miles</span>
-    <span class="price">$400</span>
-    <div class="result-left-col">
-      <span class="address"><a href="http://google.com/maps/search/anything" target="_blank">addrrr</a></span>
-      <span class="phone">#####</span>
-    </div>
-  </li>
-
 </ul>
 
 <!-- Required for Yelp API -->
@@ -141,6 +51,7 @@
 </body>
 
 <script type="text/javascript" src={{ url_for('static', filename='jquery-1.10.2.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='bootstrap.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script>
 

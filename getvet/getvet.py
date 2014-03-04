@@ -50,7 +50,6 @@ class ClinicView(ModelView):
     # Input latitude and longitude when user enters data
     def on_model_change(self, form, model):
         business = get_yelp_results(model.yelp_id)
-        print business
         model.name = business['name']
         model.phone = business['phone']
         model.street_address = business['location']['address'][0]
@@ -58,7 +57,6 @@ class ClinicView(ModelView):
         model.state = business['location']['state_code']
         model.zip = business['location']['postal_code']
         full_address = make_full_address(model)
-        print full_address
         model.latitude, model.longitude = get_lat_long(full_address)
 
 class Procedure(db.Model):
@@ -151,7 +149,8 @@ def search():
     procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
     businesses = Price.query.filter(Price.procedure_id == procedure.id) \
                             .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
-                            .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)).all()
+                            .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
+                            .order_by(Price.price).all()
     zipLatLong = get_lat_long(zip)
 
     results = []
@@ -164,12 +163,12 @@ def search():
             'address': full_address,
             'address_url': full_address.replace(' ', '+'),
             'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
-            'price': business.price,
+            'price': '%.2f' % business.price,
             'yelp_rating_url': yelp_result['rating_img_url'],
             'yelp_url': yelp_result['url']
         })
 
-    return render_template("search.html", results=results, procedure=procedure)
+    return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

@@ -1,14 +1,15 @@
 {% extends "layout.html" %}
 {% block page %}
-<title>GetVet: Compare Vet Prices</title>
+<title>VetCompare: Compare Vet Prices</title>
 
 <link href='http://fonts.googleapis.com/css?family=Flamenco' rel='stylesheet' type='text/css'>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='landing.css') }}">
 
 <header>
-	<h1 id="title">GetVet</h1>
+	<h1 id="title">VetCompare</h1>
 </header>
 
 <body>
@@ -16,16 +17,11 @@
 	Costs for veterinary procedures vary greatly.
 </div>
 <form id="procedure-form" action="{{ url_for('search') }}">
-    <select class="form-control" name="procedure">
-        <option value="placeholder">Choose Procedure</option>
-        <option value="neuter">Neuter</option>
-        <option value="spay">Spay</option>
-        <option value="tumor-removal">Tumor Removal</option>
-    </select>
+    <input type="text" id="procedure" name="procedure" placeholder="Procedure">
     <div id="other-inputs">
-    <input type="text" name="weight" placeholder="Weight">
-    <input type="text" name="zip" placeholder="Zip Code">
-</div>
+	    <input type="text" name="weight" placeholder="Weight">
+	    <input type="text" name="zip" placeholder="Zip Code">
+	</div>
     <input type="submit" value="Search">
 </form>
 <div id="explain-bottom">
@@ -34,7 +30,9 @@
 </body>
 
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
+<script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
 <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='landing.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='custom.js') }}"></script>
 
 {% endblock %}
