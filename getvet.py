@@ -163,7 +163,7 @@ def search():
             'address': full_address,
             'address_url': full_address.replace(' ', '+'),
             'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
-            'price': business.price,
+            'price': '%.2f' % business.price,
             'yelp_rating_url': yelp_result['rating_img_url'],
             'yelp_url': yelp_result['url']
         })
