@@ -143,30 +143,38 @@ def index():
 
 @app.route('/search', methods = ['GET'])
 def search():
-    procedure = request.args.get('procedure').lower()
-    weight = request.args.get('weight')
-    zip = request.args.get('zip')
-    procedure = Procedure.query.filter(Procedure.name == procedure.lower()).first()
-    businesses = Price.query.filter(Price.procedure_id == procedure.id) \
-                            .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
-                            .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
-                            .order_by(Price.price).all()
-    zipLatLong = get_lat_long(zip)
-
+    procedure = request.args['procedure'].lower()
+    weight = request.args['weight']
+    zip = request.args['zip']
     results = []
-    for business in businesses:
-        yelp_result = get_yelp_results(business.clinic.yelp_id)
-        full_address = make_full_address(business.clinic)
-        results.append({
-            'name': business.clinic.name,
-            'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
-            'address': full_address,
-            'address_url': full_address.replace(' ', '+'),
-            'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
-            'price': '%.2f' % business.price,
-            'yelp_rating_url': yelp_result['rating_img_url'],
-            'yelp_url': yelp_result['url']
-        })
+    procedureObj = Procedure.query.filter(Procedure.name == procedure.lower()).first()
+    if procedureObj:
+        if weight:
+            businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
+                                    .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
+                                    .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
+                                    .order_by(Price.price) \
+                                    .all()  #TODO: order by distance after price
+        else:
+            businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
+                                    .order_by(Price.price) \
+                                    .all()
+
+        zipLatLong = get_lat_long(zip)
+
+        for business in businesses:
+            yelp_result = get_yelp_results(business.clinic.yelp_id)
+            full_address = make_full_address(business.clinic)
+            results.append({
+                'name': business.clinic.name,
+                'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
+                'address': full_address,
+                'address_url': full_address.replace(' ', '+'),
+                'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
+                'price': '%.2f' % business.price,
+                'yelp_rating_url': yelp_result['rating_img_url'],
+                'yelp_url': yelp_result['url']
+            })
 
     return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 

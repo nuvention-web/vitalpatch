@@ -1,1 +1,1 @@
-web: gunicorn getvet:app
+web: gunicorn vetcompare:app
