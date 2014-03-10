@@ -11,10 +11,14 @@
 </head>
 
 <header>
-    <h1 id="title"><a href="{{ url_for('index') }}">VetCompare</a></h1>
+    <a href="{{ url_for('index') }}"><img id="title" src="{{ url_for('static', filename='logo.png') }}" alt="VetCompare"></a>
     <form id="procedure-form" action="{{ url_for('search') }}">
         <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
-        <div class="label-input">
+        <div class="label-input" id="weight" 
+          {% if weight == "" %}
+          style="display: none"
+          {% endif %}
+          />
           <label for="weight">Weight</label>
           <input type="text" name="weight" placeholder="Weight" value={{ weight }}>
         </div>
@@ -31,7 +35,7 @@
 <ul>
 	{% for result in results %}
 	<li class="result">
-		<span class="name">{{ result.name }}</span>
+		<span class="name">{{ result.name | truncate(30) }}</span>
 		<span class="distance">{{ result.distance }} miles</span>
     <span class="price">${{ result.price }}</span>
     <div class="result-left-col">
@@ -41,7 +45,7 @@
     </div>
 	</li>
 	{% else %}
-	<li><em>No results for your selection.</em>
+	<li class="no-result">Uh oh.  We couldn't find any results for your query.  You can try requesting a quote for more complex procedures.</li>
 	{% endfor %}
 </ul>
 
