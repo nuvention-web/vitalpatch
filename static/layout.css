@@ -1,0 +1,94 @@
+footer {
+	background-color: rgba(0, 0, 0, 0);
+	bottom: 0;
+	color: white;
+	font-size: 20px;
+	height: 30px;
+	position: fixed;
+	text-align: center;
+	width: 100%;
+}
+
+.bottom-link {
+	cursor: pointer;
+}
+
+.overlay {
+	background-color: rgba(0, 0, 0, 0.85);
+	bottom: 20px;
+	color: white;
+	display: none;
+	left: 20px;
+	position: absolute;
+	right: 20px;
+    top: 20px;       
+    z-index: 9999;    
+}
+
+h1 {
+	font-size: 80px;
+	text-align: center;
+}
+
+p {
+	font-size: 60px;
+	line-height: 60px;
+	padding: 20px;
+}
+
+.x-button {
+	color: white;
+	font-size: 50px;
+	padding: 20px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transition: transform 0.4s;
+	transition: -ms-transform 0.4s;
+	transition: -webkit-transform 0.4s;
+}
+
+.x-button:hover {
+	cursor: pointer;
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */	
+}
+
+.bio {
+	display: inline-block;
+	font-size: 30px;
+	height: 30%;
+	padding: 1%;
+	width: 30%;
+}
+
+.bio .name {
+	position: relative;
+	text-align: center;
+	top: 10px;
+}
+
+.bio img {	
+	border: 3px solid white;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	display: block;
+	height: 112px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 112px;
+}
+
+.bio p {
+	font-size: 17px;
+	height: 100%;
+	line-height: 30px;
+	position: relative;
+	width: 100%;
+}
+
+#about-overlay, #contact-overlay, #team-overlay{
+	display: none;
+}

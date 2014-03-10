@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block page %}
+<title>Submit a Quote Request</title>
+
+<link href='http://fonts.googleapis.com/css?family=Flamenco' rel='stylesheet' type='text/css'>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='landing.css') }}">
+
+<header>
+    <h1 id="title">VetCompare</h1>
+</header>
+
+<body>
+
+<form id="procedure-form" action="{{ url_for('quote_request') }}" style="padding:20px; background-color:white;">
+    <input type="text" id="name" name="name" placeholder="Name of pet">
+    <input type="text" id="procedure" name="procedure" placeholder="Procedure">
+    <div id="other-inputs">
+        <input type="text" name="weight" placeholder="Weight">
+        <input type="text" name="zip" placeholder="Zip Code">
+    </div>
+    <input type="text" id="breed" name="breed" placeholder="Breed">
+    <input type="text" id="age" name="age" placeholder="Age">
+    Optional: Upload a photo to illustrate your pet's health condition:<input type='file' name='upload'/>
+    Have you received a quote at any other vets? If so, please list the lowest quote that you have received here, along with the clinic/animal hospital which gave it to you:
+    <span style="font-size:xx-small;"> <input type="text" id="other" name="other_quote" placeholder="Smallest quote already received"></span>
+    <input type="text" id="other" name="other_clinic" placeholder="Name of clinic/animal hospital from which quote was received.">
+
+    <input type="radio" name="sex" value="male">&nbspMale
+    <input type="radio" name="sex" value="female">&nbspFemale
+    <input type="submit" value="Submit">
+
+</form>
+
+</body>
+
+<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
+<script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='landing.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='custom.js') }}"></script>
+
+{% endblock %}

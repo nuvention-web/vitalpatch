@@ -141,6 +141,10 @@ def longlat_distance(start, destination):
 def index():
     return render_template("index.html")
 
+@app.route('/quote_request')
+def quote_request():
+    return render_template("quote_request.html")
+
 @app.route('/search', methods = ['GET'])
 def search():
     procedure = request.args['procedure'].lower()
