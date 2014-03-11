@@ -10,8 +10,8 @@ from pygeocoder import Geocoder
 import math
 
 app = Flask(__name__) 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 db = SQLAlchemy(app)
@@ -173,7 +173,7 @@ def search():
                 'name': business.clinic.name,
                 'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
                 'address': full_address,
-                'address_url': full_address.replace(' ', '+'),
+                'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
                 'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
                 'price': '%.2f' % business.price,
                 'yelp_rating_url': yelp_result['rating_img_url'],
