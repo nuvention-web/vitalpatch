@@ -2,6 +2,7 @@ $(document).ready(function() {
 	// $('form').delay(500).animate({'left': '50%', 'margin-left': -$('form').width()/2 });
 
 	function animWeight(val) {
+		console.log(val);
 		if ($("#weight").css("display") == "none") {
 			if (val.toLowerCase() == "spay" || val.toLowerCase() == "neuter") {  // If not visible and we need weight
 				$("#weight").css("display", "inline").animate({"width": "170px", "padding": "6px"});
@@ -32,16 +33,16 @@ $(document).ready(function() {
 		"Neuter"
 	];
 	$("#procedure").autocomplete({
-		source: procedures,
-		select: function(event, ui) {
-			animWeight(ui.item.label);
-		}
+		source: procedures
 	});
 
-	// Animate weight field
+	// Animate weight field on keyup and autocomplete select
 	$("#procedure").keyup(function() {
 		animWeight($(this).val());
 	}); 
+	$("#procedure").on("autocompleteselect", function(event, ui) {
+		animWeight(ui.item.label);
+	});
 
 
 	// Animate search bar to the top
