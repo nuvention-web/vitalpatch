@@ -39,7 +39,7 @@
 		<span class="distance">{{ result.distance }} miles</span>
     <span class="price">${{ result.price }}</span>
     <div class="result-left-col">
-      <span class="address"><a href={{ result.address_url }}>{{ result.address }}</a></span>
+      <span class="address"><a href={{ result.address_url }} target="_blank">{{ result.address }}</a></span>
       <span class="phone">{{ result.phone }}</span>
       <img class="rating" src={{ result.yelp_rating_url }}> <a href={{ result.yelp_url }} target="_blank">Read reviews...</a>
     </div>
