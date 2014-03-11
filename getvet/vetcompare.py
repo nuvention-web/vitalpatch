@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, json
+from flask import Flask, jsonify, request, render_template, json, flash
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
@@ -10,6 +10,7 @@ from pygeocoder import Geocoder
 import math
 
 app = Flask(__name__) 
+app.secret_key="very1secret9secrets90078"
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
@@ -141,9 +142,14 @@ def longlat_distance(start, destination):
 def index():
     return render_template("index.html")
 
-@app.route('/quote_request')
+@app.route('/quote_request', methods=['GET','POST'])
 def quote_request():
-    return render_template("quote_request.html")
+    if request.method=="GET":
+        return render_template("quote_request.html")
+    else: #request.method=="POST"
+        flash("Thanks! Your quote request has been successfully submitted.")
+        return render_template("quote_request.html")
+
 
 @app.route('/search', methods = ['GET'])
 def search():

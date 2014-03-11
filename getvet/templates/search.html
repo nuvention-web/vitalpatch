@@ -45,7 +45,8 @@
     </div>
 	</li>
 	{% else %}
-	<li class="no-result">Uh oh.  We couldn't find any results for your query.  You can try requesting a quote for more complex procedures.</li>
+  <li class="result" style="visibility:hidden;"> this does not appear </li>
+	<li class="result"><div style="padding:10px;"><span style="font-size:x-large; text-align:center;">Uh oh.  We couldn't find any results for your query.  You can try <a href="/quote_request">requesting a quote</a> for more complex procedures.</div></span></li>
 	{% endfor %}
 </ul>
 
