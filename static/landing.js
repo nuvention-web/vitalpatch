@@ -2,7 +2,6 @@ $(document).ready(function() {
 	// $('form').delay(500).animate({'left': '50%', 'margin-left': -$('form').width()/2 });
 
 	function animWeight(val) {
-		console.log(val);
 		if ($("#weight").css("display") == "none") {
 			if (val.toLowerCase() == "spay" || val.toLowerCase() == "neuter") {  // If not visible and we need weight
 				$("#weight").css("display", "inline").animate({"width": "170px", "padding": "6px"});
@@ -65,8 +64,6 @@ $(document).ready(function() {
 		if (empty.length > 0) {
 			shouldAlert = true;
 			if ($("#weight").css("display") == "none") {
-				console.log(empty[0]);
-				console.log($("#weight").get(0));
 				if (empty[0] == $("#weight").get(0) && empty.length == 1) {
 					shouldAlert = false;
 				}
