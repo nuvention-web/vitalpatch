@@ -12,7 +12,7 @@ header {
 }
 
 body {
-	background-image:url('bg.jpg');
+	background-image:url('imgs/bg.jpg');
 	background-repeat:no-repeat;
 	background-attachment:fixed;
 	background-size: cover;
@@ -42,11 +42,11 @@ body {
 }
 
 .background-slideshow > span:nth-child(1)  {
-	background-image: url('bg.jpg');
+	background-image: url('imgs/bg.jpg');
 }
 
 .background-slideshow > span:nth-child(2)  {
-	background-image: url('bg2.jpg');
+	background-image: url('imgs/bg2.jpg');
     -webkit-animation-delay: 8s;
     -moz-animation-delay: 8s;
     -o-animation-delay: 8s;
@@ -55,7 +55,7 @@ body {
 }
 
 .background-slideshow > span:nth-child(3)  {
-	background-image: url('bg3.jpg');
+	background-image: url('imgs/bg3.jpg');
     -webkit-animation-delay: 16s;
     -moz-animation-delay: 16s;
     -o-animation-delay: 16s;
@@ -64,7 +64,7 @@ body {
 }
 
 .background-slideshow > span:nth-child(4)  {
-	background-image: url('bg4.jpg');
+	background-image: url('imgs/bg4.jpg');
     -webkit-animation-delay: 24s;
     -moz-animation-delay: 24s;
     -o-animation-delay: 24s;
@@ -73,7 +73,7 @@ body {
 }
 
 .background-slideshow > span:nth-child(5)  {
-	background-image: url('bg5.jpg');
+	background-image: url('imgs/bg5.jpg');
     -webkit-animation-delay: 32s;
     -moz-animation-delay: 32s;
     -o-animation-delay: 32s;
