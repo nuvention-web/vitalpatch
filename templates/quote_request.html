@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block page %}
+
+<title>Submit a Quote Request</title>
+
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+</head>
+
+<header>
+    <a href="{{ url_for('index') }}"><img id="title" src="{{ url_for('static', filename='imgs/logo.png') }}" alt="VetCompare"></a>
+</header>
+
+<body>
+    <form id="procedure-form" method="post" action="{{ url_for('quote_request') }}" style="padding:20px; background-color:white; width:500px; position:relative; left:30%; margin-bottom: 40px;">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes style="width:90%; background:#cee5f5; padding:5px; border:1px solid #aacbe2;">
+            {% for message in messages %}
+              <li style="text-align:center; color:#3e7cbb; font-size:15px !important; width:100%">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <h2 style="width:500px;">Quote Request Form</h2>
+        <input type="text" id="name" name="name" placeholder="Name of pet">
+        <input type="text" id="procedure" name="procedure" placeholder="Procedure">
+        <input type="text" name="weight" placeholder="Weight">
+        <input type="text" name="zip" placeholder="Zip Code">
+        <input type="text" id="breed" name="breed" placeholder="Breed">
+        <input type="text" id="age" name="age" placeholder="Age">
+        Optional: Upload a photo to illustrate your pet's health condition:<input type='file' name='upload'/>
+        Have you received a quote at any other vets? If so, please list the lowest quote that you have received here, along with the clinic/animal hospital which gave it to you:
+        <span style="font-size:xx-small;"> <input style="width:490px;" type="text" id="other" name="other_quote" placeholder="Smallest quote already received"></span>
+        <input style="width:490px; font-size:medium !important;" type="text" id="other" name="other_clinic" placeholder="Name of clinic/animal hospital from which quote was received.">
+
+        <input type="radio" name="sex" value="male">&nbspMale
+        <input type="radio" name="sex" value="female">&nbspFemale
+        <input style="width:490px; font-size:medium !important;" type="text" id="email_addr" name="email_addr" placeholder="Your Email Address">
+        <input style="width:490px; font-size:medium !important;" type="text" id="phn_number" name="phn_number" placeholder="Your Phone Number">
+        <input style="width:490px; font-size:medium !important;" type="text" id="user_fname" name="user_fname" placeholder="Your first name">
+        <input style="width:490px; font-size:medium !important;" type="text" id="user_lname" name="user_lname" placeholder="Your last name">
+        <br>
+        <input type="submit" value="Submit">
+
+    </form> 
+    
+    
+
+</body>
+
+<script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
+<script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='landing.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='custom.js') }}"></script>
+
+{% endblock %}

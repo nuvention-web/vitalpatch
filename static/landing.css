@@ -1,0 +1,190 @@
+header {
+	position: fixed;
+	padding-left: 30px;
+}
+
+#title {
+	padding-top: 20px;
+    width: 250px;
+    height: auto;
+	color: white;
+    font-size: 40px;
+}
+
+body {
+	background-image:url('imgs/bg.jpg');
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-size: cover;
+	overflow: hidden;
+}
+
+/*********************************************************************
+ ******                 BACKGROUND SLIDESHOW                    ******
+ *********************************************************************/
+
+.background-slideshow > span {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: transparent;
+    opacity: 0;
+    z-index: 0;
+    -webkit-backface-visibility: hidden;
+    -webkit-animation: imageAnimation 40s linear infinite 0s;
+    -moz-animation: imageAnimation 40s linear infinite 0s;
+    -o-animation: imageAnimation 40s linear infinite 0s;
+    -ms-animation: imageAnimation 40s linear infinite 0s;
+    animation: imageAnimation 40s linear infinite 0s; 
+    background-size: cover;
+}
+
+.background-slideshow > span:nth-child(1)  {
+	background-image: url('imgs/bg.jpg');
+}
+
+.background-slideshow > span:nth-child(2)  {
+	background-image: url('imgs/bg2.jpg');
+    -webkit-animation-delay: 8s;
+    -moz-animation-delay: 8s;
+    -o-animation-delay: 8s;
+    -ms-animation-delay: 8s;
+    animation-delay: 8s; 
+}
+
+.background-slideshow > span:nth-child(3)  {
+	background-image: url('imgs/bg3.jpg');
+    -webkit-animation-delay: 16s;
+    -moz-animation-delay: 16s;
+    -o-animation-delay: 16s;
+    -ms-animation-delay: 16s;
+    animation-delay: 16s; 
+}
+
+.background-slideshow > span:nth-child(4)  {
+	background-image: url('imgs/bg4.jpg');
+    -webkit-animation-delay: 24s;
+    -moz-animation-delay: 24s;
+    -o-animation-delay: 24s;
+    -ms-animation-delay: 24s;
+    animation-delay: 24s; 
+}
+
+.background-slideshow > span:nth-child(5)  {
+	background-image: url('imgs/bg5.jpg');
+    -webkit-animation-delay: 32s;
+    -moz-animation-delay: 32s;
+    -o-animation-delay: 32s;
+    -ms-animation-delay: 32s;
+    animation-delay: 32s; 
+}
+
+@-webkit-keyframes imageAnimation { 
+    0%   { opacity: 0; -webkit-animation-timing-function: ease-in; }
+    10%  { opacity: 1; -webkit-animation-timing-function: ease-out; }
+    20%  { opacity: 1 }
+    30%  { opacity: 0 }
+    100% { opacity: 0 }
+}
+
+@-moz-keyframes imageAnimation { 
+    0%   { opacity: 0; -moz-animation-timing-function: ease-in; }
+    8%   { opacity: 1; -moz-animation-timing-function: ease-out; }
+    17%  { opacity: 1 }
+    25%  { opacity: 0 }
+    100% { opacity: 0 }
+}
+
+@-o-keyframes imageAnimation { 
+    0% { opacity: 0;
+    -o-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -o-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    25% { opacity: 0 }
+    100% { opacity: 0 }
+}
+
+@-ms-keyframes imageAnimation { 
+    0% { opacity: 0;
+    -ms-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -ms-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    25% { opacity: 0 }
+    100% { opacity: 0 }
+}
+
+@keyframes imageAnimation { 
+    0%   { opacity: 0; animation-timing-function: ease-in; }
+    8%   { opacity: 1; animation-timing-function: ease-out; }
+    17%  { opacity: 1 }
+    25%  { opacity: 0 }
+    100% { opacity: 0 }
+}
+
+/**********************************************************************/
+
+div#bar {
+    background-color: rgba(220, 220, 198, 0.6);
+    border: 1px black solid;
+    display: inline;
+    height: 70px;
+    left: 0px;
+    margin-top: -35px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+}
+
+form {
+    padding-left: 350px;
+	padding-top: 10px;    
+	position: absolute;
+	z-index: 1;
+}
+
+form * {
+	width: 175px;
+	height: 50px !important;
+	font-size: 30px !important;
+    line-height: 50px !important;
+    vertical-align: top;
+}
+
+input#weight {
+    display: none;
+    width: 0px;
+}
+
+input[type='submit'] {
+    width: 200px;
+    border: 1px #267ed4 solid;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #7fb2e5;
+    color: white;
+}
+
+input[type='submit']:hover {
+    background-color: #267ed4;
+}
+
+#explain-top, #explain-bottom {
+	color: white;
+	font-size: 60px;
+	position: relative;
+	text-align: center;
+	font-family: 'Flamenco', cursive;
+}
+
+#explain-top {
+    padding-top: 200px;
+}
+
+#explain-bottom {
+    padding-top: 250px;
+}
