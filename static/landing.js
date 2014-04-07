@@ -32,16 +32,16 @@ $(document).ready(function() {
 		"Neuter"
 	];
 	$("#procedure").autocomplete({
-		source: procedures,
-		select: function(event, ui) {
-			animWeight(ui.item.label);
-		}
+		source: procedures
 	});
 
-	// Animate weight field
+	// Animate weight field on keyup and autocomplete select
 	$("#procedure").keyup(function() {
 		animWeight($(this).val());
 	}); 
+	$("#procedure").on("autocompleteselect", function(event, ui) {
+		animWeight(ui.item.label);
+	});
 
 
 	// Animate search bar to the top
@@ -64,8 +64,6 @@ $(document).ready(function() {
 		if (empty.length > 0) {
 			shouldAlert = true;
 			if ($("#weight").css("display") == "none") {
-				console.log(empty[0]);
-				console.log($("#weight").get(0));
 				if (empty[0] == $("#weight").get(0) && empty.length == 1) {
 					shouldAlert = false;
 				}
