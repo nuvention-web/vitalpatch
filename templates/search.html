@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block page %}
+
+<title>VetCompare: Compare Vet Prices</title>
+
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+</head>
+
+<header>
+    <a href="{{ url_for('index') }}"><img id="title" src="{{ url_for('static', filename='imgs/logo.png') }}" alt="VetCompare"></a>
+    <form id="procedure-form" action="{{ url_for('search') }}">
+        <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
+        <div class="label-input" id="weight" 
+          {% if weight == "" %}
+          style="display: none"
+          {% endif %}
+          />
+          <label for="weight">Weight</label>
+          <input type="text" name="weight" placeholder="Weight" value={{ weight }}>
+        </div>
+        <div class="label-input">
+          <label for="zip">Zip</label>
+          <input type="text" name="zip" placeholder="Zip" value={{ zip }}>
+        </div>
+        <input type="submit" value="Search">
+    </form>
+</header>
+
+<body>
+
+<ul>
+	{% for result in results %}
+	<li class="result">
+		<span class="name">{{ result.name | truncate(30) }}</span>
+		<span class="distance">{{ result.distance }} miles</span>
+    <span class="price">${{ result.price }}</span>
+    <div class="result-left-col">
+      <span class="address"><a href={{ result.address_url }} target="_blank">{{ result.address }}</a></span>
+      <span class="phone">{{ result.phone }}</span>
+      <img class="rating" src={{ result.yelp_rating_url }}> <a href={{ result.yelp_url }} target="_blank">Read reviews...</a>
+    </div>
+	</li>
+	{% else %}
+  <li class="result" style="visibility:hidden;"> this does not appear </li>
+	<li class="result"><div style="padding:10px;"><span style="font-size:x-large; text-align:center;">Uh oh.  We couldn't find any results for your query.  You can try <a href="/quote_request">requesting a quote</a> for more complex procedures.</div></span></li>
+	{% endfor %}
+</ul>
+
+<!-- Required for Yelp API -->
+<a href="http://yelp.com" target="_blank"><img id="yelp" src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/65526d1a519b/developers/Powered_By_Yelp_Red.png"></a>
+
+</body>
+
+<script type="text/javascript" src={{ url_for('static', filename='jquery-1.10.2.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='bootstrap.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script>
+
+{% endblock %}
