@@ -3,7 +3,6 @@ Flask-Admin==1.0.7
 Flask-SQLAlchemy==1.0
 Jinja2==2.7.2
 MarkupSafe==0.18
-<<<<<<< HEAD
 MySQL-python==1.2.5
 SQLAlchemy==0.9.2
 WTForms==1.0.5
@@ -11,21 +10,9 @@ Werkzeug==0.9.4
 autoenv==1.0.0
 gunicorn==18.0
 itsdangerous==0.23
-=======
-SQLAlchemy==0.9.2
-WTForms==1.0.5
-Werkzeug==0.9.4
-gunicorn==18.0
-itsdangerous==0.23
 wsgiref==0.1.2
->>>>>>> 3b563fbce46861a7c898fc9d70867021d9775027
 psycopg2==2.5.2
 pygeocoder==1.2.2
 rauth==0.6.2
 requests==1.2.3
-<<<<<<< HEAD
 unittest2==0.5.1
-wsgiref==0.1.2
-=======
-unittest2==0.5.1
->>>>>>> 3b563fbce46861a7c898fc9d70867021d9775027
