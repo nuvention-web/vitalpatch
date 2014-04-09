@@ -1,0 +1,33 @@
+form.quote-request {
+	margin-bottom: 40px;
+	padding: 20px;  
+	width: 450px;
+}
+
+@media (max-width: 786px) {
+	form.quote-request {
+		width: auto;
+	}
+}
+
+ul.flashes {
+	background: #cee5f5;
+	border: 1px solid #aacbe2;
+	padding: 5px; 
+	width: 90%;
+}
+
+ul.flashes li {
+	color: #3e7cbb;
+	font-size: 15px !important;
+	text-align: center;
+	width: 100%
+}
+
+h2 {
+	width: 500px;
+}
+
+form.quote-request input[type="text"] {
+	width: 100%;
+}
