@@ -1,6 +1,9 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-responsive.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
 </head>
 
 <body>
@@ -18,7 +21,11 @@
                           <input type="text" id="procedure" name="procedure" placeholder="Procedure" value={{ procedure }}>
                         </div>
                     </div>
-                    <div class="control-group" id="weight-control-group">
+                    <div class="control-group" id="weight-control-group"
+                    {% if weight %}
+						style="display: inherit"
+					{% endif %}
+					/>
                         <label class="control-label" for="weight">Weight</label>
                         <div class="controls">
                             <input type="text" id="weight" name="weight" placeholder="Weight" value={{ weight }}>
@@ -128,7 +135,7 @@
 			Have a question, suggestion, or comment?  Please contact us at the email below:
 		</p>
 		<p>
-			<a href="mailto:samtoizer@gmail.com" target="_blank">samtoizer@gmail.com</a>
+			<a href="mailto:vetcompare@gmail.com" target="_blank">vetcompare@gmail.com</a>
 		</p>
 	</div>
 	<div class="modal-footer">
@@ -137,8 +144,10 @@
 </div>
 
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='layout.css') }}">
+
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='layout.js') }}"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
