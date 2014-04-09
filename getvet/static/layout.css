@@ -39,6 +39,10 @@ body {
 	width: 100%;
 }
 
+.sidebar #weight-control-group {
+	display: none;
+}
+
 /* Content */
 
 .content {
