@@ -1,84 +1,143 @@
 <html>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='layout.css') }}">
-<div class="background-slideshow">
-	<span></span>
-	<span></span>
-	<span></span>
-	<span></span>
-	<span></span>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+    	<!-- Sidebar -->
+        <div class="span3">
+            <div class="sidebar affix">
+                <a href="{{ url_for('index') }}"><img id="title" src="{{ url_for('static', filename='imgs/logo.png') }}" alt="VetCompare"></a>            
+                <form class="well" action="{{ url_for('search') }}">
+                    <div class="control-group">
+                        <label class="control-label" for="procedure">Procedure</label>
+                        <div class="controls">
+                          <input type="text" id="procedure" name="procedure" placeholder="Procedure" value={{ procedure }}>
+                        </div>
+                    </div>
+                    <div class="control-group" id="weight-control-group">
+                        <label class="control-label" for="weight">Weight</label>
+                        <div class="controls">
+                            <input type="text" id="weight" name="weight" placeholder="Weight" value={{ weight }}>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="zip">Zip</label>
+                        <div class="controls">
+                            <input type="text" id="zip" name="zip" placeholder="Zip" value={{ zip }}>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Search</button>
+                </form>
+            </div>
+        </div>
+
+		<!-- Content -->
+        <div class="span9 content">
+			{% block page %}{% endblock %}
+		</div>
+
+	</div>
 </div>
-{% block page %}{% endblock %}
+<body>
+
 <footer>
-	<span class="bottom-link" id="about">About</span> 
+	<a href="#aboutModal" class="bottom-link" data-toggle="modal">About</a> 
 	| 
-	<span class="bottom-link" id="team">Team</span>  
+	<a href="#teamModal" class="bottom-link" data-toggle="modal">Team</a>  
 	| 
-	<span class="bottom-link" id="contact">Contact</span> 
+	<a href="#contactModal" class="bottom-link" data-toggle="modal">Contact</a> 
 </footer>
-<div class="overlay" id="about-overlay">
-	<h1>About</h1>
-	<span class="x-button">&#10006;</span>
-	<p>
-		VetCompare is a price comparison engine for cat and dog veterinary services. Prices can vary widely across different veterinary practices for the same procedures, and those prices can be difficult to find. Use VetCompare to search for procedure prices in your area, read reviews and find the best vet for your pet.  
-	</p>
-</div>
-<div class="overlay" id="team-overlay">
-	<h1>Team</h1>
-	<span class="x-button">&#10006;</span>
-	<div class="bio">
-		<img src="{{ url_for('static', filename='imgs/bio-fareeha.png') }}">
-		<div class="name">Fareeha Ali</div>
-		<p>
-			Fareeha is a journalism graduate student at Northwestern University. She wastes her time watching sports, peforming comedy, and critiquing television shows.
-		</p>
+
+<!-- Modals -->
+<div id="aboutModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="aboutModalTitle" aria-hidden="true">
+	<div class="modal-header">
+		<span class="x-button" data-dismiss="modal">&#10006;</span>
+		<h3 id="aboutModalTitle">About</h3>
 	</div>
-	<div class="bio">
-		<img src="{{ url_for('static', filename='imgs/bio-ed.png') }}">
-		<div class="name">Ed Bren</div>
-		<p>
-			Ed is an MBA candidate at Kellogg School of Management.  Before that, he worked at CNA for a few years. In his downtime, he's a rugby and video game aficionado.
-		</p>
+	<div class="modal-body">
+		<p>VetCompare is a price comparison engine for cat and dog veterinary services. Prices can vary widely across different veterinary practices for the same procedures, and those prices can be difficult to find. Use VetCompare to search for procedure prices in your area, read reviews and find the best vet for your pet.</p>
 	</div>
-	<div class="bio">
-		<img src="{{ url_for('static', filename='imgs/bio-michael.jpg') }}">
-		<div class="name">Michael Hueschen</div>
-		<p>
-			Michael is a senior computer science student at Northwestern. His interests include functional programming, body weight workouts, and living primally.
-		</p>
+	<div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 	</div>
-	<div class="bio">
-		<img src="{{ url_for('static', filename='imgs/bio-scott.jpg') }}">
-		<div class="name">Scott Neaves</div>
-		<p>
-			Scott is a Northwestern University student in computer science, class of 2014. Interests include web development, live music, and drawing.
-		</p>
-	</div>
-	<div class="bio">
-		<img src="{{ url_for('static', filename='imgs/bio-ryan.png') }}">
-		<div class="name">Ryan Rennaker</div>
-		<p>
-			Ryan is a second year Kellogg MBA candidate focusing in Finance and Marketing.  Prior to Kellogg, Ryan worked at Google in San Francisco. His interests include rugby.
-		</p>
-	</div>
-	<div class="bio">
-		<img src="{{ url_for('static', filename='imgs/bio-sam.jpg') }}">
-		<div class="name">Sam Toizer</div>
-		<p>
-			Sam is an undergrad computer science student at Northwestern University, class of 2014, with a strong passion for UI/UX design. In his free time he enjoys playing/writing music and reading.
-		</p>
-	</div>
-</div>
-<div class="overlay" id="contact-overlay">
-	<h1>Contact</h1>
-	<span class="x-button">&#10006;</span>
-	<p>
-		Have a question, suggestion, or comment?  Please contact us at the email below:
-	</p>
-	<p>
-		<a href="mailto:samtoizer@gmail.com" target="_blank">samtoizer@gmail.com</a>
-	</p>
 </div>
 
+<div id="teamModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="teamModalTitle" aria-hidden="true">
+	<div class="modal-header">
+		<span class="x-button" data-dismiss="modal">&#10006;</span>
+		<h3 id="teamModalTitle">Team</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="span4 bio">
+					<img src="{{ url_for('static', filename='imgs/bio-fareeha.png') }}">
+				<div class="name">Fareeha Ali</div>
+				<p>
+					Fareeha is a journalism graduate student at Northwestern University. She wastes her time watching sports, peforming comedy, and critiquing television shows.
+				</p>
+			</div>
+			<div class="span4 bio">
+				<img src="{{ url_for('static', filename='imgs/bio-ed.png') }}">
+				<div class="name">Ed Bren</div>
+				<p>
+					Ed is an MBA candidate at Kellogg School of Management.  Before that, he worked at CNA for a few years. In his downtime, he's a rugby and video game aficionado.
+				</p>
+			</div>
+			<div class="span4 bio">
+				<img src="{{ url_for('static', filename='imgs/bio-scott.jpg') }}">
+				<div class="name">Scott Neaves</div>
+				<p>
+					Scott is a Northwestern University student in computer science, class of 2014. Interests include web development, live music, and drawing.
+				</p>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span6 bio">				
+				<img src="{{ url_for('static', filename='imgs/bio-ryan.png') }}">
+				<div class="name">Ryan Rennaker</div>
+				<p>
+					Ryan is a second year Kellogg MBA candidate focusing in Finance and Marketing.  Prior to Kellogg, Ryan worked at Google in San Francisco. His interests include rugby.
+				</p>
+			</div>
+			<div class="span6 bio">
+				<img src="{{ url_for('static', filename='imgs/bio-sam.jpg') }}">
+				<div class="name">Sam Toizer</div>
+				<p>
+					Sam is an undergrad computer science student at Northwestern University, class of 2014, with a strong passion for UI/UX design. In his free time he enjoys playing/writing music and reading.
+				</p>
+			</div>
+			
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>
+
+<div id="contactModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="contactModalTitle" aria-hidden="true">
+	<div class="modal-header">
+		<span class="x-button" data-dismiss="modal">&#10006;</span>
+		<h3 id="contactModalTitle">Contact</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			Have a question, suggestion, or comment?  Please contact us at the email below:
+		</p>
+		<p>
+			<a href="mailto:samtoizer@gmail.com" target="_blank">samtoizer@gmail.com</a>
+		</p>
+	</div>
+	<div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='layout.css') }}">
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='layout.js') }}"></script>
