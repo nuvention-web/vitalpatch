@@ -1,6 +1,59 @@
 html {
 	position: relative;
 }
+
+body {
+    background: url("imgs/bg.jpg") no-repeat center center fixed; 
+    background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        -webkit-background-size: cover;
+}
+
+/* Sidebar */
+
+.sidebar {
+	padding-top: 10px;
+	width: 228px;
+}
+
+.sidebar form {
+	margin-top: 20px
+}
+
+@media (max-width: 768px) {
+	.sidebar {
+		position: relative;
+		top: 0;
+		width: auto;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+	.sidebar {
+		width: 166px;
+  	}
+}
+
+.sidebar input {
+	width: 100%;
+}
+
+/* Content */
+
+.content {
+	padding-top: 20px;
+}
+
+@media (max-width: 768px) {
+	.content {
+		position: relative;
+		width: auto;
+	}
+}
+
+/* Footer */
+
 footer {
 	background-color: rgba(0, 0, 0, 0);
 	bottom: 0;
@@ -14,37 +67,20 @@ footer {
 	width: 100%;
 }
 
-.bottom-link {
+footer a {
+	color: white;
 	cursor: pointer;
 }
 
-.overlay {
-	background-color: rgba(0, 0, 0, 0.85);
-	bottom: 20px;
-	color: white;
-	display: none;
-	left: 20px;
-	position: absolute;
-	right: 20px;
-    top: 20px;       
-    z-index: 9999;    
-}
-
-h1 {
-	font-size: 80px;
-	text-align: center;
-}
-
-p {
-	font-size: 60px;
-	line-height: 60px;
-	padding: 20px;
+footer a:hover {
+	color: darkgray;
+	text-decoration: none;
 }
 
 .x-button {
-	color: white;
-	font-size: 50px;
-	padding: 20px;
+	color: gray;
+	font-size: 30px;
+	padding: 10px;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -56,29 +92,14 @@ p {
 .x-button:hover {
 	cursor: pointer;
 	transform:rotate(90deg);
-	-ms-transform:rotate(90deg); /* IE 9 */
-	-webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */	
-}
-
-.bio {
-	display: inline-block;
-	font-size: 30px;
-	height: 30%;
-	padding: 1%;
-	width: 30%;
-}
-
-.bio .name {
-	position: relative;
-	text-align: center;
-	top: 10px;
+		-ms-transform:rotate(90deg); /* IE 9 */
+		-webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */	
 }
 
 .bio img {	
-	border: 3px solid white;
 	border-radius: 150px;
-	-webkit-border-radius: 150px;
-	-moz-border-radius: 150px;
+		-moz-border-radius: 150px;
+		-webkit-border-radius: 150px;
 	display: block;
 	height: 112px;
 	margin-left: auto;
@@ -86,14 +107,12 @@ p {
 	width: 112px;
 }
 
-.bio p {
-	font-size: 17px;
-	height: 100%;
-	line-height: 30px;
+.bio .name {
+	font-size: 20px;
 	position: relative;
-	width: 100%;
+	text-align: center;
 }
 
-#about-overlay, #contact-overlay, #team-overlay{
-	display: none;
+.bio p {
+	font-size: 15px;
 }

@@ -8,26 +8,11 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='landing.css') }}">
 
-<header>
-	<img id="title" src="{{ url_for('static', filename='imgs/logo.png') }}" alt="VetCompare">
-</header>
-
-<body>
-<div id="explain-top">
-	Costs for veterinary procedures vary greatly.
+<div class="explain">
+	<p>Costs for veterinary procedures vary greatly.</p>
+	<p>Compare prices here.</p>
+	<p id="quote-line">Have a more extensive procedure?  Try our bidding product <a href="{{ url_for('quote_request') }}">here.</a></p>
 </div>
-<div id="bar">
-	<form id="procedure-form" action="{{ url_for('search') }}">
-	    <input type="text" id="procedure" name="procedure" placeholder="Procedure">
-	    <input type="text" id="weight" name="weight" placeholder="Weight">
-	    <input type="text" name="zip" placeholder="Zip Code">
-	    <input type="submit" value="Search">
-	</form>
-</div>
-<div id="explain-bottom">
-	Compare prices here.
-</div>
-</body>
 
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}"></script>

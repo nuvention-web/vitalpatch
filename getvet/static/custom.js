@@ -1,13 +1,13 @@
 $(document).ready(function() {
 	function animWeight(val) {
-		if ($("#weight").css("display") == "none") {
+		if ($("#weight-control-group").css("display") == "none") {
 			if (val.toLowerCase() == "spay" || val.toLowerCase() == "neuter") {  // If not visible and we need weight
-				$("#weight").fadeIn();
+				$("#weight-control-group").fadeIn();
 			}
 		}
 		else {
 			if (val.toLowerCase() != "spay" && val.toLowerCase() != "neuter") {  // If visible and we don't need weight
-				$("#weight").fadeOut();
+				$("#weight-control-group").fadeOut();
 			}
 		}
 	}
