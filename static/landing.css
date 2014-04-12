@@ -1,0 +1,19 @@
+.explain {
+	color: white;
+	font-family: 'Flamenco', cursive;
+    font-size: 50px;
+    line-height: 70px;
+    padding-top: 150px;
+	position: relative;
+	text-align: center;	
+}
+
+@media (max-width: 768px) {
+    .explain {
+        padding-top: 0px;
+    }
+}
+
+#quote-line {
+    font-size: 30px;
+}

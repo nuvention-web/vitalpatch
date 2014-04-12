@@ -1,4 +1,5 @@
 $(document).ready(function() {
+<<<<<<< HEAD
 	// $('form').delay(500).animate({'left': '50%', 'margin-left': -$('form').width()/2 });
 
 	function animWeight(val) {
@@ -44,6 +45,8 @@ $(document).ready(function() {
 	});
 
 
+=======
+>>>>>>> f4e04af8aa0f5d54cb2499ebb62e54ad27b0c895
 	// Animate search bar to the top
 	// NOTE: not used right now; waiting on finalizing design for results page
 	// $("form").submit(function(e) {
@@ -55,6 +58,7 @@ $(document).ready(function() {
 	// 	});
 	// 	return false;
 	// });
+<<<<<<< HEAD
 
 	// Make sure all form fields are filled
 	$("form").submit(function(e) {
@@ -75,4 +79,6 @@ $(document).ready(function() {
 			}
 		}
 	});
+=======
+>>>>>>> f4e04af8aa0f5d54cb2499ebb62e54ad27b0c895
 });

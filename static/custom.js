@@ -1,4 +1,5 @@
 $(document).ready(function() {
+<<<<<<< HEAD
 	function animWeight(val) {
 		if ($("#weight").css("display") == "none") {
 			if (val.toLowerCase() == "spay" || val.toLowerCase() == "neuter") {  // If not visible and we need weight
@@ -60,4 +61,6 @@ $(document).ready(function() {
 			}
 		}
 	});
+=======
+>>>>>>> f4e04af8aa0f5d54cb2499ebb62e54ad27b0c895
 });
