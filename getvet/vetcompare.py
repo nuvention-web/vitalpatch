@@ -1,13 +1,14 @@
-from flask import Flask, jsonify, request, render_template, json, flash
+from flask import Flask, jsonify, request, render_template, json, flash, session, abort, redirect, url_for
+from email.MIMEText import MIMEText
+from email.mime.multipart import MIMEMultipart
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy import or_
+from sqlalchemy import or_, desc
 from flask.ext.admin.contrib.sqla import ModelView
 from wtforms.fields import SelectField
-import os
+import os, smtplib, math
 import rauth # OAuth for Yelp
 from pygeocoder import Geocoder
-import math
 
 app = Flask(__name__) 
 app.secret_key="very1secret9secrets90078"
@@ -26,6 +27,18 @@ yelp_token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
 # Google Maps
 google_maps_key = 'AIzaSyA9a1FhUt8S46UrlxOGIOikYWp8uz5v3Zc'
 
+# Blog Schema
+class Entry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), unique=True)
+    text = db.Column(db.String(120), unique=True)
+
+    def __init__(self, title, text):
+        self.title = title
+        self.text = text
+
+    def __repr__(self):
+        return '<Entrie %r>' % self.title
 
 ## Models
 class Clinic(db.Model):
@@ -147,6 +160,29 @@ def quote_request():
     if request.method=="GET":
         return render_template("quote_request.html")
     else: #request.method=="POST"
+        msg = MIMEMultipart('alternative')
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.ehlo()
+        session.starttls()
+        session.ehlo()
+        session.login('vetcompare@gmail.com', os.environ['GMAIL_PASSWORD'])
+        msg['From'] = "vetcompare@gmail.com"
+        msg['Subject'] = "Someone has filled out the quote request form!"
+        msg['To'] = "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;sam.toizer@gmail.com;scott.neaves.eghs@gmail.com"
+        #headers = ["from: vetcompare@gmail.com",
+        #            "subject: Someone has filled out the quote request form!",
+        #            "to: " + "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;sam.toizer@gmail.com;scott.neaves.eghs@gmail.com",
+        #            "mime-version: 1.0",
+        #            "content-type: text/html"]
+        attachment = MIMEText(request.form['image'])
+        attachment.add_header('Content-Disposition', 'attachment', filename="image")
+        #headers = "\r\n".join(headers)
+        body = "Name: " + request.form['name'] + "<br>" + "Procedure: " + request.form['procedure'] + "<br>" + "Weight: " + request.form['weight'] + "<br>" + "Zip: " + request.form['zip'] + "<br>" + "Breed: " + request.form['breed'] + "<br>" + "Age: " + request.form['age'] + "<br>" + "Sex: " + request.form['sex'] + "<br>" + "Customer's email address: " + request.form['email_addr'] + "<br>" + "Customer's First Name: " + request.form['user_fname'] + "<br>" + "Customer's Last Name: " + request.form['user_lname']
+        content = MIMEText(body, 'html')
+        msg.attach(content)
+        session.sendmail("vetcompare@gmail.com", "scott.neaves.eghs@gmail.com", msg.as_string())
+
+
         flash("Thanks! Your quote request has been successfully submitted.")
         return render_template("quote_request.html")
 
@@ -188,5 +224,48 @@ def search():
 
     return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 
+
+
+@app.route('/blog')
+def show_entries():
+    query = Entry.query.order_by(desc(Entry.id))
+    print query
+    entries = [dict(title=row.title, text=row.text) for row in query.all()]
+    return render_template('show_entries.html', entries=entries)
+
+
+@app.route('/blog_add', methods=['POST'])
+def add_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    entry = Entry(request.form['title'], request.form['text'])
+    db.session.add(entry)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/blog_login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != os.environ['BLOG_USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != os.environ['BLOG_PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('show_entries'))
+    return render_template('login.html', error=error)
+
+
+@app.route('/blog_logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('show_entries'))
+
 if __name__ == '__main__':
+    db.create_all()
     app.run(host='0.0.0.0')
