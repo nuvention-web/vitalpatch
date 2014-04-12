@@ -169,7 +169,7 @@ def quote_request():
         session.login('vetcompare@gmail.com', os.environ['GMAIL_PASSWORD'])
         msg['From'] = "vetcompare@gmail.com"
         msg['Subject'] = "Someone has filled out the quote request form!"
-        msg['To'] = "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;sam.toizer@gmail.com;scott.neaves.eghs@gmail.com"
+        msg['To'] = "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;samtoizer@gmail.com;scott.neaves.eghs@gmail.com"
         # msg['To'] = "scott.neaves.eghs@gmail.com"
         #headers = ["from: vetcompare@gmail.com",
         #            "subject: Someone has filled out the quote request form!",
