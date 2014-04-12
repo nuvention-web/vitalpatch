@@ -1,0 +1,122 @@
+html {
+	position: relative;
+}
+
+body {
+    background: url("imgs/bg.jpg") no-repeat center center fixed; 
+    background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        -webkit-background-size: cover;
+}
+
+/* Sidebar */
+
+.sidebar {
+	padding-top: 10px;
+	width: 228px;
+}
+
+.sidebar form {
+	margin-top: 20px
+}
+
+@media (max-width: 768px) {
+	.sidebar {
+		position: relative;
+		top: 0;
+		width: auto;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+	.sidebar {
+		width: 166px;
+  	}
+}
+
+.sidebar input {
+	width: 100%;
+}
+
+.sidebar #weight-control-group {
+	display: none;
+}
+
+/* Content */
+
+.content {
+	padding-top: 20px;
+}
+
+@media (max-width: 768px) {
+	.content {
+		position: relative;
+		width: auto;
+	}
+}
+
+/* Footer */
+
+footer {
+	background-color: rgba(0, 0, 0, 0);
+	bottom: 0;
+	color: white;
+	display: block;
+	font-size: 20px;
+	height: 30px;
+	left: 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+footer a {
+	color: white;
+	cursor: pointer;
+}
+
+footer a:hover {
+	color: darkgray;
+	text-decoration: none;
+}
+
+.x-button {
+	color: gray;
+	font-size: 30px;
+	padding: 10px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transition: transform 0.4s;
+	transition: -ms-transform 0.4s;
+	transition: -webkit-transform 0.4s;
+}
+
+.x-button:hover {
+	cursor: pointer;
+	transform:rotate(90deg);
+		-ms-transform:rotate(90deg); /* IE 9 */
+		-webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */	
+}
+
+.bio img {	
+	border-radius: 150px;
+		-moz-border-radius: 150px;
+		-webkit-border-radius: 150px;
+	display: block;
+	height: 112px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 112px;
+}
+
+.bio .name {
+	font-size: 20px;
+	position: relative;
+	text-align: center;
+}
+
+.bio p {
+	font-size: 15px;
+}

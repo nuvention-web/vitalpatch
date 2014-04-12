@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="width:50%">
+    <form class="form-signin" role="form" action="{{ url_for('delete_account') }}" method="post">
+        <h3 class="form-signin-heading">{{ status }}</h3>
+
+        <input name="email" type="text" class="form-control" placeholder="Northwestern Email Address" required>
+
+        <button class="btn btn-lg btn-primary btn-block" value="Submit" type="submit">Delete Account</button>
+     </form>
+    </div> <!-- /container -->
+{% endblock content %}

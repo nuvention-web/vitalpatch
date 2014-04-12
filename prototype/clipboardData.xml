@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <group-container id="e2cc48d0-2f30-4817-92c9-52b450da7d11" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+    <image id="7decea56-91f8-4f09-a622-7101267dde30" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <image-name>65d82971-7e30-4643-937a-8ffc9bc2da40.png</image-name>
+      <original-name>FotoFlexer_Photo.png</original-name>
+      <style name="LnFImage">
+        <DimensionStyle width="267" height="202" />
+        <PositioningStyle left="14" top="6" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TransparencyStyle value="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Image_5</userID>
+    </image>
+    <label id="d6209864-f143-49c6-b770-b24f2415c354" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Temperature</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="139" height="29" />
+        <PositioningStyle left="78" top="0" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_1</userID>
+    </label>
+    <label id="4415a052-012a-4e5d-8b29-a54af1762544" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Current: 97.6˚F</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="139" height="29" />
+        <PositioningStyle left="78" top="209" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_2</userID>
+    </label>
+    <label id="000cc44d-414d-40f4-801e-cacef49cf781" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>99</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="77" height="29" />
+        <PositioningStyle left="0" top="14" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_3</userID>
+    </label>
+    <label id="c041fb85-1cac-4872-8de5-4efbe866dc3f" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>95</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="77" height="29" />
+        <PositioningStyle left="0" top="162" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_4</userID>
+    </label>
+    <label id="20a7dc39-5fdf-4f97-a5c5-e2c5c109868d" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>˚F</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="77" height="29" />
+        <PositioningStyle left="-23" top="97" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="270" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_5</userID>
+    </label>
+    <label id="d9be2ce3-bc67-4a44-bac2-3a5ce81b361e" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Jan 1</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="68" height="29" />
+        <PositioningStyle left="31" top="186" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_6</userID>
+    </label>
+    <label id="90fb369f-58e0-471f-a47e-510b09a2ce38" hidden="false" locked="false" lockType="none" onTop="false" visible="true">
+      <text>Today</text>
+      <style name="LnFTextBox">
+        <DimensionStyle width="68" height="29" />
+        <PositioningStyle left="190" top="186" />
+        <BackgroundStyle type="transparent" />
+        <BorderStyle radius="0" leftColor="0r0g0b" topColor="0r0g0b" rightColor="0r0g0b" bottomColor="0r0g0b" leftStyle="none" topStyle="none" rightStyle="none" bottomStyle="none" leftWidth="1" topWidth="1" rightWidth="1" bottomWidth="1" />
+        <TextStyle color="255r255g255b" hAlign="center" vAlign="center" decoration="none" line-height="0" />
+        <FontStyle size="13" height="20">
+          <family>Skia</family>
+          <style name="Regular" weight="400" italic="normal" />
+        </FontStyle>
+        <TransparencyStyle value="0" />
+        <PaddingStyle top="0" left="0" bottom="0" right="0" />
+        <RotationStyle angle="0" />
+        <ShadowStyle>
+          <Box enable="false" />
+          <Text enable="false" />
+        </ShadowStyle>
+      </style>
+      <userID>Label_7</userID>
+    </label>
+    <style name="LnFGroup">
+      <DimensionStyle width="281" height="238" />
+      <PositioningStyle left="10" top="10" />
+    </style>
+    <userID>Group_3</userID>
+  </group-container>
+  <Events />
+</root>
+
