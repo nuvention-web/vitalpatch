@@ -1,89 +1,19 @@
-header {
-	position: fixed;
-	padding-left: 30px;
-}
-
-#title {
-	padding-top: 20px;
-    width: 250px;
-    height: auto;
-	color: white;
-    font-size: 40px;
-}
-
-#title > a { color: white; }
-#title > a:hover { text-decoration: none; }
-
-form {
-	padding-top: 10px;
-	padding-left: 5px;
-	position: fixed;
-}
-
-form * {
-	width: 240px;
-	height: 40px !important;
-	font-size: 30px !important;
-    line-height: 40px !important;
-}
-
-input[type='text'] {
-	display: block;
-}
-
-div.label-input {
-	display: block;
-	padding: 5px 0;
-}
-
-div.label-input label {
-	color:white;
-	width: 120px;
-	display: inline-block;
-	float: left;
-	text-align: center;
-}
-
-div.label-input input {
-	width: 120px;
-	display: inline;
-}
-
-input[type='submit'] {
-    width: 240px;
-    border: 1px #267ed4 solid;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #7fb2e5;
-    color: white;
-}
-
-input[type='submit']:hover {
-    background-color: #267ed4;
-}
-
-body {
-	background-image:url('imgs/bg.jpg');
-	background-repeat:no-repeat;
-	background-attachment:fixed;
-	background-size: cover;
-}
-
 ul {
 	list-style-type: none;
-	padding-bottom: 30px;
+}
+
+ul.well {
+	background-color: rgba(255, 255, 255, 0.5);
 }
 
 .result {
+	background: rgba(255, 255, 255, 0.5);
 	border: 1px solid grey;
-	height: 100px;
-	width: 50%;
+	/*height: 100px;*/
 	margin-left: auto;
 	margin-right: auto;
+	padding-left: 30px;
 	position: relative;
-	
-	background: rgba(255, 255, 255, 0.5);
 }
 
 .result:hover {
@@ -92,26 +22,15 @@ ul {
 }
 
 /* Result elements */
-.name {
-	font-weight: bold;
-	font-size: 30px;
-
-	display: inline-block;
+.result .pull-left {
 	padding-left: 10px;
-	padding-top: 10px;
 }
 
-.result-left-col {
-	padding-left: 20px;
-	font-size: 15px;
-}
-
-.result-left-col > span {
-	display: block;
-}
-
-.address {
-	padding-top: 10px;
+.name {
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 30px;
+	padding-top: 5px;
 }
 
 .distance {
@@ -119,31 +38,42 @@ ul {
 	color: black;
 	font-style: italic;
 
-	padding-right: 10px;
+	padding-right: 20px;
 	padding-top: 10px;
+}
 
-	position: absolute;
-	right: 0px;
+@media (max-width: 768px) {
+	.distance {
+		text-align: left;
+	}
+}
+
+.result-left-col > span {
+	display: block;
+}
+
+.result img {
+	min-height: 0px !important;
+	max-height: 17px;
+	max-width: 84px;
 }
 
 .price {
+	bottom: 0;
 	font-weight: bold;
 	font-size: 30px;
-
-	display:inline-block;
-	padding-right: 10px;
 	padding-bottom: 10px;
-
-	position: absolute;
-	bottom: 0;
+	padding-right: 10px;
 	right: 0;
 }
 
-#yelp {
-	position: fixed;
-	padding: 10px;
-	bottom: 0;
+/* End result elements */
 
+#yelp {
+	bottom: 0;
+	padding: 10px;
+	position: absolute;
+	right: 0;
 }
 
 .no-result {
