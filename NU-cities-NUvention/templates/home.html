@@ -1,0 +1,149 @@
+  {% extends "base.html" %}
+
+    {% block head %}
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <style type="text/css">
+          html { height: 100% }
+          body { height: 100%; margin: 0; padding: 0 }
+          #map-canvas { height: 100% }
+        </style>
+        <script type="text/javascript" src="../static/slider/js/bootstrap-slider.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOS9quCxiDEqhhfV-kK1oKpLYOgPXRzeA&sensor=false"></script>
+
+        <script type="text/javascript">
+            var marker;
+            var map;
+            var user_arr = new Array(); //Each item in this list will be an array of user's LatLng (google maps object), first name, and last name, in that order.
+            var marker_arr = new Array();
+            var current_user_ltlng = new google.maps.LatLng({{current_user.latitude}}, {{current_user.longitude}});
+            var cityCircle;
+            var circleOptions = {
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#FF0000',
+              fillOpacity: 0.35,
+              map: map,
+              center: null,
+              radius: 0
+            };
+
+
+            {% for user in users %}
+                user_arr.push([new google.maps.LatLng({{user.latitude}}, {{user.longitude}}), "{{user.first_name}}", "{{user.last_name}}" ]);
+                //user_arr.push(new google.maps.LatLng({{user.latitude}}, {{user.longitude}}));
+            {% endfor %}
+
+
+            function update_map(miles){
+              //Update circle
+              cityCircle.setRadius(parseInt(miles)*1609.34);
+              //Update miles display box
+              document.getElementById('radius').value=miles;
+
+              //Reset Table Row background colors:
+              var table = document.getElementById('table');   
+              var rows = table.getElementsByTagName("tr");                 
+              for(i = 0; i < rows.length; i++){           
+                if((i%2)==0){
+                  rows[i].style.backgroundColor="#C0C8CC";
+                }else{
+                  rows[i].style.backgroundColor="#FFFFFF";
+                }
+              }
+
+              //Color rows of table which are within circle
+              for (var i=0; i<marker_arr.length; i++){
+                if(google.maps.geometry.spherical.computeDistanceBetween(marker_arr[i].position, current_user_ltlng)/1609.34 < miles){
+                  //alert("Miles is: " + miles);
+                  //alert("Distance between marker and current user: " + google.maps.geometry.spherical.computeDistanceBetween(marker.position, current_user_ltlng)*1609.34);
+                  //alert("Marker title is: " + marker_arr[i].title);
+                  document.getElementById(marker_arr[i].title).style.backgroundColor="gold";
+                }
+              }
+
+            }
+
+            function placeMarkers(locations) {
+              for (var i=0; i<locations.length; i++){
+                if (!(locations[i][0].lat()==0 && locations[i][0].lng()==0)){
+                  marker = new google.maps.Marker({
+                    position: locations[i][0],
+                    map: map,
+                    title: locations[i][1].concat(" " + locations[i][2])
+                  });
+                  marker_arr.push(marker);
+                  }
+                }
+            }
+
+            function initialize() {
+                var mapOptions = {
+                  center: new google.maps.LatLng(current_user_ltlng.lat(), current_user_ltlng.lng()),
+                  zoom: 8
+                };
+                map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+                cityCircle = new google.maps.Circle(circleOptions);
+                cityCircle.setMap(map);
+                cityCircle.setCenter(map.center);
+                cityCircle.setRadius(50*1609.34);
+                placeMarkers(user_arr);
+              }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+          </script>
+    {% endblock head %}
+
+  {% block content %}
+
+    <!--**********************Page Header**********************-->
+    <div class="jumbotron"> 
+      <div class="container">
+        <p style="clear:both; float:right;"><a href="{{ url_for('update_info') }}">Update your information.</a></p>
+        <h1>Hey 'Cats!</h1>
+          <p>
+            Where in the world are the wildcats off to? Here are the self-reported locations NU's class of 2014 will be moving to next year. Best of luck to all the wildcats next year, and stay in touch!
+          </p>
+      </div>
+    </div>
+
+    
+    <!--**********************Map of locations**********************-->
+    <div  class="well">  
+      <div style="text-align:center; width:75%; height:30px; margin-left:auto; margin-right:auto">
+        <form >
+          Find people near you (miles): 1 <input id="slider" type="range" name="points" min="1" max="100" onchange="update_map(this.value)" value="50"> 100 <input size="2" type="text" id="radius" style="text-align:center" readonly> 
+        </form>
+      </div>
+      <div id="map-canvas" style="text-align:center; width:75%; height:400px; margin-left:auto; margin-right:auto"></div>
+    </div>
+    
+
+  <!--**********************Users Table**********************-->
+  <div class="container">
+    <P>Table is sorted by country, state, and city</p>
+    <table class="table" id="table">
+      <tr>
+        <td><b>First Name</b></td>
+        <td><b>Last Name</b></td>
+        <td><b>Country</b></td>
+        <td><b>State</b></td>
+        <td><b>City</b></td>
+        <td><b>Email Address</b></td>
+      </tr>
+      {% for obj in users %}
+        <tr id="{{obj.first_name}} {{obj.last_name}}">
+          <td>{{obj.first_name}}</td>
+          <td>{{obj.last_name}}</td>
+          <td>{{obj.country}}</td>
+          <td>{{obj.state}}</td>
+          <td>{{obj.city}}</td>
+          <td>{{obj.email}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <p id="alignleft"><span style="line-height:30px"vd="footer-text" class="text-muted"> <a href="{{ url_for('delete_account') }}">Delete Account</a></span></p>
+  </div>
+  {% endblock content %}

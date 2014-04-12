@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rulers>
+  <LayoutEditor>
+    <ruler orientation="horizontal" position="480" />
+    <ruler orientation="vertical" position="320" />
+    <ruler orientation="vertical" position="-60" />
+  </LayoutEditor>
+  <ActivityScenariosDiagramEditor />
+</rulers>
+

@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block page %}
+
+<title>Submit a Quote Request</title>
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='quote_request.css') }}">
+
+<form class="well quote-request" id="procedure-form" method="post" action="{{ url_for('quote_request') }}" enctype="multipart/form-data">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <h2>Quote Request Form</h2>
+    <input type="text" name="name" placeholder="Name of Pet">
+    <input type="text" name="procedure" placeholder="Procedure Required">
+    <input type="text" name="weight" placeholder="Weight of Pet">
+    <input type="text" name="breed" placeholder="Breed of Pet">
+    <input type="text" name="age" placeholder="Age of Pet">
+    Sex of Pet:
+    <input type="radio" name="sex" value="male">&nbspMale
+    <input type="radio" name="sex" value="female">&nbspFemale
+
+    <br>
+    Required: Upload a photo to illustrate your pet's health condition: <input type="file" name="the_file">
+
+    <input type="text" name="email_addr" placeholder="Your Email Address">
+    <input type="text" name="user_fname" placeholder="Your First Name">
+    <input type="text" name="user_lname" placeholder="Your Last Name">
+    <input type="text" name="zip" placeholder="Your Zip Code">
+    <br>
+    <button type="submit" class="btn">Submit</button>
+</form> 
+
+{% endblock %}
