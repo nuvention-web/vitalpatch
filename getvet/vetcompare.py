@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template, json, flash, session, abort, redirect, url_for
 from email.MIMEText import MIMEText
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -160,7 +161,7 @@ def quote_request():
     if request.method=="GET":
         return render_template("quote_request.html")
     else: #request.method=="POST"
-        msg = MIMEMultipart('alternative')
+        msg = MIMEMultipart('related')
         session = smtplib.SMTP('smtp.gmail.com', 587)
         session.ehlo()
         session.starttls()
@@ -169,17 +170,23 @@ def quote_request():
         msg['From'] = "vetcompare@gmail.com"
         msg['Subject'] = "Someone has filled out the quote request form!"
         msg['To'] = "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;sam.toizer@gmail.com;scott.neaves.eghs@gmail.com"
+        # msg['To'] = "scott.neaves.eghs@gmail.com"
         #headers = ["from: vetcompare@gmail.com",
         #            "subject: Someone has filled out the quote request form!",
         #            "to: " + "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;sam.toizer@gmail.com;scott.neaves.eghs@gmail.com",
         #            "mime-version: 1.0",
         #            "content-type: text/html"]
-        attachment = MIMEText(request.form['image'])
-        attachment.add_header('Content-Disposition', 'attachment', filename="image")
+        # attachment = MIMEText(request.form['image'])
+        # attachment.add_header('Content-Disposition', 'attachment', filename="image")
         #headers = "\r\n".join(headers)
         body = "Name: " + request.form['name'] + "<br>" + "Procedure: " + request.form['procedure'] + "<br>" + "Weight: " + request.form['weight'] + "<br>" + "Zip: " + request.form['zip'] + "<br>" + "Breed: " + request.form['breed'] + "<br>" + "Age: " + request.form['age'] + "<br>" + "Sex: " + request.form['sex'] + "<br>" + "Customer's email address: " + request.form['email_addr'] + "<br>" + "Customer's First Name: " + request.form['user_fname'] + "<br>" + "Customer's Last Name: " + request.form['user_lname']
         content = MIMEText(body, 'html')
         msg.attach(content)
+
+        f = request.files['the_file']
+        f = MIMEImage(f.read())
+        msg.attach(f)
+
         session.sendmail("vetcompare@gmail.com", "scott.neaves.eghs@gmail.com", msg.as_string())
 
 
