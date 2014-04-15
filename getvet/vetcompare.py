@@ -208,7 +208,7 @@ def quote_request():
         f = MIMEImage(f.read())
         msg.attach(f)
 
-        session.sendmail("vetcompare@gmail.com", "scott.neaves.eghs@gmail.com", msg.as_string())
+        session.sendmail("vetcompare@gmail.com", recipients, msg.as_string())
 
 
         flash("Thanks! Your quote request has been successfully submitted.")
