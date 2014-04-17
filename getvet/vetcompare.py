@@ -249,7 +249,6 @@ def search():
                 'yelp_rating_url': yelp_result['rating_img_url'],
                 'yelp_url': yelp_result['url']
             })
-
     return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 
 
