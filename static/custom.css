@@ -17,7 +17,8 @@ ul.well {
 }
 
 .result:hover {
-	background: rgba(135, 206, 250, 0.5);
+	background: rgba(100, 200, 0, 0.5);
+	cursor: pointer;
 }
 
 /* Result elements */
