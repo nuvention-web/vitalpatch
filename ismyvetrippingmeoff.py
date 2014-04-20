@@ -21,6 +21,8 @@ class input_prices(db.Model):
 	zip = db.Column(db.Integer)
 	clinic_name = db.Column(db.String(80))
 	clinic_yelp_id = db.Column(db.String(150))
+	
+db.create_all()
 
 #Routes
 
@@ -34,6 +36,5 @@ def index():
 
 
 if __name__ == '__main__':
-	db.create_all()
 	app.run(host='0.0.0.0')
 
