@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
 
@@ -24,9 +24,14 @@ class input_prices(db.Model):
 
 #Routes
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
-	return render_template('index.html')
+	if request.method == "GET":
+		return render_template('index.html')
+	else:
+		pass
+
+
 
 if __name__ == '__main__':
 	db.create_all()
