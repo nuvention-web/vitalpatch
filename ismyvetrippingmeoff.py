@@ -5,8 +5,12 @@ import rauth # OAuth for Yelp
 
 app = Flask(__name__)
 app.secret_key='iwillneverhavetorecall12032'
+app.debug=True
 # configure SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/vet_prices'
+
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 
@@ -31,7 +35,7 @@ class input_prices(db.Model):
 	clinic_name = db.Column(db.String(80))
 	clinic_yelp_id = db.Column(db.String(150))
 
-	def __init__(self, animal_type, procedure, price, zip, clinic_name, clinic_yelp_id, weight = None):
+	def __init__(self, animal_type, procedure, price, zip, clinic_name, clinic_yelp_id = None, weight = None):
 		self.animal_type = animal_type
 		self.weight=weight
 		self.procedure=procedure
@@ -68,12 +72,20 @@ def index():
 	if request.method == "GET":
 		return render_template('index.html')
 	else:
-		new_animal_type = request.form('cat_dog')
-		print request.url
-		print new_animal_type
-		#newVetData=input_prices(animal_type,weight,procedure,price,zip,clinic_name,clinic_yelp_id)
-		#db.session.add(newVetData)
-		#db.session.commit()
+		
+		new_animal_type = request.form['cat_dog']
+		new_price = request.form['cost']
+		new_weight = request.form['optionsRadios']
+		new_procedure = request.form['procedure']
+		new_zip = request.form['zip code']
+		new_clinic_name = request.form['vet_name']
+		new_clinic_yelp_id = None
+		newVetData=input_prices(new_animal_type,new_weight,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id)
+		db.session.add(newVetData)
+		db.session.commit()
+
+		return render_template('index.html')
+	
 
 
 
