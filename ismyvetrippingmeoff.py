@@ -4,12 +4,11 @@ import os
 import rauth # OAuth for Yelp
 
 app = Flask(__name__)
-app.secret_key='iwillneverhavetorecall12032'
-app.debug=True
-# configure SQLAlchemy
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/vet_prices'
+app.secret_key = 'iwillneverhavetorecall12032'
+app.debug = True
+# configure SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
@@ -23,7 +22,23 @@ yelp_token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
 
 db = SQLAlchemy(app)
 
-#Models
+# Models
+class vetprocedure(db.Model):
+	index = db.Column(db.Integer, primary_key=True)
+	topic = db.Column(db.String(20))
+	animal = db.Column(db.String(3))
+	table_number = db.Column(db.Float)
+	procedure = db.Column(db.Text)
+	details = db.Column(db.Text)
+	urban_25th_percentile = db.Column(db.Float)
+	urban_median = db.Column(db.Float)
+	urban_75th_percentile = db.Column(db.Float)
+	suburban_25th_percentile = db.Column(db.Float)
+	suburban_median = db.Column(db.Float)
+	suburban_75th_percentile = db.Column(db.Float)
+	rural_25th_percentile = db.Column(db.Float)
+	rural_median = db.Column(db.Float)
+	rural_75th_percentile = db.Column(db.Float)
 
 class input_prices(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -43,9 +58,7 @@ class input_prices(db.Model):
 		self.zip=zip
 		self.clinic_name=clinic_name
 		self.clinic_yelp_id=clinic_yelp_id
-
-        
-	
+      
 db.create_all()
 
 # Yelp
@@ -65,12 +78,22 @@ def get_yelp_results(businessID):
 
     return data
 
-#Routes
-
+# Routes
 @app.route('/', methods=['GET','POST'])
 def index():
 	if request.method == "GET":
-		return render_template('index.html')
+		# Grab all topics/procedures for select field
+		topicProcedureDict = {}
+		queryResults = vetprocedure.query.distinct(vetprocedure.procedure).order_by(vetprocedure.procedure)
+		for result in queryResults:
+			if result.topic in topicProcedureDict:			
+				tempList = topicProcedureDict[result.topic]
+				tempList.append(result.procedure)
+				topicProcedureDict[result.topic] = tempList
+			else:
+				topicProcedureDict[result.topic] = [result.procedure]
+
+		return render_template('index.html', topicProcedureDict=topicProcedureDict)
 	else:
 		
 		new_animal_type = request.form['cat_dog']
@@ -80,14 +103,14 @@ def index():
 		new_zip = request.form['zip code']
 		new_clinic_name = request.form['vet_name']
 		new_clinic_yelp_id = None
-		newVetData=input_prices(new_animal_type,new_weight,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id)
+		newVetData=input_prices(new_animal_type,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id,new_weight)
+		print newVetData
+		#newVetData=input_prices(new_animal_type,new_weight,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id)
 		db.session.add(newVetData)
 		db.session.commit()
 
 		return render_template('index.html')
 	
-
-
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0')

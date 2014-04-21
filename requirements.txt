@@ -7,4 +7,6 @@ Werkzeug==0.9.4
 gunicorn==18.0
 itsdangerous==0.24
 psycopg2==2.5.2
+rauth==0.7.0
+requests==2.2.1
 wsgiref==0.1.2

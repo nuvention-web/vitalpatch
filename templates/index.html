@@ -1,145 +1,133 @@
 <!DOCTYPE html>
 <!-- saved from url=(0040)http://bootstraptaste.com/theme/siimple/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="http://bootstraptaste.com/theme/siimple/assets/img/favicon.png">
-
-    <title>IsMyVetRippingMeOff</title>
-
-    <!-- Bootstrap -->
-    <link href="{{url_for('static', filename='bootstrap.css')}}" rel="stylesheet">
-	 <link href="{{url_for('static', filename='bootstrap-theme.css')}}" rel="stylesheet">
-
     
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="http://bootstraptaste.com/theme/siimple/assets/img/favicon.png">
 
-    <!--edits to siimple style -->
-    <link href="{{url_for('static', filename='layout.css')}}" rel="stylesheet">
+<title>IsMyVetRippingMeOff</title>
 
-  
-    <style type="text/css"></style></head>
+<!-- Bootstrap -->
+<link href="{{url_for('static', filename='bootstrap.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='bootstrap-theme.css')}}" rel="stylesheet">
 
-  <body>
 
-<!--    
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="http://bootstraptaste.com/theme/siimple/index.html">Siimple</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://bootstraptaste.com/theme/siimple/#">Sign up</a></li>
-			<li><a href="http://bootstraptaste.com/theme/siimple/#">Sign in</a></li>
-          </ul>
-        </div>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+<!--edits to siimple style -->
+<link href="{{url_for('static', filename='layout.css')}}" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+	<div class="row">
+		<div  class="col-sm-6 well">
+      <div id="header_text">
+				<h1>Are you paying too much at your vet?</h1>
+				<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>                
       </div>
-    </div>
--->
-
-	<div id="header">
-		<div class="container">
-			<div class="row">
-				<div  class="col-sm-6 well">
-                    <div id="header_text">
-        				<h1>Are you paying too much at your vet?</h1>
-        				<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>
-                    </div>
-            		<form role="form" method="post" action="{{url_for('index')}}">
-                        <div class="radio-inline">
-                        <label>
-                            <input type="radio" name="cat_dog" id="dog_selector" value="dog" checked>
-                                Dog
-                        </label>
-                        </div>
-                            
-                        <div class="radio-inline">
-                            <label>
-                                <input type="radio" name="cat_dog" id="cat_selector" value="cat">
-                                Cat
-                            </label>
-                        </div>
+  		<form role="form" method="post" action="{{ url_for('index') }}">                                            
+        <div class="radio-inline">
+        <label>
+            <input type="radio" name="cat_dog" id="dog_selector" value="dog" checked>
+                Dog
+        </label>
+        </div>
+                  
+        <div class="radio-inline">
+            <label>
+                <input type="radio" name="cat_dog" id="cat_selector" value="cat">
+                Cat
+            </label>
+        </div>
 
 
-                        <div class="form-group" id="weight">
-                            Weight:
-                            <br>
-                            <div class="radio-inline">
-                                <label>
-                                  <input type="radio" name="optionsRadios" id="optionsRadios1" value="25_and_below" checked>
-                                    25 and below
-                                </label>
-                            </div>
-                            <div class="radio-inline">
-                                <label>
-                                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="26_to_50">
-                                  26 to 50
-                                </label>
-                            </div>
-                            <div class="radio-inline">
-                                <label>
-                                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="51_to_75">
-                                  51 to 75
-                                </label>
-                            </div>
-                            <div class="radio-inline">
-                                <label>
-                                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="75_and_up">
-                                  75 and up
-                                </label>
-                            </div>
-                        </div>
+        <div class="form-group" id="weight">
+            Weight (lb):
+            <br>
+            <div class="radio-inline">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" checked>
+                    < 25
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                    26 - 50
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+                    51 - 75
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="3">
+                    75+
+                </label>
+            </div>
+        </div>
 
-        	            <input name="procedure" type="email" class="form-control" placeholder="Prcoedure (Neuter, well check, rabies shot, etc)">
-                        <br>
-                        <input name="cost" type="email" class="form-control" placeholder="Cost (please enter a whole number)">
-                        <br>
-                        <input name="zip code" type="email" class="form-control" placeholder="Zip Code">
-                        <br>
-                        <input name="vet_name" type="email" class="form-control" placeholder="Name of veterinary clinic or animal hospital">
-                        <br>
-                        <br>
-                        <button type="submit" class="btn btn-theme">Submit</button>
-            		</form>					
-        		</div>
+        <select class="form-control" name="procedure">
+          <option>-- Select Procedure -- </option>
 
-                <div class class="col-sm-4 col-sm-offset-2">
-                <!--filler div-->
-                </div>
-        				
-	       </div>
+          {% for topic in topicProcedureDict %}
+          <optgroup label={{ topic }}>
+
+            {% for procedure in topicProcedureDict.get(topic) %}
+            <option value="{{ procedure }}">{{ procedure }}</option>
+            {% endfor %}
+            
+          </optgroup>                          
+          {% endfor %}
+
+        </select>
+
+        <br>
+        <input name="cost" type="text" class="form-control" placeholder="Cost">
+        <br>
+        <input name="zip code" type="text" class="form-control" placeholder="Zip Code">
+        <br>
+        <input name="vet_name" type="text" class="form-control" placeholder="Name of veterinary clinic or animal hospital">
+        <br>
+        <br>
+              
+        <button type="submit" class="btn btn-primary">Submit</button>
+  		</form>					
 		</div>
-	</div>
-    
-	<div id="footer">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 col-lg-offset-3">
-					<p class="copyright">Copyright © 2014 - VetCompare.co</p>
-			</div>
-		</div>		
-	</div>	
-	</div>
 
-  <script src="{{url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
-  <script src="{{url_for('static', filename='bootstrap.min.js' )}}"></script>
-  <script src="{{url_for('static', filename='js.js' )}}"></script>
-
-
+    <div class class="col-sm-4 col-sm-offset-2">
+    <!--filler div-->
+    </div>        				
+  </div>
+</div>
   
+<div id="footer">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6 col-lg-offset-3">
+				<p class="copyright">Copyright © 2014 - <a href="http://vetcompare.co" target="_blank">VetCompare.co</a></p>
+		</div>
+	</div>		
+</div>	
+</div>
+
+<script src="{{url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
+<script src="{{url_for('static', filename='bootstrap.min.js' )}}"></script>
+<script src="{{url_for('static', filename='js.js' )}}"></script>
+
 </body>
 
 </html>
