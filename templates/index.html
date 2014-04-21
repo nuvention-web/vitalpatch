@@ -22,7 +22,7 @@
     <![endif]-->
 
     <!--edits to siimple style -->
-    <link href="static/layout.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='layout.css' )}}" rel="stylesheet">
   
     <style type="text/css"></style></head>
 
@@ -133,9 +133,9 @@
 	</div>	
 	</div>
 
-  <script src="./static/jquery-1.10.2.min.js"></script>
-  <script src="./static/bootstrap.min.js"></script>
-  <script src="./static/js.js"></script>
+  <script src="{{url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
+  <script src="{{url_for('static', filename='bootstrap.min.js' )}}"></script>
+  <script src="{{url_for('static', filename='js.js' )}}"></script>
 
   
 </body>
