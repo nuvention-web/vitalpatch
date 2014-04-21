@@ -11,8 +11,8 @@
     <title>IsMyVetRippingMeOff</title>
 
     <!-- Bootstrap -->
-    <link href="./static/bootstrap.css" rel="stylesheet">
-	 <link href="./static/bootstrap-theme.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='bootstrap.css')}}" rel="stylesheet">
+	 <link href="{{url_for('static', filename='bootstrap-theme.css')}}" rel="stylesheet">
 
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -22,7 +22,8 @@
     <![endif]-->
 
     <!--edits to siimple style -->
-    <link href="{{url_for('static', filename='layout.css' )}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='layout.css')}}" rel="stylesheet">
+
   
     <style type="text/css"></style></head>
 
@@ -57,7 +58,7 @@
         				<h1>Are you paying too much at your vet?</h1>
         				<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>
                     </div>
-            		<form role="form">
+            		<form role="form" method="post" action="{{url_for(index)}}">
                         <div class="radio-inline">
                         <label>
                             <input type="radio" name="cat_dog" id="dog_selector" value="dog" checked>
@@ -136,6 +137,7 @@
   <script src="{{url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
   <script src="{{url_for('static', filename='bootstrap.min.js' )}}"></script>
   <script src="{{url_for('static', filename='js.js' )}}"></script>
+
 
   
 </body>
