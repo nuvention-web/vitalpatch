@@ -6,6 +6,11 @@ body {
         -webkit-background-size: cover;
 }
 
+.well {
+    top: 20px;
+}
+
+
 @import 'bootstrap.less';
 #header_text {
     border-radius: 20px;
