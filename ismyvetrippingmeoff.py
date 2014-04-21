@@ -8,7 +8,8 @@ app = Flask(__name__)
 app.secret_key = 'iwillneverhavetorecall12032'
 app.debug = True
 # configure SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://localhost/vetprices"
 
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
@@ -94,8 +95,8 @@ def index():
 				topicProcedureDict[result.topic] = [result.procedure]
 
 		return render_template('index.html', topicProcedureDict=topicProcedureDict)
-	else:
-		
+	else:		
+		# Store their price (shhhhh)
 		new_animal_type = request.form['cat_dog']
 		new_price = request.form['cost']
 		new_weight = request.form['optionsRadios']
@@ -104,12 +105,32 @@ def index():
 		new_clinic_name = request.form['vet_name']
 		new_clinic_yelp_id = None
 		newVetData=input_prices(new_animal_type,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id,new_weight)
-		print newVetData
 		#newVetData=input_prices(new_animal_type,new_weight,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id)
 		db.session.add(newVetData)
 		db.session.commit()
 
-		return render_template('index.html')
+		# Pull price from db
+		if new_procedure == 'Neuter' or new_procedure == 'Spay (OHE)':
+			if new_animal_type == 'dog':
+				if new_weight == '0':
+					weightString = "<25 Pound Dog"
+				elif new_weight == '1':
+					weightString = "25-50 Pound Dog"
+				elif new_weight == '2':
+					weightString = "51-75 Pound Dog"
+				else:
+					weightString = ">75 Pound Dog"
+				price = vetprocedure.query \
+							.filter_by(procedure = new_procedure) \
+							.filter_by(animal = new_animal_type.title()) \
+							.filter_by(details = weightString) \
+							.first()
+			else:
+				price = vetprocedure.query.filter_by(procedure = new_procedure).filter_by(animal = new_animal_type.title()).first()
+		else:
+			price = vetprocedure.query.filter_by(procedure = new_procedure).first()
+
+		return render_template('results.html', price=price)
 	
 
 if __name__ == '__main__':
