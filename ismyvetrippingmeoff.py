@@ -8,9 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'iwillneverhavetorecall12032'
 app.debug = True
 # configure SQLAlchemy
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://localhost/vetprices"
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 
