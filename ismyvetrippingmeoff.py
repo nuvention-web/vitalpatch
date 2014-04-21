@@ -21,6 +21,17 @@ class input_prices(db.Model):
 	zip = db.Column(db.Integer)
 	clinic_name = db.Column(db.String(80))
 	clinic_yelp_id = db.Column(db.String(150))
+
+	def __init__(self, animal_type, procedure, price, zip, clinic_name, clinic_yelp_id, weight = None):
+		self.animal_type = animal_type
+		self.weight=weight
+		self.procedure=procedure
+		self.price=price
+		self.zip=zip
+		self.clinic_name=clinic_name
+		self.clinic_yelp_id=clinic_yelp_id
+
+        
 	
 db.create_all()
 
@@ -31,7 +42,12 @@ def index():
 	if request.method == "GET":
 		return render_template('index.html')
 	else:
-		pass
+		new_animal_type = request.form('cat_dog')
+		print request.url
+		print new_animal_type
+		#newVetData=input_prices(animal_type,weight,procedure,price,zip,clinic_name,clinic_yelp_id)
+		#db.session.add(newVetData)
+		#db.session.commit()
 
 
 
