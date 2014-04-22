@@ -31,11 +31,13 @@ $('#zipcode').keyup(function() {
 
         //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask:
         if(data['error']!=undefined){
-            $("#zip_error").css("visibility","visible");
+            $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>");
+            //$("#zip_error").css("visibility","visible");
             console.log("fade in");
         }
         else{
-            $("#zip_error").css("visibility","hidden");
+            //$("#zip_error").css("visibility","hidden");
+            $("#zip_error").remove();
             console.log("fade out");
             for (i=0; i<data['businesses'].length; i++){
                 $("#vetname_drpdwn")

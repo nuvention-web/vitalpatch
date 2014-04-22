@@ -71,9 +71,10 @@
         <br>
         <input name="cost" type="text" class="form-control" placeholder="Cost">
         <br>
-        <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code">
-        <p id="zip_error" type="text" style="color:red;visibility:hidden;">Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>
-        <br>
+        <div id="zip_group" class="form-group">
+          <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code">
+          <br>
+        </div>
         <select id="vetname_drpdwn" name="vet_id" class="form-control" placeholder="Name of veterinary clinic or animal hospital">
         </select>
         <input type="hidden" id="vet_name" name="vet_name">
