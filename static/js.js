@@ -43,7 +43,8 @@ $('#zipcode').keyup(function() {
                 $("#vetname_drpdwn")
                     .append($("<option></option>")
                     .attr("value", data['businesses'][i]['id'])
-                    .text(data['businesses'][i]['name']));
+                    .text(data['businesses'][i]['name']))
+                    .removeAttr("disabled");
             }
         }
       });
