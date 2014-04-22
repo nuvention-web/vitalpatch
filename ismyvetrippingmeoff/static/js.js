@@ -18,34 +18,6 @@ $("#cat_selector").change(function() {
     }
 });
 
-/*
-//Ajax function to populate the vet clinic dropdown based on zip code field.
-$(function() {
-    $('#zipcode').bind('keyup', function() {
-        if($("this").length>=5){
-            alert(">=5");
-          $.getJSON($SCRIPT_ROOT + '/_get_clinics_in_zipcode', {
-            zipcode: $('#zipcode').val(),
-          }, function(data) {
-
-            $('#vetname_drpdwn')
-                .find('option')
-                .remove();
-
-            //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask:
-            for (i=0; i<data['businesses'].length; i++){
-                $("#vetname_drpdwn")
-                    .append($("<option></option>")
-                    .attr("value", data['businesses'][i]['id'])
-                    .text(data['businesses'][i]['name']));
-            }
-          });
-          return false;
-        }
-    });
-});
-*/
-
 //Ajax function to populate the vet clinic dropdown based on zip code field.
 $('#zipcode').keyup(function() {
     if($('#zipcode').val().length>=5){
@@ -58,11 +30,19 @@ $('#zipcode').keyup(function() {
             .remove();
 
         //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask:
-        for (i=0; i<data['businesses'].length; i++){
-            $("#vetname_drpdwn")
-                .append($("<option></option>")
-                .attr("value", data['businesses'][i]['id'])
-                .text(data['businesses'][i]['name']));
+        if(data['error']!=undefined){
+            $("#zip_error").css("visibility","visible");
+            console.log("fade in");
+        }
+        else{
+            $("#zip_error").css("visibility","hidden");
+            console.log("fade out");
+            for (i=0; i<data['businesses'].length; i++){
+                $("#vetname_drpdwn")
+                    .append($("<option></option>")
+                    .attr("value", data['businesses'][i]['id'])
+                    .text(data['businesses'][i]['name']));
+            }
         }
       });
       return false;
