@@ -41,6 +41,32 @@ $(function() {
     });
 });
 
+$('#zipcode').typing({
+    start: function (event, $elem) {
+        //do nothing
+    },
+    stop: function (event, $elem) {
+        $.getJSON($SCRIPT_ROOT + '/_get_clinics_in_zipcode', {
+            zipcode: $('#zipcode').val(),
+        }, function(data) {
+            //delete all option in the clinic-select dropdown
+            $('#vetname_drpdwn')
+                .find('option')
+                .remove();
+
+            //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask, add an option to the select
+            for (i=0; i<data['businesses'].length; i++){
+                $("#vetname_drpdwn")
+                    .append($("<option></option>")
+                    .attr("value", data['businesses'][i]['id'])
+                    .text(data['businesses'][i]['name']));
+            }
+        });
+        return false;
+    },
+    delay: 300
+});
+
 
 /*
 //setup before functions
