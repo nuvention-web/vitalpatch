@@ -6,6 +6,13 @@
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='jquery-ui-1.10.4.custom.min.css') }}">
 </head>
 
+<!-- Feedback -->
+<style type='text/css'>@import url('http://getbarometer.s3.amazonaws.com/assets/barometer/css/barometer.css');</style>
+<script src='http://getbarometer.s3.amazonaws.com/assets/barometer/javascripts/barometer.js' type='text/javascript'></script>
+<script type="text/javascript" charset="utf-8">
+	BAROMETER.load('nFqfbn2aaOg1cNrFhF6F5');
+</script>
+
 <body>
 
 <div class="container-fluid">
@@ -18,7 +25,7 @@
                     <div class="control-group">
                         <label class="control-label" for="procedure">Procedure</label>
                         <div class="controls">
-                          <input type="text" id="procedure" name="procedure" placeholder="Procedure" value={{ procedure }}>
+                          <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
                         </div>
                     </div>
                     <div class="control-group" id="weight-control-group"
@@ -28,13 +35,13 @@
 					/>
                         <label class="control-label" for="weight">Weight</label>
                         <div class="controls">
-                            <input type="text" id="weight" name="weight" placeholder="Weight" value={{ weight }}>
+                            <input type="text" id="weight" name="weight" placeholder="Weight" value="{{ weight }}">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="zip">Zip</label>
                         <div class="controls">
-                            <input type="text" id="zip" name="zip" placeholder="Zip" value={{ zip }}>
+                            <input type="text" id="zip" name="zip" placeholder="Zip" value="{{ zip }}">
                         </div>
                     </div>
                     <button type="submit" class="btn">Search</button>
@@ -60,7 +67,43 @@
 	<a href="#contactModal" class="bottom-link" data-toggle="modal">Contact</a> 
 </footer>
 
+</body>
+
 <!-- Modals -->
+<div id="feedbackModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="feedbackModalTitle" aria-hidden="true">
+	<div class="modal-header">
+		<span class="x-button" data-dismiss="modal">&#10006;</span>
+		<h3 id="feedbackModalTitle">Feedback</h3>
+	</div>
+	<div class="modal-body">
+		<h4>Feedback and bugs, fixes, ideas...</h4>
+		<form id="feedback-form">
+			<div class="control-group">
+                <label class="control-label" for="email">Email</label>
+                <div class="controls">
+	                <input type="text" name="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="subject">Subject</label>
+                <div class="controls">
+	                <input type="text" name="subject" placeholder="Subject">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="description">Description</label>
+                <div class="controls">
+		            <textarea type="text" name="description" placeholder="Description" rows="5"></textarea>
+                </div>
+            </div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn btn-primary" aria-hidden="true" id="feedback-submit">Submit</button>
+	</div>
+</div>
+
 <div id="aboutModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="aboutModalTitle" aria-hidden="true">
 	<div class="modal-header">
 		<span class="x-button" data-dismiss="modal">&#10006;</span>
@@ -96,29 +139,35 @@
 				</p>
 			</div>
 			<div class="span4 bio">
+				<img src="{{ url_for('static', filename='imgs/bio-glenn.jpg') }}">
+				<div class="name">Glenn Fellman</div>
+				<p>
+					Glenn is an undergrad studying computer science and radio/television/film at Northwestern University. In addition to coding, Glenn has interests in filmmaking, comedy, and cooking.
+				</p>
+			</div>			
+		</div>
+		<div class="row-fluid">
+			<div class="span4 bio">
 				<img src="{{ url_for('static', filename='imgs/bio-scott.jpg') }}">
 				<div class="name">Scott Neaves</div>
 				<p>
 					Scott is a Northwestern University student in computer science, class of 2014. Interests include web development, live music, and drawing.
 				</p>
 			</div>
-		</div>
-		<div class="row-fluid">
-			<div class="span6 bio">				
+			<div class="span4 bio">				
 				<img src="{{ url_for('static', filename='imgs/bio-ryan.png') }}">
 				<div class="name">Ryan Rennaker</div>
 				<p>
 					Ryan is a second year Kellogg MBA candidate focusing in Finance and Marketing.  Prior to Kellogg, Ryan worked at Google in San Francisco. His interests include rugby.
 				</p>
 			</div>
-			<div class="span6 bio">
+			<div class="span4 bio">
 				<img src="{{ url_for('static', filename='imgs/bio-sam.jpg') }}">
 				<div class="name">Sam Toizer</div>
 				<p>
 					Sam is an undergrad computer science student at Northwestern University, class of 2014, with a strong passion for UI/UX design. In his free time he enjoys playing/writing music and reading.
 				</p>
-			</div>
-			
+			</div>									
 		</div>
 		
 	</div>

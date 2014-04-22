@@ -12,7 +12,7 @@ body {
 
 /* Sidebar */
 
-.sidebar {
+.sidebar {	
 	padding-top: 10px;
 	width: 228px;
 }
@@ -35,7 +35,12 @@ body {
   	}
 }
 
+.sidebar label {
+	font-size: 20px;
+}
+
 .sidebar input {
+	height: 30px;
 	width: 100%;
 }
 
@@ -119,4 +124,18 @@ footer a:hover {
 
 .bio p {
 	font-size: 15px;
+}
+
+/* Feedback */
+
+a#barometer_tab {
+	top: 75%;
+}
+
+.flash {
+	background: #cee5f5;
+	color: #3e7cbb;
+	border: 1px solid #aacbe2;
+	padding: 5px; 
+	width: 90%;
 }

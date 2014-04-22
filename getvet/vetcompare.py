@@ -152,10 +152,31 @@ def longlat_distance(start, destination):
 
     return '%.2f' % d
 
+# Define sender and recipients for email
+sender = "vetcompare@gmail.com"
+recipients = ["glennfellman2014@u.northwestern.edu", "fareeha.ali@gmail.com", "ed.bren@gmail.com", "rennaker@gmail.com", "samtoizer@gmail.com", "scott.neaves.eghs@gmail.com"]
+
 # Routes
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    msg = MIMEMultipart('alternative')
+    session = smtplib.SMTP('smtp.gmail.com', 587)
+    session.ehlo()
+    session.starttls()
+    session.ehlo()
+    session.login('vetcompare@gmail.com', os.environ['GMAIL_PASSWORD'])
+    msg['From'] = sender
+    msg['Subject'] = "VetCompare feedback: " + request.form['subject']
+    msg['To'] = "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;samtoizer@gmail.com;scott.neaves.eghs@gmail.com"
+    body = "From: " + request.form['email'] + "<br><br>" + "What are you thinking: " + request.form['description']
+    content = MIMEText(body, 'html')
+    msg.attach(content)
+    session.sendmail(sender, recipients, msg.as_string())
+    return jsonify({"message": "Thanks!"})
 
 @app.route('/quote_request', methods=['GET','POST'])
 def quote_request():
@@ -179,7 +200,7 @@ def quote_request():
         f = MIMEImage(f.read())
         msg.attach(f)
 
-        session.sendmail("vetcompare@gmail.com", "scott.neaves.eghs@gmail.com", msg.as_string())
+        session.sendmail("vetcompare@gmail.com", recipients, msg.as_string())
 
 
         flash("Thanks! Your quote request has been successfully submitted.")
@@ -220,7 +241,6 @@ def search():
                 'yelp_rating_url': yelp_result['rating_img_url'],
                 'yelp_url': yelp_result['url']
             })
-
     return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 
 
