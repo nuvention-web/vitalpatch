@@ -1,0 +1,79 @@
+{% extends "root.html" %}
+{% block page %}
+
+  <!-- Facebook Javascript SDK -->
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1494870057392781',
+        status     : true,
+        xfbml      : true
+      });
+    };
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/all.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+	<div id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+            
+            <div id="header_text">
+              {% if result==True %}
+        			  <h1>YES</h1>
+              {% else %}
+                <h1>No.</h1>
+              {% endif %}
+        			<h2 class="subtitle">The amount you paid at your vet for {{procedure}} was more than {{percentile}} percent of other vets' pricings for the same procedure. </h2>
+               <a href="https://twitter.com/share" class="twitter-share-button" data-via="scottTneaves">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-type="button"></div>
+
+            </div>
+          
+            <div id="sign_up">
+              <p style="padding-top:20px">Want to find out how much different procedures cost at different vets? Vetcompare.co is a price comparison engine for vets, currently in closed beta. Sign up to be on the waiting list here:</p>
+              <form>
+                <div class="form-horizontal">
+                 <input name="email_addr" type="email" placeholder="Email Address">
+                 <button type="submit" class="btn">Submit</button>
+                </div>
+              </form>
+            </div>
+                      
+				
+        </div>
+
+            <div class class="col-sm-4 col-sm-offset-2">
+            <!--filler div-->
+            </div>
+        				
+	       </div>
+		</div>
+	</div>
+    
+	<div id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-lg-offset-3">
+					<p class="copyright">Copyright © 2014 - VetCompare.co</p>
+			</div>
+		</div>		
+	</div>	
+	</div>
+
+  <script src="../static/jquery-1.10.2.min.js"></script>
+  <script src="../static/bootstrap.min.js"></script>
+  <script src="../static/js.js"></script>
+
+  
+
+{% endblock %}
