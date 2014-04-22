@@ -29,3 +29,7 @@ body {
     padding: 30px;
     background-color: #B8B8E6
 }
+
+.form-control[disabled] {
+    background-color: #ccc;
+}

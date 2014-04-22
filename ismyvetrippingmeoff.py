@@ -3,6 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import os
 import rauth # OAuth for Yelp
 from pygeocoder import Geocoder
+from math import erf, sqrt
 
 app = Flask(__name__)
 
@@ -79,6 +80,10 @@ def get_yelp_results(businessID):
     return data
 
 
+# Calculate cumulative distribution function
+def cdf(x):
+	return (1.0 + erf(x / sqrt(2.0))) / 2.0
+
 # User-Facing Routes
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -130,7 +135,16 @@ def index():
 		else:
 			price = vetprocedure.query.filter_by(procedure = new_procedure).first()
 
-		return render_template('results.html', price=price)
+		# Calculate
+		if float(new_price) < price.suburban_median:
+			std = (price.suburban_median - price.suburban_25th_percentile) / 0.67449
+		else:
+			std = (price.suburban_75th_percentile - price.suburban_median) / 0.67449
+		
+		z_score = (float(new_price) - price.suburban_median) / std
+		percentile = cdf(z_score)*100
+
+		return render_template('results.html', procedure=new_procedure, price=new_price, percentile=percentile)
 
 
 # Routes for AJAX
