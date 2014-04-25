@@ -22,6 +22,8 @@ $('select[name=procedure]').change(function() {
 
 //Ajax function to populate the vet clinic dropdown based on zip code field.
 $('#zipcode').keyup(function() {
+    $("#zip_error").remove();
+    console.log("fade out");
     if($('#zipcode').val().length>=5){
       $.getJSON($SCRIPT_ROOT + '/_get_clinics_in_zipcode', {
         zipcode: $('#zipcode').val(),
@@ -33,10 +35,12 @@ $('#zipcode').keyup(function() {
 
         //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask:
         if(data['error']!=undefined){
-            $("#zip_error").css("visibility","visible");
+            $("#zip_error").remove();
+            $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>");
+            console.log("fade in");
+            $("#vetname_drpdwn").attr("disabled", "true");
         }
         else{
-            $("#zip_error").css("visibility","hidden");
             for (i=0; i<data['businesses'].length; i++){
                 $("#vetname_drpdwn")
                     .append($("<option></option>")
