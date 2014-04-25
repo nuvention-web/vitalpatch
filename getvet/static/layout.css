@@ -39,7 +39,7 @@ body {
 	font-size: 20px;
 }
 
-.sidebar input {
+.sidebar input, .sidebar select {
 	height: 30px;
 	width: 100%;
 }

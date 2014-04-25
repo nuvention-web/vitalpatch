@@ -25,7 +25,32 @@
                     <div class="control-group">
                         <label class="control-label" for="procedure">Procedure</label>
                         <div class="controls">
-                          <input type="text" id="procedure" name="procedure" placeholder="Procedure" value="{{ procedure }}">
+                        	<select id="procedure" name="procedure" placeholder="Procedure" selected="{{ procedure }}">
+                        		<option>-- Select Procedure --</option>
+                        		<optgroup label="Examination">
+	                        		<option value="Annual Wellness Check">Annual Wellness Check</option>
+	                        	</optgroup>
+	                        	<optgroup label="Surgery">
+	                        		<option value="Neuter">Neuter</option>
+	                        		<option value="Spay">Spay</option>
+	                        	</optgroup>
+	                        	<optgroup label="Vaccine">
+									<option value="Bordetella">Bordetella</option>
+									<option value="Dhlpp">DHLPP</option>
+	                        		<option value="Leptospirosis">Leptospirosis</option>
+	                        		<option value="Lime Disease">Lime Disease</option>
+	                        		<option value="Rabies (1 year)">Rabies (1 year)</option>
+	                        		<option value="Rabies (3 years)">Rabies (3 years)</option>
+	                        	</optgroup>
+	                        	<optgroup label="Lab">
+	                        		<option value="Fecal Exam">Fecal Exam</option>
+	                        		<option value="Heart Worm Testing">Heart Worm Testing</option>
+	                        	</optgroup>	                        	
+	                        	<optgroup label="Certificate">
+	                        		<option value="Domestic Health Certificate">Domestic Health Certificate</option>
+	                        		<option value="International Health Certificate">International Health Certificate</option>
+	                        	</optgroup>
+	                        </select>
                         </div>
                     </div>
                     <div class="control-group" id="weight-control-group"
@@ -35,13 +60,13 @@
 					/>
                         <label class="control-label" for="weight">Weight</label>
                         <div class="controls">
-                            <input type="text" id="weight" name="weight" placeholder="Weight" value="{{ weight }}">
+                            <input type="text" id="weight" name="weight" placeholder="Weight" value="{{ weight }}" autocomplete="off">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="zip">Zip</label>
                         <div class="controls">
-                            <input type="text" id="zip" name="zip" placeholder="Zip" value="{{ zip }}">
+                            <input type="text" id="zip" name="zip" placeholder="Zip" value="{{ zip }}" autocomplete="off">
                         </div>
                     </div>
                     <button type="submit" class="btn">Search</button>
@@ -207,7 +232,12 @@
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-49787418-1', 'vetcompare.co');
+  ga('require', 'displayfeatures');
   ga('send', 'pageview');
+</script>
+<!-- Tell javascript which value to select initiall -->
+<script>
+	initialSelection("{{ procedure|safe }}");
 </script>
 
 
