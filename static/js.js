@@ -54,6 +54,25 @@ $('#zipcode').keyup(function() {
     }
 });
 
+$('document').ready(function(){
+    $('#emailSubmitButton').click(function(){
+        $.getJSON($SCRIPT_ROOT + '/_submit_email', {
+        email: $('#email_address_input').val(),
+        }, function(data) {
+            $('#email_address_input').val('');
+            $("#signup_confirmation").remove();
+            $("#email_group").append("<p id='signup_confirmation' style='color:green;'>Thanks for signing up! We'll be in touch :)</p> ");
+        });
+        return false;
+    })
+    $('#email_address_input').keypress(function(e){
+        if(e.which == 13){  //Enter key pressed
+            $('#emailSubmitButton').click();    //Trigger search button click event
+        }
+    });
+
+});
+
 // Guage
 function gauge(percentileData) {
     // Load the Visualization API and the piechart package.

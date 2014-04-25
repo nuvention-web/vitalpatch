@@ -62,7 +62,17 @@ class input_prices(db.Model):
 		self.clinic_name = clinic_name
 		self.clinic_yelp_id = clinic_yelp_id
 		self.data_integrity = data_integrity
-      
+
+class waitlist(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	email_address = db.Column(db.String(100))
+
+	def __init__(self, email_address):
+		self.email_address=email_address
+
+	def __repr__(self):
+		return '<Email Address: %r>' % self.email_address
+
 db.create_all()
 
 # Remember the data between interstitial and results page
@@ -206,7 +216,14 @@ def get_clinics_in_zipcode():
 	session.close()
 	return clinics_in_radius
 
-	
+@app.route('/_submit_email')
+def submit_email():
+	email_address = request.args.get('email', 0, type=str)
+	new_customer = waitlist(email_address)
+	db.session.add(new_customer)
+	db.session.commit()
+	return jsonify(email_address=email_address)
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0')
