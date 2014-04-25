@@ -162,8 +162,12 @@ def get_clinics_in_zipcode():
 
 	params = {}
 	params["term"] = "veterinarian"
-	params["radius_filter"] = "40233"
+	params["radius_filter"] = "16093" #10 miles
 	params["ll"] = str(latlng.latitude) + ',' + str(latlng.longitude)
+	params["limit"] = "20"
+	params["category_filter"] = "vet"
+	#print str(latlng.latitude) + ',' + str(latlng.longitude)
+	params["sort"] = "1"
 
 	data = session.get('http://api.yelp.com/v2/search/', params=params) #returns response object, which we now name "data"
 	clinics_in_radius = data.json() #extracts json content from response object
