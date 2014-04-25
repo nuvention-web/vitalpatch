@@ -10,7 +10,6 @@ body {
     top: 20px;
 }
 
-
 @import 'bootstrap.less';
 #header_text {
     border-radius: 20px;
@@ -30,6 +29,14 @@ body {
     background-color: #B8B8E6
 }
 
+#weight {
+    display: none;
+}
+
 .form-control[disabled] {
     background-color: #ccc;
+}
+
+.fb-share-button {
+    vertical-align: top;
 }

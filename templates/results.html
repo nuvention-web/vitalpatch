@@ -18,66 +18,76 @@
        js.src = "//connect.facebook.net/en_US/all.js";
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
-  </script>
-
+  </script>  
 
 	<div id="header">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">
             
-            <div id="header_text">          
-              {% if percentile <= 20 %}
-              <h1>Congratulations!</h1>
-              <h3>You were charged one of the lowest possible prices for this procedure. Only <strong>{{'%0.2f'| format(percentile|float)}}%</strong> of vets nationwide offer a lower price. Tell your friends what a great deal your vet is below.</h3>
-              
-              {% elif percentile <= 40 %}
-              <h1>Good news!</h1>
-              <h3>You were charged a below-average price for this procedure. Only <strong>{{'%0.2f'| format(percentile|float)}}%</strong> of vets nationwide offer a lower price. Tell your friends how affordable your vet is below.</h3>
+          <div id="header_text">          
+            {% if percentile <= 20 %}
+            <h1>Congratulations!</h1>
+            <h3>You were charged one of the lowest possible prices.</h3>
+            <h4> 
+              <strong>
+                {% if percentile|int < 1 %}
+                  Less than 1%
+                {% else %}
+                  Only {{ percentile|int }}%
+                {% endif %}              
+              </strong> of vets nationwide offer a lower price.</h4>
+            <h4>Tell your friends what a great deal your vet is below.</h4>
+            
+            {% elif percentile <= 40 %}
+            <h1>Good news!</h1>
+            <h3>You were charged a below-average price for this procedure.</h3>
+            <h4>Only <strong>{{ percentile|int }}%</strong> of vets nationwide offer a lower price.</h4>
+            <h4>Tell your friends how affordable your vet is below.</h4>
 
-              {% elif percentile <= 60 %}
-              <h1>Good news!</h1>
-              <h3>You were charged an average price for this procedure. You might be able to shop around for a lower price since <strong>{{'%0.2f'| format(percentile|float)}}%</strong> of vets nationwide charge less for this procedure than does your vet. Share your results with your friends below.</h3>
+            {% elif percentile <= 60 %}
+            <h1>Good news!</h1>
+            <h3>You were charged an average price for this procedure.</h3>
+            <h4>You might be able to shop around for a lower price since <strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
+            <h4>Share your results with your friends below.</h4>
 
-              {% elif percentile <= 80 %}
-              <h1>Watch out!</h1>
-              <h3>You were charged an above-average price for this procedure. It's likely that you would be able to find a more affordable vet since <strong>{{'%0.2f'| format(percentile|float)}}%</strong> of vets nationwide charge less for this procedure than does your vet. Share your results with your friends below.</h3>
+            {% elif percentile <= 80 %}
+            <h1>Watch out!</h1>
+            <h3>You were charged an above-average price for this procedure.</h3>
+            <h4>It's likely that you would be able to find a more affordable vet since <strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
+            <h4>Share your results with your friends below.</h4>
 
-              {% else %}
-              <h1>You got ripped off!</h1>
-              <h3>You were charged one of the highest possible prices for this procedure. A full <strong>{{'%0.2f'| format(percentile|float)}}%</strong> of vets in nationwide offer a lower price, so it's likely you'd be able to find a more affordable vet in your area. Share with your friends so they don't get ripped off too!</h3>
+            {% else %}
+            <h1>You got ripped off!</h1>
+            <h3>You were charged one of the highest possible prices for this procedure.</h3>
+            <h4>A full <strong>{{ percentile|int }}%</strong> of vets nationwide offer a lower price, so it's likely you'd be able to find a more affordable vet in your area.</h4>
+            <h4>Share with your friends so they don't get ripped off too!</h4>
 
-              {% endif %}
+            {% endif %}
 
-              <ul>
-                <li>Procedure: {{ procedure }}</li>
-                <li>Price charged: ${{ price }}</li>
-              </ul>
-
-               <a href="https://twitter.com/share" class="twitter-share-button" data-via="scottTneaves">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            
             <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-type="button"></div>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="scottTneaves">Tweet</a>
 
-            </div>
-          
-            <div id="sign_up">
-              <p style="padding-top:20px">Want to find out how much different procedures cost at different vets? Vetcompare.co is a price comparison engine for vets, currently in closed beta. Sign up to be on the waiting list here:</p>
-              <form>
-                <div class="form-horizontal">
-                 <input name="email_addr" type="email" placeholder="Email Address">
-                 <button type="submit" class="btn">Submit</button>
-                </div>
-              </form>
-            </div>
-                      
-				
+            <span id="gauge"></span>                       
+          </div>
+        
+          <div id="sign_up">
+            <p style="padding-top:20px">Want to find out how much different procedures cost at different vets? Vetcompare.co is a price comparison engine for vets, currently in closed beta. Sign up to be on the waiting list here:</p>
+            <form>
+              <div class="form-horizontal">
+               <input name="email_addr" type="email" placeholder="Email Address">
+               <button type="submit" class="btn">Submit</button>
+              </div>
+            </form>
+          </div>                      				
         </div>
 
-            <div class class="col-sm-4 col-sm-offset-2">
-            <!--filler div-->
-            </div>
+        <div class class="col-sm-4 col-sm-offset-2">
+        <!--filler div-->
+        </div>
         				
-	       </div>
+     </div>
 		</div>
 	</div>
     
@@ -91,10 +101,19 @@
 	</div>	
 	</div>
 
-  <script src="../static/jquery-1.10.2.min.js"></script>
-  <script src="../static/bootstrap.min.js"></script>
-  <script src="../static/js.js"></script>
+  <!-- Twitter -->
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+  </script>
 
-  
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script> <!-- Google Charts API -->  
+
+  <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js.js') }}"></script>
+
+  <!-- Start loading and drawing Google gauge -->
+  <script type="text/javascript">
+    gauge({{ percentileData|safe }});
+  </script>
 
 {% endblock %}
