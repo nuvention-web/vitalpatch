@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
 import rauth # OAuth for Yelp
+from pygeocoder import Geocoder
 
 app = Flask(__name__)
 
@@ -69,7 +70,7 @@ def get_yelp_results(businessID):
         access_token = yelp_token, 
         access_token_secret = yelp_token_secret)
 
-    request = session.get('http://api.yelp.com/v2/business/' + businessID)
+    request = session.get('http://api.yelp.com/v2/search/' + businessID)
 
     # Transform JSON API response into Python dictionary
     data = request.json()
@@ -77,7 +78,8 @@ def get_yelp_results(businessID):
 
     return data
 
-# Routes
+
+# User-Facing Routes
 @app.route('/', methods=['GET','POST'])
 def index():
 	if request.method == "GET":
@@ -101,7 +103,7 @@ def index():
 		new_procedure = request.form['procedure']
 		new_zip = request.form['zip code']
 		new_clinic_name = request.form['vet_name']
-		new_clinic_yelp_id = None
+		new_clinic_yelp_id = request.form['vet_id']
 		newVetData=input_prices(new_animal_type,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id,new_weight)
 		#newVetData=input_prices(new_animal_type,new_weight,new_procedure,new_price,new_zip,new_clinic_name,new_clinic_yelp_id)
 		db.session.add(newVetData)
@@ -129,6 +131,32 @@ def index():
 			price = vetprocedure.query.filter_by(procedure = new_procedure).first()
 
 		return render_template('results.html', price=price)
+
+
+# Routes for AJAX
+@app.route('/_get_clinics_in_zipcode', methods=['GET'])
+def get_clinics_in_zipcode():
+	zipcode = request.args.get('zipcode', 0, type=int)
+	latlng = Geocoder.geocode(zipcode)
+
+	# Session setup
+	session = rauth.OAuth1Session(
+		consumer_key=yelp_consumer_key,
+		consumer_secret=yelp_consumer_secret,
+		access_token=yelp_token,
+		access_token_secret=yelp_token_secret)
+
+	params = {}
+	params["term"] = "veterinarian"
+	params["radius_filter"] = "40233"
+	params["ll"] = str(latlng.latitude) + ',' + str(latlng.longitude)
+
+	data = session.get('http://api.yelp.com/v2/search/', params=params) #returns response object, which we now name "data"
+	clinics_in_radius = data.json() #extracts json content from response object
+	clinics_in_radius = jsonify(data.json())	#package up json content 
+	session.close()
+	return clinics_in_radius
+
 	
 
 if __name__ == '__main__':

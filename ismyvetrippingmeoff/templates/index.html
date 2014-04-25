@@ -1,33 +1,6 @@
-<!DOCTYPE html>
-<!-- saved from url=(0040)http://bootstraptaste.com/theme/siimple/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="shortcut icon" href="http://bootstraptaste.com/theme/siimple/assets/img/favicon.png">
+{% extends "root.html" %}
+{% block page %}
 
-<title>IsMyVetRippingMeOff</title>
-
-<!-- Bootstrap -->
-<link href="{{url_for('static', filename='bootstrap.css')}}" rel="stylesheet">
-<link href="{{url_for('static', filename='bootstrap-theme.css')}}" rel="stylesheet">
-
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-<![endif]-->
-
-<!--edits to siimple style -->
-<link href="{{url_for('static', filename='layout.css')}}" rel="stylesheet">
-</head>
-
-<body>
 <div class="container">
 	<div class="row">
 		<div  class="col-sm-6 well">
@@ -57,7 +30,7 @@
             <div class="radio-inline">
                 <label>
                   <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" checked>
-                    < 25
+                    less than 25
                 </label>
             </div>
             <div class="radio-inline">
@@ -75,7 +48,7 @@
             <div class="radio-inline">
                 <label>
                   <input type="radio" name="optionsRadios" id="optionsRadios2" value="3">
-                    75+
+                    75 and up
                 </label>
             </div>
         </div>
@@ -98,9 +71,12 @@
         <br>
         <input name="cost" type="text" class="form-control" placeholder="Cost">
         <br>
-        <input name="zip code" type="text" class="form-control" placeholder="Zip Code">
+        <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code">
+        <p id="zip_error" type="text" style="color:red;visibility:hidden;">Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>
         <br>
-        <input name="vet_name" type="text" class="form-control" placeholder="Name of veterinary clinic or animal hospital">
+        <select id="vetname_drpdwn" name="vet_id" class="form-control" placeholder="Name of veterinary clinic or animal hospital">
+        </select>
+        <input type="hidden" id="vet_name" name="vet_name">
         <br>
         <br>
               
@@ -124,10 +100,6 @@
 </div>	
 </div>
 
-<script src="{{url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
-<script src="{{url_for('static', filename='bootstrap.min.js' )}}"></script>
-<script src="{{url_for('static', filename='js.js' )}}"></script>
 
-</body>
 
-</html>
+{% endblock %}
