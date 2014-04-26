@@ -1,42 +1,15 @@
-function animWeight(val) {
-	if ($("#weight-control-group").css("display") == "none") {
-		if (val.toLowerCase() == "spay" || val.toLowerCase() == "neuter") {  // If not visible and we need weight
-			$("#weight-control-group").fadeIn();
-		}
-	}
-	else {
-		if (val.toLowerCase() != "spay" && val.toLowerCase() != "neuter") {  // If visible and we don't need weight
-			$("#weight-control-group").fadeOut();
-		}
-	}
-}
+// Only show weight group when a surgery is selected
+$('#procedure').change(function() {
+	var $procedureSelect = $('select[name=procedure] option:selected'); 
 
-var procedures = [
-	"Domestic Health Certificate",
-	"International Health Certificate",
-	"Annual Wellness Check",
-	"Rabies (1 year)",
-	"Rabies (3 years)",
-	"Lyme Disease",
-	"Bordetella",
-	"Heartworm Testing",
-	"DHLPP",
-	"Leptospirosis",
-	"Fecal Exam",
-	"Spay",
-	"Neuter"
-];
-$( "#procedure" ).autocomplete({
-	source: procedures,
-	select: function(event, ui) {
-		animWeight(ui.item.label);
+	if ($procedureSelect.parent().attr('label') == 'Surgery') {
+		$("#weight-control-group").fadeIn();
+	}
+
+	else {
+		$("#weight-control-group").fadeOut();
 	}
 });
-
-// Animate weight field
-$("#procedure").keyup(function() {
-	animWeight($(this).val());
-}); 
 
 // Make sure all form fields are filled
 $("form").submit(function(e) {
@@ -59,6 +32,11 @@ $("form").submit(function(e) {
 		}
 	}
 });
+
+// Automatically choose the procedure option based on previous selection
+function initialSelection(value) {
+	$('#procedure').val(value);
+}
 
 // Send feedback form email
 $("#barometer_tab").removeAttr('onclick').attr({
