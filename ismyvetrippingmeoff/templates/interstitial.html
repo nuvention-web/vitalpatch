@@ -1,0 +1,42 @@
+{% extends "root.html" %}
+{% block page %}
+
+<div class="container">
+	<div class="row">
+		<div  class="col-sm-6 well">
+			<form role="form" method="post" action="{{ url_for('index') }}">
+			    <label>The price I just entered is:</label>
+				<div class="radio">
+	                <label>
+	                    <input type="radio" name="integrity" value="0">
+                        From an actual bill
+	                </label>
+                </div>                      
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="integrity" value="1">
+                        From a quote
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="integrity" value="2">
+                        A rough estimate
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="integrity" value="3">
+                        A wild guess
+                    </label>
+                </div>
+
+                <br>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
