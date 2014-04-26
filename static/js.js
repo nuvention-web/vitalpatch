@@ -24,7 +24,6 @@ var geocoder;
 //Ajax function to populate the vet clinic dropdown based on zip code field.
 $('#zipcode').keyup(function() {
     $("#zip_error").remove();
-    console.log("fade out");
     if($('#zipcode').val().length>=5){
         //Here I will use google's javascript geocoder API to get the latlng of the given zipcode, and then I will send that to the server via AJAX
         geocoder = new google.maps.Geocoder();
@@ -46,9 +45,10 @@ $('#zipcode').keyup(function() {
 
                     //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask:
                     if(data['error']!=undefined){
+                        //If Yelp returns an error message, tell the user that something went wrong, and the zip code may be invalid
+                        console.log("Yelp API returned an error");
                         $("#zip_error").remove();
                         $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>");
-                        console.log("fade in");
                         $("#vetname_drpdwn").attr("disabled", "true");
                     }
                     else{
@@ -64,7 +64,11 @@ $('#zipcode').keyup(function() {
             return false;
 
           } else { //status of google.maps.GeocoderStatus is not OK
-            alert("Geocode was not successful for the following reason: " + status);
+                //Show bad zip code error message
+                console.log("googlemaps.GeocoderStatus is not OK");
+                $("#zip_error").remove();
+                $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>");
+                $("#vetname_drpdwn").attr("disabled", "true");
           }
         });
     }
