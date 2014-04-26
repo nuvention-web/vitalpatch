@@ -191,8 +191,8 @@ def interstitial():
 # Routes for AJAX
 @app.route('/_get_clinics_in_zipcode', methods=['GET'])
 def get_clinics_in_zipcode():
-	zipcode = request.args.get('zipcode', 0, type=int)
-	latlng = Geocoder.geocode(zipcode)
+	latitude = request.args.get('latitude', 0, type=str)
+	longitude = request.args.get('longitude', 0, type=str)
 
 	# Session setup
 	session = rauth.OAuth1Session(
@@ -204,10 +204,10 @@ def get_clinics_in_zipcode():
 	params = {}
 	params["term"] = "veterinarian"
 	params["radius_filter"] = "16093" #10 miles
-	params["ll"] = str(latlng.latitude) + ',' + str(latlng.longitude)
+	params["ll"] = str(latitude) + ',' + str(longitude)
 	params["limit"] = "20"
 	params["category_filter"] = "vet"
-	#print str(latlng.latitude) + ',' + str(latlng.longitude)
+	print str(latitude) + ',' + str(longitude)
 	params["sort"] = "1"
 
 	data = session.get('http://api.yelp.com/v2/search/', params=params) #returns response object, which we now name "data"
