@@ -4,9 +4,11 @@ function weightFadeIn() {
     var $procedureSelect = $('select[name=procedure] option:selected'); 
 
     if ($animalRadio.val() == 'dog' && $procedureSelect.parent().attr('label') == 'Surgery') {
+        $('#weight input').prop('required', true);  // Make it required when visible
         $('#weight').fadeIn();
     }
     else {
+        $('#weight input').prop('required', false); // Remove requirement when invisible
         $('#weight').fadeOut();
     }
 }
@@ -23,7 +25,6 @@ $('select[name=procedure]').change(function() {
 var geocoder;
 //Ajax function to populate the vet clinic dropdown based on zip code field.
 $('#zipcode').keyup(function() {
-    $("#zip_error").remove();
     if($('#zipcode').val().length>=5){
         //Here I will use google's javascript geocoder API to get the latlng of the given zipcode, and then I will send that to the server via AJAX
         geocoder = new google.maps.Geocoder();
@@ -42,16 +43,16 @@ $('#zipcode').keyup(function() {
                     $('#vetname_drpdwn')
                         .find('option')
                         .remove();
+                    $('#vetname_drpdwn').append("<option value=\"\">-- Select Clinic / Animal Hospital --</option>");
 
                     //for each business in the yelp json response, passed here from "get_clinics_in_zipcode" function in flask:
                     if(data['error']!=undefined){
                         //If Yelp returns an error message, tell the user that something went wrong, and the zip code may be invalid
                         console.log("Yelp API returned an error");
-                        $("#zip_error").remove();
-                        $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>");
-                        $("#vetname_drpdwn").attr("disabled", "true");
+                        showZipError("Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!");
                     }
                     else{
+                        $("#zip_error").remove();
                         for (i=0; i<data['businesses'].length; i++){
                             $("#vetname_drpdwn")
                                 .append($("<option></option>")
@@ -66,13 +67,58 @@ $('#zipcode').keyup(function() {
           } else { //status of google.maps.GeocoderStatus is not OK
                 //Show bad zip code error message
                 console.log("googlemaps.GeocoderStatus is not OK");
-                $("#zip_error").remove();
-                $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!</p>");
-                $("#vetname_drpdwn").attr("disabled", "true");
+                showZipError("Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!");                
           }
         });
     }
+
+    // Zip code not equal to 5 characters
+    else {
+        showZipError("Zip codes need to be five characters!");
+    }
 });
+
+// Show the error message for zip code if it's not showing or if it's different text
+function showZipError(error) {
+    if (!$("#zip_error").length || $("#zip_error").text() != error) {
+        $("#zip_error").remove();
+        $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>" + error + "</p>");
+        $('#vetname_drpdwn')
+                .find('option')
+                .remove();
+        $('#vetname_drpdwn').append("<option value=''>-- Select Clinic / Animal Hospital --</option>");
+        $("#vetname_drpdwn").attr("disabled", "true");
+    }
+}
+
+// Make sure all fields are filled out
+$('form').submit(function() {
+    // If required attribute is not supported or browser is Safari (Safari thinks that it has this attribute, but it does not work), then check all fields that has required attribute
+    if (!attributeSupported('required')) {
+        $('form [required]').each(function(index) {
+            // If at least one required value is empty, then ask to fill all required fields.
+            if (!$(this).val()) {     
+                alert("Please fill all required fields.");
+                return false;
+            }
+       });
+    }
+
+    // Also check all select fields
+    $('select').each(function(index) {
+        if ($(this).val() == "" || $(this).prop('disabled')) {
+            alert("Please fill all required fields.");
+            return false;
+        }
+    });
+    
+    return true;
+});
+
+//This checks if a specific attribute is supported (we're using the required attribute)
+function attributeSupported(attribute) {
+    return (attribute in document.createElement("input"));
+}
 
 $('document').ready(function(){
     $('#emailSubmitButton').click(function(){
@@ -94,7 +140,7 @@ $('document').ready(function(){
 });
 
 // Guage
-function gauge(percentileData) {
+function gauge(percentile) {
     // Load the Visualization API and the piechart package.
     google.load('visualization', '1.0', {'packages':['gauge']});
 
@@ -109,14 +155,10 @@ function gauge(percentileData) {
             ['You', 0]
         ]);
 
-        var sum = percentileData['25thPercentile'] + percentileData['median'] + percentileData['75thPercentile'];
-        var borderOne = percentileData['25thPercentile'] / sum * 100;
-        var borderTwo = borderOne + percentileData['median'] / sum * 100;
-
         var options = {
-            greenFrom: 0, greenTo: borderOne,
-            yellowFrom: borderOne, yellowTo: borderTwo,
-            redFrom: borderTwo, redTo: 100,
+            greenFrom: 0, greenTo: 33,
+            yellowFrom: 33, yellowTo: 67,
+            redFrom: 67, redTo: 100,
             minorTicks: 5,
             animation:{
                 duration: 1000,
@@ -131,7 +173,7 @@ function gauge(percentileData) {
         // Populate data with real value, redraw gauge.
         data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
-            ['You', percentileData['userPercentile']]
+            ['You', parseInt(percentile)]
         ]);
         gauge.draw(data, options);   
     }

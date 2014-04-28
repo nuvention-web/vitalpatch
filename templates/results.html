@@ -46,7 +46,7 @@
             <h4>Tell your friends how affordable your vet is below.</h4>
 
             {% elif percentile <= 60 %}
-            <h1>Good news!</h1>
+            <h1>Nothing Unusual</h1>
             <h3>You were charged an average price for this procedure.</h3>
             <h4>You might be able to shop around for a lower price since <strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
             <h4>Share your results with your friends below.</h4>
@@ -114,7 +114,7 @@
 
   <!-- Start loading and drawing Google gauge -->
   <script type="text/javascript">
-    gauge({{ percentileData|safe }});
+    gauge({{ percentile|safe }});
   </script>
 
 {% endblock %}

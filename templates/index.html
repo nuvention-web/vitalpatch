@@ -11,19 +11,19 @@
       		<form role="form" method="post" action="{{ url_for('interstitial') }}">                                        
                 <div class="radio-inline">
                     <label>
-                        <input type="radio" name="cat_dog" value="dog" checked>
+                        <input type="radio" name="cat_dog" value="dog" checked required>
                         Dog
                     </label>
                 </div>                          
                 <div class="radio-inline">
                     <label>
-                        <input type="radio" name="cat_dog" value="cat">
+                        <input type="radio" name="cat_dog" value="cat" required>
                         Cat
                     </label>
                 </div>
 
                 <select class="form-control" name="procedure">
-                  <option>-- Select Procedure -- </option>
+                  <option value="">-- Select Procedure -- </option>
 
                   {% for topic in topicProcedureDict %}
                   <optgroup label="{{ topic }}">
@@ -68,17 +68,17 @@
                     </div>
                 </div>
                 
-                <input name="cost" type="text" class="form-control" placeholder="Cost">
+                <input name="cost" type="text" class="form-control" placeholder="Cost" required autocomplete="off">
 
                 <br>
 
                 <div id="zip_group" class="form-group">
-                    <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code (for your vet)">
+                    <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code (for your vet)" required autocomplete="off">
                     <br>
                 </div>
 
                 <select id="vetname_drpdwn" name="vet_id" class="form-control" disabled>
-                    <option value="" disabled selected>-- Select Clinic / Animal Hospital --</option>
+                    <option value="" selected>-- Select Clinic / Animal Hospital --</option>
                 </select>
                 <input type="hidden" id="vet_name" name="vet_name">
 

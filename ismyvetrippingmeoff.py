@@ -153,15 +153,7 @@ def index():
 		z_score = (float(newVetData.price) - price.suburban_median) / std
 		percentile = cdf(z_score)*100
 
-		percentileData = {
-			'25thPercentile': price.suburban_25th_percentile,
-			'median'        : price.suburban_median,
-			'75thPercentile': price.suburban_75th_percentile,
-			'userPercentile': int(percentile),
-			'procedure'     : newVetData.procedure
-		}
-
-		return render_template('results.html', procedure = newVetData.procedure, price = newVetData.price, percentile = percentile, percentileData = json.dumps(percentileData))
+		return render_template('results.html', procedure = newVetData.procedure, price = newVetData.price, percentile = percentile)
 
 @app.route('/interstitial', methods=['POST'])
 def interstitial():	
