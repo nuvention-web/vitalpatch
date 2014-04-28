@@ -92,22 +92,34 @@ function showZipError(error) {
 }
 
 // Make sure all fields are filled out
-$('form').submit(function() {
+$('form').submit(function(e) {    
     // If required attribute is not supported or browser is Safari (Safari thinks that it has this attribute, but it does not work), then check all fields that has required attribute
-    if (!attributeSupported('required')) {
+    if (!attributeSupported('input', 'required') || isSafari()) {        
         $('form [required]').each(function(index) {
-            // If at least one required value is empty, then ask to fill all required fields.
-            if (!$(this).val()) {     
-                alert("Please fill all required fields.");
+
+            // Make sure a radio button is checked
+            if ($(this).is(':radio')) {
+                var name = $(this).attr('name');
+                if (!$('input[name=' + name + ']:checked').length) {
+                    alert("Please fill in all fields.");
+                    e.preventDefault();
+                    return false;
+                }
+            }
+            // Other input types
+            else if (!$(this).val()) {
+                alert("Please fill in all fields.");
+                e.preventDefault();
                 return false;
             }
        });
     }
 
-    // Also check all select fields
+    // Also check all select fields, regardless of browser
     $('select').each(function(index) {
         if ($(this).val() == "" || $(this).prop('disabled')) {
-            alert("Please fill all required fields.");
+            alert("Please fill in all fields.");
+            e.preventDefault();
             return false;
         }
     });
@@ -115,9 +127,14 @@ $('form').submit(function() {
     return true;
 });
 
-//This checks if a specific attribute is supported (we're using the required attribute)
-function attributeSupported(attribute) {
-    return (attribute in document.createElement("input"));
+// This checks if a specific attribute is supported (we're using the required attribute)
+function attributeSupported(element, attribute) {
+    return (attribute in document.createElement(element));
+}
+
+// Detect Safari (note: browser detection is bad, but detecting required attribute doesn't work for Safari)
+function isSafari() {
+    return (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
 }
 
 $('document').ready(function(){
