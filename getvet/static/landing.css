@@ -9,6 +9,15 @@
 	text-align: center;	
 }
 
+.explain a {
+    color: #46AADB;
+}
+
+.explain a:hover {
+    /*color: #0088cc;*/
+    color: #46AADB;
+}
+
 @media (max-width: 768px) {
     .explain {
         padding-top: 0px;
