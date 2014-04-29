@@ -71,7 +71,6 @@ $("#show_other").click(function(){
 });
 
 $("#submit").click(function(){
-    alert("onclick fired");
     if(!other_switch){
         var vetname = $('#vetname_drpdwn').find(":selected").text();
         console.log(vetname);
