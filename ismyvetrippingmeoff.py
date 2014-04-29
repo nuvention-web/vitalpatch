@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 import os
 import rauth # OAuth for Yelp
 from pygeocoder import Geocoder
@@ -78,6 +79,22 @@ db.create_all()
 # Remember the data between interstitial and results page
 newVetData = None
 
+# Grab all topics/procedures for select field for given animal
+def getProcedures(animal):	
+	topicProcedureDict = {}
+	queryResults = vetprocedure.query \
+		.distinct(vetprocedure.procedure) \
+		.order_by(vetprocedure.procedure) \
+		.filter(or_(vetprocedure.animal == animal, vetprocedure.animal == 'All'))	
+	for result in queryResults:
+		if result.topic in topicProcedureDict:			
+			tempList = topicProcedureDict[result.topic]
+			tempList.append(result.procedure)
+			topicProcedureDict[result.topic] = tempList
+		else:
+			topicProcedureDict[result.topic] = [result.procedure]
+	return topicProcedureDict
+
 # Yelp
 def get_yelp_results(businessID):
     # Session setup
@@ -95,28 +112,50 @@ def get_yelp_results(businessID):
 
     return data
 
-
 # Calculate cumulative distribution function
 def cdf(x):
 	return (1.0 + erf(x / sqrt(2.0))) / 2.0
 
 # User-Facing Routes
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET'])
 def index():	
-	if request.method == "GET":
-		# Grab all topics/procedures for select field
-		topicProcedureDict = {}
-		queryResults = vetprocedure.query.distinct(vetprocedure.procedure).order_by(vetprocedure.procedure)
-		for result in queryResults:
-			if result.topic in topicProcedureDict:			
-				tempList = topicProcedureDict[result.topic]
-				tempList.append(result.procedure)
-				topicProcedureDict[result.topic] = tempList
-			else:
-				topicProcedureDict[result.topic] = [result.procedure]
+	topicProcedureDict = getProcedures('Dog') # Assumes dog as initially selected animal
+	return render_template('index.html', topicProcedureDict=topicProcedureDict)
+		
 
-		return render_template('index.html', topicProcedureDict=topicProcedureDict)
-	else:		
+@app.route('/interstitial', methods=['GET', 'POST'])
+def interstitial():	
+	if request.method == "GET":
+		return redirect(url_for('index'))
+	else:
+		# Store their price (shhhhh)
+		global newVetData
+
+		new_animal_type = request.form['cat_dog']
+		new_price = request.form['cost']
+		new_weight = request.form.get('weight')
+		new_procedure = request.form['procedure']
+		new_zip = request.form['zip code']
+		new_clinic_name = request.form['vet_name']
+		new_clinic_yelp_id = request.form['vet_id']
+		newVetData = input_prices(
+			new_animal_type,
+			new_procedure,
+			new_price,
+			new_zip,
+			new_clinic_name,
+			new_clinic_yelp_id,
+			new_weight
+		)
+		db.session.add(newVetData)
+		db.session.commit()
+		return render_template('interstitial.html')
+
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+	if request.method == "GET":
+		return redirect(url_for('index'))
+	else:
 		# Delete their previous price, add the data integrity, re-store it
 		db.session.delete(newVetData)
 		newVetData.data_integrity = request.form['integrity']
@@ -153,42 +192,13 @@ def index():
 		z_score = (float(newVetData.price) - price.suburban_median) / std
 		percentile = cdf(z_score)*100
 
-		percentileData = {
-			'25thPercentile': price.suburban_25th_percentile,
-			'median'        : price.suburban_median,
-			'75thPercentile': price.suburban_75th_percentile,
-			'userPercentile': int(percentile),
-			'procedure'     : newVetData.procedure
-		}
-
-		return render_template('results.html', procedure = newVetData.procedure, price = newVetData.price, percentile = percentile, percentileData = json.dumps(percentileData))
-
-@app.route('/interstitial', methods=['POST'])
-def interstitial():	
-	# Store their price (shhhhh)
-	global newVetData
-
-	new_animal_type = request.form['cat_dog']
-	new_price = request.form['cost']
-	new_weight = request.form.get('weight')
-	new_procedure = request.form['procedure']
-	new_zip = request.form['zip code']
-	new_clinic_name = request.form['vet_name']
-	new_clinic_yelp_id = request.form['vet_id']
-	newVetData = input_prices(
-		new_animal_type,
-		new_procedure,
-		new_price,
-		new_zip,
-		new_clinic_name,
-		new_clinic_yelp_id,
-		new_weight
-	)
-	db.session.add(newVetData)
-	db.session.commit()
-	return render_template('interstitial.html')
+		return render_template('results.html', procedure = newVetData.procedure, price = newVetData.price, percentile = percentile)
 
 # Routes for AJAX
+@app.route('/_update-procedures', methods=['POST'])
+def updateProcedures():
+	return jsonify(getProcedures(request.form['animal'].title()))
+
 @app.route('/_get_clinics_in_zipcode', methods=['GET'])
 def get_clinics_in_zipcode():
 	latitude = request.args.get('latitude', 0, type=str)
