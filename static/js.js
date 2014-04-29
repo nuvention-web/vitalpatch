@@ -13,20 +13,25 @@ function weightFadeIn() {
     }
 }
 
+// Fade out weight and remove required property
+function weightFadeOut() {
+    $('#weight input').prop('required', false); // Remove requirement when invisible
+    $('#weight').fadeOut();
+}
+
+// Send an AJAX call to update the procedures dropdown based on the animal that's chosen
 function updateProcedures() {
     var animal = $('input[name=cat_dog]:checked').val();
     $.post('_update-procedures', {'animal': $('input[name=cat_dog]:checked').val()}, function(data) {
         console.log(data);
-        $('select[name=procedure]').find('option').remove();
-        $('select[name=procedure]').find('optgroup').remove();
-        $('select[name=procedure]').append('<option value="">-- Select Procedure -- </option>');
+        $('select[name=procedure]').find('optgroup').remove(); // Remove all existing optgroups/options
         for (var topic in data) {
-            var $optgroup = $('<optgroup></optgroup>').attr('label', topic);
+            var $optgroup = $('<optgroup></optgroup>').attr('label', topic); // Add optgroup
             $('select[name=procedure]').append($optgroup);    
             console.log(topic);        
             for (var procedure in data[topic]) {                
                 $optgroup
-                    .append($('<option></option>')
+                    .append($('<option></option>') // Add option
                         .attr('value', data[topic][procedure])
                         .text(data[topic][procedure]));
             }
@@ -37,8 +42,8 @@ function updateProcedures() {
 
 // Bind weight and procedure functions to change for animal radio
 $('input[name=cat_dog]').change(function() {
-    weightFadeIn();
     updateProcedures();
+    weightFadeOut(); // Always fade out weight when animal button changes
 });
 
 // Bind weight function to change for procedure select
