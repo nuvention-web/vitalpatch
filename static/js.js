@@ -20,6 +20,34 @@ $('select[name=procedure]').change(function() {
     weightFadeIn();
 });
 
+var vet_drpdwn;
+var other_switch;
+$("#show_other").click(function(){
+    if(other_switch){
+        //Put the vet clinic dropdown into the dom and remove the "other" text input field
+        $("#other_vet").remove();
+        $("#clinicSelect_group").append(vet_drpdwn);
+        $("#hidden_vet_field").attr('name', "vet_name");    //Make the hidden vet field have "vet_name" as the name, because the dropdown has name vet_id
+        $("#hidden_vet_field").val("Null");                 //Set the name to null - it will be rewritten upon submit
+        other_switch=null;
+    }else{
+        vet_drpdwn = $("#vetname_drpdwn").detach();         //Detach the vetname dropdown
+        $("#clinicSelect_group").append("<input type='text' id='other_vet' name='vet_name' class='form-control' placeholder='Please enter the name of your vet here'>");    //Replace it with the free text input
+        $("#hidden_vet_field").attr('name', "vet_id");      //Set the hidden vet field's name to vet_id (which we don't know, because now the user is only inputting the vet's name)
+        $("#hidden_vet_field").val("Null");                 //Set the hidden vet field's value to "Null", because we don't know the vet_id
+        other_switch=1;
+    }
+});
+
+$("#submit").click(function(){
+    alert("onclick fired");
+    if(!other_switch){
+        var vetname = $('#vetname_drpdwn').find(":selected").text();
+        console.log(vetname);
+        $("#hidden_vet_field").val(vetname);
+    }
+});
+
 var geocoder;
 //Ajax function to populate the vet clinic dropdown based on zip code field.
 $('#zipcode').keyup(function() {
@@ -71,6 +99,8 @@ $('#zipcode').keyup(function() {
                 $("#vetname_drpdwn").attr("disabled", "true");
           }
         });
+    //If five digits have been entered, show the link which toggles between the dropdown and free text input for vet name
+    $("#show_other").show();
     }
 });
 
@@ -136,6 +166,7 @@ function gauge(percentileData) {
         gauge.draw(data, options);   
     }
 }
+
 
 //This code does an action when typing stops for "delay" number of milliseconds. Not used.
 /*
