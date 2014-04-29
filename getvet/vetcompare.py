@@ -14,7 +14,7 @@ from pygeocoder import Geocoder
 app = Flask(__name__) 
 app.secret_key="very1secret9secrets90078"
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/getvet'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/getvet'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 db = SQLAlchemy(app)
@@ -31,15 +31,15 @@ google_maps_key = 'AIzaSyA9a1FhUt8S46UrlxOGIOikYWp8uz5v3Zc'
 # Blog Schema
 class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique=True)
-    text = db.Column(db.String(120), unique=True)
+    title = db.Column(db.String(max), unique=True)
+    text = db.Column(db.String(max), unique=True)
 
     def __init__(self, title, text):
         self.title = title
         self.text = text
 
     def __repr__(self):
-        return '<Entrie %r>' % self.title
+        return '<Entry %r>' % self.title
 
 ## Models
 class Clinic(db.Model):
@@ -110,6 +110,7 @@ admin = Admin(app, name='GetVet Admin Console')
 admin.add_view(ClinicView(Clinic, db.session, name='Clinic', endpoint='clinics', category='Data'))
 admin.add_view(ProcedureView(Procedure, db.session, name='Procedure', endpoint='procedures', category='Data'))
 admin.add_view(PriceView(Price, db.session, name='Price', endpoint='prices', category='Data'))
+
 
 # Yelp
 def get_yelp_results(businessID):
@@ -191,15 +192,6 @@ def quote_request():
         msg['From'] = "vetcompare@gmail.com"
         msg['Subject'] = "Someone has filled out the quote request form!"
         msg['To'] = "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;samtoizer@gmail.com;scott.neaves.eghs@gmail.com"
-        # msg['To'] = "scott.neaves.eghs@gmail.com"
-        #headers = ["from: vetcompare@gmail.com",
-        #            "subject: Someone has filled out the quote request form!",
-        #            "to: " + "glennfellman2014@u.northwestern.edu;fareeha.ali@gmail.com;ed.bren@gmail.com;rennaker@gmail.com;sam.toizer@gmail.com;scott.neaves.eghs@gmail.com",
-        #            "mime-version: 1.0",
-        #            "content-type: text/html"]
-        # attachment = MIMEText(request.form['image'])
-        # attachment.add_header('Content-Disposition', 'attachment', filename="image")
-        #headers = "\r\n".join(headers)
         body = "Name: " + request.form['name'] + "<br>" + "Procedure: " + request.form['procedure'] + "<br>" + "Weight: " + request.form['weight'] + "<br>" + "Zip: " + request.form['zip'] + "<br>" + "Breed: " + request.form['breed'] + "<br>" + "Age: " + request.form['age'] + "<br>" + "Sex: " + request.form['sex'] + "<br>" + "Customer's email address: " + request.form['email_addr'] + "<br>" + "Customer's First Name: " + request.form['user_fname'] + "<br>" + "Customer's Last Name: " + request.form['user_lname']
         content = MIMEText(body, 'html')
         msg.attach(content)

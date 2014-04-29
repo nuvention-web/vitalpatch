@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="http://bootstraptaste.com/theme/siimple/assets/img/favicon.png">
+
+    <meta property="og:title" content="Is Your Vet Ripping You Off?"/>
+    <!--<meta property="og:image" content="http://davidwalsh.name/wp-content/themes/klass/img/facebooklogo.png"/>-->
+    <meta property="og:site_name" content="ismyvetrippingmeoff.com"/>
+    <meta property="og:description" content="I just found out whether my overcharges. Does yours? http://www.ismyvetrippingmeoff.com"/>
+   
+
+    <title>IsMyVetRippingMeOff</title>
+
+    <!-- Bootstrap -->
+    <link href="{{url_for('static', filename='bootstrap.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='bootstrap-theme.css')}}" rel="stylesheet">
+
+    <!--edits to siimple style -->
+    <link href="{{url_for('static', filename='layout.css')}}" rel="stylesheet">
+</head>
+
+<body>
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-50397108-1', 'ismyvetrippingmeoff.com');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+    </script>
+
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDio1XUuaVuCHoEpsZP0TN6rfjSzcBFS9M&sensor=false">
+    </script>
+
+    {% block page %}
+    {% endblock %}
+
+    <script src="{{url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
+    <script src="{{url_for('static', filename='jquery.typing-0.2.0.min.js' )}}"></script>
+    <script src="{{url_for('static', filename='bootstrap.min.js' )}}"></script>
+    <script src="{{url_for('static', filename='js.js' )}}"></script>
+</body>
+
+</html>

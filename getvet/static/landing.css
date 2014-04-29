@@ -1,4 +1,5 @@
 .explain {
+    /*background-color: rgba(0, 0, 0, 0.1);*/
 	color: white;
 	font-family: 'Flamenco', cursive;
     font-size: 50px;
@@ -6,6 +7,15 @@
     padding-top: 150px;
 	position: relative;
 	text-align: center;	
+}
+
+.explain a {
+    color: #46AADB;
+}
+
+.explain a:hover {
+    /*color: #0088cc;*/
+    color: #46AADB;
 }
 
 @media (max-width: 768px) {
@@ -16,4 +26,4 @@
 
 #quote-line {
     font-size: 30px;
-}
+}   

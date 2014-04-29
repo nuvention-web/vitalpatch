@@ -1,0 +1,110 @@
+{% extends "root.html" %}
+{% block page %}
+
+<div class="container">
+	<div class="row">
+		<div  class="col-sm-6 well">
+            <div id="header_text">
+            		<h1>Is your vet ripping you off?</h1>
+            		<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>                
+            </div>
+      		<form role="form" method="post" action="{{ url_for('interstitial') }}">                                        
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="cat_dog" value="dog" checked required>
+                        Dog
+                    </label>
+                </div>                          
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="cat_dog" value="cat" required>
+                        Cat
+                    </label>
+                </div>
+
+                <select class="form-control" name="procedure">
+                  <option value="">-- Select Procedure -- </option>
+
+                  {% for topic in topicProcedureDict %}
+                  <optgroup label="{{ topic }}">
+
+                    {% for procedure in topicProcedureDict.get(topic) %}
+                    <option value="{{ procedure }}">{{ procedure }}</option>
+                    {% endfor %}
+                    
+                  </optgroup>                          
+                  {% endfor %}
+
+                </select>
+
+                <br>
+
+                <div class="form-group" id="weight">
+                    Weight (lb):
+                    <br>
+                    <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="weight" value="0">
+                            less than 25
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="weight" value="1">
+                            26 - 50
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="weight" value="2">
+                            51 - 75
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                          <input type="radio" name="weight" value="3">
+                            75 and up
+                        </label>
+                    </div>
+                </div>
+                
+                <input name="cost" type="text" class="form-control" placeholder="Cost" required autocomplete="off">
+
+                <br>
+
+                <div id="zip_group" class="form-group">
+                    <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code (for your vet)" required autocomplete="off">
+                    <br>
+                </div>
+
+                <select id="vetname_drpdwn" name="vet_id" class="form-control" disabled>
+                    <option value="" selected>-- Select Clinic / Animal Hospital --</option>
+                </select>
+                <input type="hidden" id="vet_name" name="vet_name">
+
+                <br>
+                <br>
+                      
+                <button type="submit" class="btn btn-primary">Submit</button>
+      		</form>					
+		</div>
+
+    <div class class="col-sm-4 col-sm-offset-2">
+    <!--filler div-->
+    </div>        				
+  </div>
+</div>
+  
+<div id="footer">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6 col-lg-offset-3">
+				<p class="copyright">Copyright © 2014 - <a href="http://vetcompare.co" target="_blank">VetCompare.co</a></p>
+		</div>
+	</div>		
+</div>	
+</div>
+
+
+
+{% endblock %}

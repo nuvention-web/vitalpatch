@@ -1,0 +1,46 @@
+body {
+    background: url("bg.jpg") no-repeat center center fixed; 
+    background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        -webkit-background-size: cover;
+}
+
+.well {
+    top: 20px;
+}
+
+@import 'bootstrap.less';
+#header_text {
+    border-radius: 20px;
+        -moz-border-radius: 20px;
+        -webkit-border-radius: 20px;
+    margin: 10px;
+    padding: 30px;
+    background-color: #B8B8E6
+}
+
+#sign_up {
+    border-radius: 20px;
+        -moz-border-radius: 20px;
+        -webkit-border-radius: 20px;
+    margin: 10px;
+    padding: 30px;
+    background-color: #B8B8E6
+}
+
+#weight {
+    display: none;
+}
+
+.form-control[disabled] {
+    background-color: #ccc;
+}
+
+#zip-error {
+    color: red;
+}
+
+.fb-share-button {
+    vertical-align: top;
+}

@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: url("imgs/bg.jpg") no-repeat center center fixed; 
+    background: url("imgs/bg2-darkest.jpg") no-repeat center center fixed; 
     background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -39,7 +39,7 @@ body {
 	font-size: 20px;
 }
 
-.sidebar input {
+.sidebar input, .sidebar select {
 	height: 30px;
 	width: 100%;
 }
