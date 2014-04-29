@@ -132,7 +132,7 @@ def interstitial():
 		global newVetData
 
 		new_animal_type = request.form['cat_dog']
-		new_price = request.form['cost']
+		new_price = request.form['cost'].strip('$')
 		new_weight = request.form.get('weight')
 		new_procedure = request.form['procedure']
 		new_zip = request.form['zip code']
