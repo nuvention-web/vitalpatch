@@ -37,6 +37,10 @@ body {
     background-color: #ccc;
 }
 
+#zip-error {
+    color: red;
+}
+
 .fb-share-button {
     vertical-align: top;
 }

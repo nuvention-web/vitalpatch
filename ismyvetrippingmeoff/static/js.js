@@ -13,11 +13,40 @@ function weightFadeIn() {
     }
 }
 
-// Bind function to change for animal radio and procedure select
+// Fade out weight and remove required property
+function weightFadeOut() {
+    $('#weight input').prop('required', false); // Remove requirement when invisible
+    $('#weight').fadeOut();
+}
+
+// Send an AJAX call to update the procedures dropdown based on the animal that's chosen
+function updateProcedures() {
+    var animal = $('input[name=cat_dog]:checked').val();
+    $.post('_update-procedures', {'animal': $('input[name=cat_dog]:checked').val()}, function(data) {
+        console.log(data);
+        $('select[name=procedure]').find('optgroup').remove(); // Remove all existing optgroups/options
+        for (var topic in data) {
+            var $optgroup = $('<optgroup></optgroup>').attr('label', topic); // Add optgroup
+            $('select[name=procedure]').append($optgroup);    
+            console.log(topic);        
+            for (var procedure in data[topic]) {                
+                $optgroup
+                    .append($('<option></option>') // Add option
+                        .attr('value', data[topic][procedure])
+                        .text(data[topic][procedure]));
+            }
+            $('select[name=procedure]').append('</optgroup>');
+        }
+    }, 'json');
+}
+
+// Bind weight and procedure functions to change for animal radio
 $('input[name=cat_dog]').change(function() {
-    weightFadeIn();
+    updateProcedures();
+    weightFadeOut(); // Always fade out weight when animal button changes
 });
 
+// Bind weight function to change for procedure select
 $('select[name=procedure]').change(function() {
     weightFadeIn();
 });
@@ -52,7 +81,7 @@ $('#zipcode').keyup(function() {
                         showZipError("Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!");
                     }
                     else{
-                        $("#zip_error").remove();
+                        $("#zip-error").remove();
                         for (i=0; i<data['businesses'].length; i++){
                             $("#vetname_drpdwn")
                                 .append($("<option></option>")
@@ -80,9 +109,9 @@ $('#zipcode').keyup(function() {
 
 // Show the error message for zip code if it's not showing or if it's different text
 function showZipError(error) {
-    if (!$("#zip_error").length || $("#zip_error").text() != error) {
-        $("#zip_error").remove();
-        $("#zip_group").append("<p id='zip_error' type='text' style='color:red;''>" + error + "</p>");
+    if (!$("#zip-error").length || $("#zip-error").text() != error) {
+        $("#zip-error").remove();
+        $("#zip_group").append("<p id='zip-error' type='text'>" + error + "</p>");
         $('#vetname_drpdwn')
                 .find('option')
                 .remove();
@@ -169,7 +198,7 @@ function gauge(percentile) {
         // Create and populate the data table.  Storing 0 initially so we get fun animation.
         var data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
-            ['You', 0]
+            ['%', 0]
         ]);
 
         var options = {
@@ -190,7 +219,7 @@ function gauge(percentile) {
         // Populate data with real value, redraw gauge.
         data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
-            ['You', parseInt(percentile)]
+            ['%', parseInt(percentile)]
         ]);
         gauge.draw(data, options);   
     }
