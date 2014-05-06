@@ -1,4 +1,23 @@
 {% extends "root.html" %}
+
+{% block head %}
+<!-- Facebook Conversion Code for Price fully submitted -->
+<script type="text/javascript">
+var fb_param = {};
+fb_param.pixel_id = '6013832821563';
+fb_param.value = '1.00';
+fb_param.currency = 'USD';
+(function(){
+  var fpw = document.createElement('script');
+  fpw.async = true;
+  fpw.src = '//connect.facebook.net/en_US/fp.js';
+  var ref = document.getElementsByTagName('script')[0];
+  ref.parentNode.insertBefore(fpw, ref);
+})();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6013832821563&amp;value=0&amp;currency=USD" /></noscript>
+{% endblock %}
+
 {% block page %}
 
   <!-- Facebook Javascript SDK -->
@@ -66,7 +85,7 @@
             {% endif %}
 
             
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.ismyvetrippingmeoff.com" data-text="I just found out whether my vet overcharges! Find out here:" data-via="vetcompare">Tweet</a>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.ismyvetrippingmeoff.com" data-text="I just found out whether my vet overcharges! Does yours?" data-via="vetcompare">Tweet</a>
             <div class="fb-share-button" data-href="http://www.ismyvetrippingmeoff.com" data-type="button_count"></div>
 
             <span id="gauge"></span>                       

@@ -8,6 +8,7 @@
             		<h1>Is your vet ripping you off?</h1>
             		<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>                
             </div>
+
       		<form role="form" method="post" action="{{ url_for('interstitial') }}">                                        
                 
                 <!-- Buttons -->
@@ -120,15 +121,19 @@
                     <br>
                 </div>
 
-                <select id="vetname_drpdwn" name="vet_id" class="form-control" disabled>
-                    <option value="" selected>-- Select Clinic / Animal Hospital --</option>
-                </select>
-                <input type="hidden" id="vet_name" name="vet_name">
+                <div id="clinicSelect_group">
+                    <select id="vetname_drpdwn" name="vet_id" class="form-control" disabled>
+                        <option value="" disabled selected>-- Select Clinic / Animal Hospital --</option>
+                    </select>
+                </div>
+                <a id="show_other" hidden>Your vet not on the list?</a>
+                <input type="hidden" id="hidden_vet_field" name="vet_name">
+
 
                 <br>
                 <br>
                       
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button id="submit" type="submit" class="btn btn-primary">See Results!</button>
       		</form>					
 		</div>
 
