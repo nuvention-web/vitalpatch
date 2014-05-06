@@ -116,6 +116,20 @@
 
                 <br>
 
+                {% if prefilledData %}
+                <div class="form-group">
+                    <label for="zip code">Zip: </label>
+                    <input name="zip code" type="text" class="form-control" value="{{ prefilledData.zip }}" readonly>
+                </div>
+
+                <div id="clinicSelect_group">
+                    <label for="vet_id">Clinic: </label>
+                    <input name="vet_name" type="text" class="form-control" value="{{ prefilledData.clinic_name }}" readonly>
+                </div>
+                <input type="hidden" name="vet_id" value="{{ prefilledData.clinic_id }}">
+                <a href="{{ url_for('index') }}">Check a different vet</a>
+
+                {% else %}
                 <div id="zip_group" class="form-group">
                     <input id="zipcode" name="zip code" type="text" class="form-control" placeholder="Zip Code (for your vet)" required autocomplete="off">
                     <br>
@@ -128,6 +142,8 @@
                 </div>
                 <a id="show_other" hidden>Your vet not on the list?</a>
                 <input type="hidden" id="hidden_vet_field" name="vet_name">
+
+                {% endif %}
 
 
                 <br>
@@ -152,6 +168,13 @@
 	</div>		
 </div>	
 </div>
+
+{% if prefilledData %}
+<script src="{{url_for('static', filename='index.js' )}}"></script>
+<script>
+    checkRadioButton("{{ prefilledData.animal }}");
+</script>
+{% endif %}
 
 
 

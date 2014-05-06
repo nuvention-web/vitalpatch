@@ -131,15 +131,29 @@ def cdf(x):
 
 # User-Facing Routes
 @app.route('/', methods=['GET'])
-def index():	
-	topicProcedureDict = getProcedures('Dog') # Assumes dog as initially selected animal
-	return render_template('index.html', topicProcedureDict=topicProcedureDict)
+def index():
+	if len(request.args):
+		animal = request.args.get('animal').title()
+		prefilledData = {
+			'animal':      request.args.get('animal'),
+			'zip':         request.args.get('zip'),
+			'clinic_name': request.args.get('clinic_name'),
+			'clinic_id':   request.args.get('clinic_id'),
+		}
+	else:
+		animal = 'Dog' # Assumes dog as initially selected animal
+		prefilledData = None
+
+	topicProcedureDict = getProcedures(animal)
+
+	return render_template('index.html', topicProcedureDict=topicProcedureDict, prefilledData = prefilledData)
 		
 
 @app.route('/interstitial', methods=['GET', 'POST'])
 def interstitial():	
-	if request.method == "GET":
-		return redirect(url_for('index'))
+	if request.method == "GET":		
+		
+		return redirect(url_for('index'), prefilledData = prefilledData)
 	else:
 		# Store their price (shhhhh)
 		global newVetData
@@ -205,7 +219,12 @@ def result():
 		z_score = (float(newVetData.price) - price.suburban_median) / std
 		percentile = cdf(z_score)*100
 
-		return render_template('results.html', procedure = newVetData.procedure, price = newVetData.price, percentile = percentile)
+		return render_template('results.html', 
+								animal = newVetData.animal_type,
+								zip = newVetData.zip,
+								clinic_name = newVetData.clinic_name,
+								clinic_id = newVetData.clinic_yelp_id,
+								percentile = percentile)
 
 # Routes for AJAX
 @app.route('/_update-procedures', methods=['POST'])
