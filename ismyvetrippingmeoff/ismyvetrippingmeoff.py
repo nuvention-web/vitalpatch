@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.mail import Mail, Message
 from sqlalchemy import or_
 import os
 import rauth # OAuth for Yelp
@@ -15,6 +16,13 @@ app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
+# Email
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'vetcompare'
+app.config['MAIL_PASSWORD'] = 'bestvet.com'
 
 # API Keys
 # Yelp
@@ -24,15 +32,19 @@ yelp_token = "lYpeNoecLXLbH7FGD96waKqRQpsBtCOI"
 yelp_token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
 
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 # Models
 class vetprocedure(db.Model):
-	index = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
 	topic = db.Column(db.String(20))
-	animal = db.Column(db.String(3))
+	animal = db.Column(db.String(20))
 	table_number = db.Column(db.Float)
 	procedure = db.Column(db.Text)
 	details = db.Column(db.Text)
+	national_25th_percentile = db.Column(db.Float)
+	national_median = db.Column(db.Float)
+	national_75th_percentile = db.Column(db.Float)
 	urban_25th_percentile = db.Column(db.Float)
 	urban_median = db.Column(db.Float)
 	urban_75th_percentile = db.Column(db.Float)
@@ -41,7 +53,7 @@ class vetprocedure(db.Model):
 	suburban_75th_percentile = db.Column(db.Float)
 	rural_25th_percentile = db.Column(db.Float)
 	rural_median = db.Column(db.Float)
-	rural_75th_percentile = db.Column(db.Float)
+	rural_75th_percentile = db.Column(db.Float)	
 
 class input_prices(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -131,8 +143,8 @@ def interstitial():
 		# Store their price (shhhhh)
 		global newVetData
 
-		new_animal_type = request.form['cat_dog']
-		new_price = request.form['cost']
+		new_animal_type = request.form['animal']
+		new_price = request.form['cost'].strip('$')
 		new_weight = request.form.get('weight')
 		new_procedure = request.form['procedure']
 		new_zip = request.form['zip code']
@@ -234,6 +246,19 @@ def submit_email():
 	db.session.commit()
 	return jsonify(email_address=email_address)
 
+@app.route('/feedback', methods=['POST'])
+def feedback():
+	# Setup
+	subject = 'IMVRMO feedback: ' + request.form['subject']
+	sender = ('IMVRMO', app.config['MAIL_USERNAME'] + '@gmail.com')
+	recipients = ["glennfellman2014@u.northwestern.edu", "fareeha.ali@gmail.com", "ed.bren@gmail.com", "rennaker@gmail.com", "samtoizer@gmail.com", "scott.neaves.eghs@gmail.com"]
+	# Email
+	msg = Message(subject, sender = sender, recipients = recipients)
+	msg.body = 'From: ' + request.form['email'] + '\n\n' + 'What are you thinking: ' + request.form['description']
+	msg.html = 'From: ' + request.form['email'] + '<br><br>' + 'What are you thinking: ' + request.form['description']
+	# Send
+	mail.send(msg)
+	return jsonify({"message": "Thanks!"})
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0')

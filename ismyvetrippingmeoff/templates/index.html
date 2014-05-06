@@ -3,21 +3,65 @@
 
 <div class="container">
 	<div class="row">
-		<div  class="col-sm-6 well">
+		<div  class="col-sm-8 col-md-6 col-lg-6 well">
             <div id="header_text">
             		<h1>Is your vet ripping you off?</h1>
             		<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>                
             </div>
+
       		<form role="form" method="post" action="{{ url_for('interstitial') }}">                                        
+                
+                <!-- Buttons -->
+                <!-- <div class="row animal">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/dog.png') }}"></button>
+                        <label class="text-center">Dog</label>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/cat.png') }}"></button>
+                        <label class="text-center">Cat</label>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/bird.png') }}"></button>
+                        <label class="text-center">Bird</label>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/reptile.png') }}"></button>
+                        <label class="text-center">Reptile</label>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/rabbit.png') }}"></button>
+                        <label class="text-center">Rabbit</label>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/ferret.png') }}"></button>
+                        <label class="text-center">Ferret</label>
+                    </div>                
+                </div> 
+                <br> -->
+
+                <!-- Select -->
+                <!-- <select class="form-control" name="animal">
+                    <option>-- Select Animal -- </option>
+                    <option>Dog</option>
+                    <option>Cat</option>
+                    <option>Bird</option>
+                    <option>Reptile</option>
+                    <option>Rabbit</option>
+                    <option>Ferret</option>
+                    <option>Small Mammal</option>
+                </select>
+                <br> -->
+
                 <div class="radio-inline">
                     <label>
-                        <input type="radio" name="cat_dog" value="dog" checked required>
+                        <input type="radio" name="animal" value="dog" checked required>
                         Dog
                     </label>
                 </div>                          
                 <div class="radio-inline">
                     <label>
-                        <input type="radio" name="cat_dog" value="cat" required>
+                        <input type="radio" name="animal" value="cat" required>
                         Cat
                     </label>
                 </div>
@@ -77,15 +121,19 @@
                     <br>
                 </div>
 
-                <select id="vetname_drpdwn" name="vet_id" class="form-control" disabled>
-                    <option value="" selected>-- Select Clinic / Animal Hospital --</option>
-                </select>
-                <input type="hidden" id="vet_name" name="vet_name">
+                <div id="clinicSelect_group">
+                    <select id="vetname_drpdwn" name="vet_id" class="form-control" disabled>
+                        <option value="" disabled selected>-- Select Clinic / Animal Hospital --</option>
+                    </select>
+                </div>
+                <a id="show_other" hidden>Your vet not on the list?</a>
+                <input type="hidden" id="hidden_vet_field" name="vet_name">
+
 
                 <br>
                 <br>
                       
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button id="submit" type="submit" class="btn btn-primary">See Results!</button>
       		</form>					
 		</div>
 

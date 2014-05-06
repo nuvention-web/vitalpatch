@@ -1,6 +1,12 @@
+// Make buttons active
+$('.animal button').click(function() {
+    $('.animal button').removeClass('active');
+    $(this).addClass('active');
+});
+
 // Fade in weight text box if "dog" radio button is selected and a surgery is selected
 function weightFadeIn() {
-    var $animalRadio = $('input[name=cat_dog]:checked');
+    var $animalRadio = $('input[name=animal]:checked');
     var $procedureSelect = $('select[name=procedure] option:selected'); 
 
     if ($animalRadio.val() == 'dog' && $procedureSelect.parent().attr('label') == 'Surgery') {
@@ -21,14 +27,12 @@ function weightFadeOut() {
 
 // Send an AJAX call to update the procedures dropdown based on the animal that's chosen
 function updateProcedures() {
-    var animal = $('input[name=cat_dog]:checked').val();
-    $.post('_update-procedures', {'animal': $('input[name=cat_dog]:checked').val()}, function(data) {
-        console.log(data);
+    var animal = $('input[name=animal]:checked').val();
+    $.post('_update-procedures', {'animal': $('input[name=animal]:checked').val()}, function(data) {
         $('select[name=procedure]').find('optgroup').remove(); // Remove all existing optgroups/options
         for (var topic in data) {
             var $optgroup = $('<optgroup></optgroup>').attr('label', topic); // Add optgroup
-            $('select[name=procedure]').append($optgroup);    
-            console.log(topic);        
+            $('select[name=procedure]').append($optgroup);           
             for (var procedure in data[topic]) {                
                 $optgroup
                     .append($('<option></option>') // Add option
@@ -41,7 +45,7 @@ function updateProcedures() {
 }
 
 // Bind weight and procedure functions to change for animal radio
-$('input[name=cat_dog]').change(function() {
+$('input[name=animal]').change(function() {
     updateProcedures();
     weightFadeOut(); // Always fade out weight when animal button changes
 });
@@ -49,6 +53,33 @@ $('input[name=cat_dog]').change(function() {
 // Bind weight function to change for procedure select
 $('select[name=procedure]').change(function() {
     weightFadeIn();
+});
+
+var vet_drpdwn;
+var other_switch;
+$("#show_other").click(function(){
+    if(other_switch){
+        //Put the vet clinic dropdown into the dom and remove the "other" text input field
+        $("#other_vet").remove();
+        $("#clinicSelect_group").append(vet_drpdwn);
+        $("#hidden_vet_field").attr('name', "vet_name");    //Make the hidden vet field have "vet_name" as the name, because the dropdown has name vet_id
+        $("#hidden_vet_field").val("Null");                 //Set the name to null - it will be rewritten upon submit
+        other_switch=null;
+    }else{
+        vet_drpdwn = $("#vetname_drpdwn").detach();         //Detach the vetname dropdown
+        $("#clinicSelect_group").append("<input type='text' id='other_vet' name='vet_name' class='form-control' placeholder='Please enter the name of your vet here'>");    //Replace it with the free text input
+        $("#hidden_vet_field").attr('name', "vet_id");      //Set the hidden vet field's name to vet_id (which we don't know, because now the user is only inputting the vet's name)
+        $("#hidden_vet_field").val("Null");                 //Set the hidden vet field's value to "Null", because we don't know the vet_id
+        other_switch=1;
+    }
+});
+
+$("#submit").click(function(){
+    if(!other_switch){
+        var vetname = $('#vetname_drpdwn').find(":selected").text();
+        console.log(vetname);
+        $("#hidden_vet_field").val(vetname);
+    }
 });
 
 var geocoder;
@@ -99,6 +130,8 @@ $('#zipcode').keyup(function() {
                 showZipError("Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!");                
           }
         });
+    //If five digits have been entered, show the link which toggles between the dropdown and free text input for vet name
+    $("#show_other").show();
     }
 
     // Zip code not equal to 5 characters
@@ -145,7 +178,7 @@ $('form').submit(function(e) {
     }
 
     // Also check all select fields, regardless of browser
-    $('select').each(function(index) {
+    $(this).find('select').each(function(index) {
         if ($(this).val() == "" || $(this).prop('disabled')) {
             alert("Please fill in all fields.");
             e.preventDefault();
@@ -224,6 +257,39 @@ function gauge(percentile) {
         gauge.draw(data, options);   
     }
 }
+
+// Send feedback form email
+$("#barometer_tab").removeAttr('onclick').attr({
+    'href': '#feedbackModal',
+    'data-toggle': 'modal'
+}).click(function() {
+    $("#feedback-submit").fadeIn();
+    $(".flash").fadeOut();
+    $("#feedback-form").find('input').val('');
+    $("#feedback-form").find('textarea').val('');
+});
+
+$("#feedback-form").submit(function() {
+    $.post(
+        "feedback", 
+        {
+            'email': $(this).find('input[name="email"]').val(),
+            'subject': $(this).find('input[name="subject"]').val(),
+            'description': $(this).find('textarea[name="description"]').val(),
+        }, 
+        function(data) {
+            $("#feedbackModal .modal-body").prepend(
+                "<div class='flash'>" + data.message + "</div>"
+            );
+        }, 
+        'json');
+    return false;
+});
+
+$("#feedback-submit").click(function() {
+    $("#feedback-form").submit();
+    $(this).fadeOut();
+});
 
 //This code does an action when typing stops for "delay" number of milliseconds. Not used.
 /*

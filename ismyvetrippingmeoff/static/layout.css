@@ -20,6 +20,15 @@ body {
     background-color: #B8B8E6
 }
 
+.animal {
+    /*display: block;*/
+}
+
+.animal button img {
+    height: auto;
+    width: 40px;
+}
+
 #sign_up {
     border-radius: 20px;
         -moz-border-radius: 20px;
@@ -43,4 +52,12 @@ body {
 
 .fb-share-button {
     vertical-align: top;
+}
+
+.flash {
+    background: #cee5f5;
+    color: #3e7cbb;
+    border: 1px solid #aacbe2;
+    padding: 5px; 
+    width: 90%;
 }
