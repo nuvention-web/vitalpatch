@@ -7,6 +7,7 @@ import rauth # OAuth for Yelp
 from pygeocoder import Geocoder
 from math import erf, sqrt
 import json
+from operator import attrgetter
 
 app = Flask(__name__)
 
@@ -233,10 +234,10 @@ def get_clinics_in_zipcode():
 	params["sort"] = "1"
 
 	data = session.get('http://api.yelp.com/v2/search/', params=params) #returns response object, which we now name "data"
-	clinics_in_radius = data.json() #extracts json content from response object
-	clinics_in_radius = jsonify(data.json())	#package up json content 
+	clinics_in_radius = data.json() #extracts json content from response object	
+	clinics_in_radius['businesses'] = sorted(clinics_in_radius['businesses'], key=lambda x:x['name']) # Sort clinics by name
 	session.close()
-	return clinics_in_radius
+	return jsonify(clinics_in_radius)
 
 @app.route('/_submit_email')
 def submit_email():
