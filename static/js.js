@@ -1,6 +1,12 @@
+// Make buttons active
+$('.animal button').click(function() {
+    $('.animal button').removeClass('active');
+    $(this).addClass('active');
+});
+
 // Fade in weight text box if "dog" radio button is selected and a surgery is selected
 function weightFadeIn() {
-    var $animalRadio = $('input[name=cat_dog]:checked');
+    var $animalRadio = $('input[name=animal]:checked');
     var $procedureSelect = $('select[name=procedure] option:selected'); 
 
     if ($animalRadio.val() == 'dog' && $procedureSelect.parent().attr('label') == 'Surgery') {
@@ -21,14 +27,12 @@ function weightFadeOut() {
 
 // Send an AJAX call to update the procedures dropdown based on the animal that's chosen
 function updateProcedures() {
-    var animal = $('input[name=cat_dog]:checked').val();
-    $.post('_update-procedures', {'animal': $('input[name=cat_dog]:checked').val()}, function(data) {
-        console.log(data);
+    var animal = $('input[name=animal]:checked').val();
+    $.post('_update-procedures', {'animal': $('input[name=animal]:checked').val()}, function(data) {
         $('select[name=procedure]').find('optgroup').remove(); // Remove all existing optgroups/options
         for (var topic in data) {
             var $optgroup = $('<optgroup></optgroup>').attr('label', topic); // Add optgroup
-            $('select[name=procedure]').append($optgroup);    
-            console.log(topic);        
+            $('select[name=procedure]').append($optgroup);           
             for (var procedure in data[topic]) {                
                 $optgroup
                     .append($('<option></option>') // Add option
@@ -41,7 +45,7 @@ function updateProcedures() {
 }
 
 // Bind weight and procedure functions to change for animal radio
-$('input[name=cat_dog]').change(function() {
+$('input[name=animal]').change(function() {
     updateProcedures();
     weightFadeOut(); // Always fade out weight when animal button changes
 });
@@ -145,7 +149,7 @@ $('form').submit(function(e) {
     }
 
     // Also check all select fields, regardless of browser
-    $('select').each(function(index) {
+    $(this).find('select').each(function(index) {
         if ($(this).val() == "" || $(this).prop('disabled')) {
             alert("Please fill in all fields.");
             e.preventDefault();
@@ -224,6 +228,39 @@ function gauge(percentile) {
         gauge.draw(data, options);   
     }
 }
+
+// Send feedback form email
+$("#barometer_tab").removeAttr('onclick').attr({
+    'href': '#feedbackModal',
+    'data-toggle': 'modal'
+}).click(function() {
+    $("#feedback-submit").fadeIn();
+    $(".flash").fadeOut();
+    $("#feedback-form").find('input').val('');
+    $("#feedback-form").find('textarea').val('');
+});
+
+$("#feedback-form").submit(function() {
+    $.post(
+        "feedback", 
+        {
+            'email': $(this).find('input[name="email"]').val(),
+            'subject': $(this).find('input[name="subject"]').val(),
+            'description': $(this).find('textarea[name="description"]').val(),
+        }, 
+        function(data) {
+            $("#feedbackModal .modal-body").prepend(
+                "<div class='flash'>" + data.message + "</div>"
+            );
+        }, 
+        'json');
+    return false;
+});
+
+$("#feedback-submit").click(function() {
+    $("#feedback-form").submit();
+    $(this).fadeOut();
+});
 
 //This code does an action when typing stops for "delay" number of milliseconds. Not used.
 /*
