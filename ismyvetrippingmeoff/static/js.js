@@ -157,7 +157,7 @@ function showZipError(error) {
 $('form').submit(function(e) {    
     // If required attribute is not supported or browser is Safari (Safari thinks that it has this attribute, but it does not work), then check all fields that has required attribute
     if (!attributeSupported('input', 'required') || isSafari()) {        
-        $('form [required]').each(function(index) {
+        $(this).find('[required]').each(function(index) {
 
             // Make sure a radio button is checked
             if ($(this).is(':radio')) {

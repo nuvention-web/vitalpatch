@@ -90,7 +90,9 @@ fb_param.currency = 'USD';
 
             <span id="gauge"></span>
 
-            <a class="btn btn-primary" href="{{ url_for('index') }}">Check another price!</a>
+            <a class="btn btn-primary" href="{{ url_for('index') }}?animal={{ animal}}&zip={{ zip }}&clinic_name={{ clinic_name }}&clinic_id={{ clinic_id }}">
+              Check another price!
+            </a>
           </div>
         
           <div id="sign_up">
