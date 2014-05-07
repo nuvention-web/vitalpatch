@@ -1,0 +1,52 @@
+{% extends "root.html" %}
+{% block page %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-8 col-md-6 col-lg-6 well">
+			<a href="{{ url_for('index') }}">Back to main site</a>
+			<h1>FAQ</h1>
+			<ul>
+				<li>
+					<h3>What is the purpose of the site?</h3>
+					<p>
+						The site exists to give users a better perspective on where individual veterinary prices fall in the distribution of prices charged by vet clinics in the U.S. As we continue to acquire pricing data, we intend on offering more advanced reporting functionality. Ultimately our goal is to offer pet owners the transparency of pricing (and eventually of quality) they need to find the right vet for them.
+					</p>
+				</li>
+				<li>
+					<h3>Should I choose my vet based on the price tag?</h3>
+					<p>
+						Price is only one factor that goes into the decision of choosing a vet. For many clinics, different prices can indicate different levels of service. In order to make the best possible decision for your pet, we recommend you check out <a href="http://www.humanesociety.org/animals/resources/tips/choosing_a_veterinarian.html" target="_blank">tips on choosing a veterinarian</a> as published by the Humane Society.
+					</p>
+				</li>
+				<li>
+					<h3>Are these prices comparing apples to apples?</h3>
+					<p>
+						We have found that certain vets offer very different levels of service for the same procedures. This is particularly true of surgical procedures (e.g. spaying and neutering). Currently all surgical pricing data includes fees for examination, anesthesia, pain management, surgery room setup, sutures, etc. and we are engaging with vets to ensure fair reporting on this topic in the future. As always, we recommend talking with your vet to make sure you know exactly what’s being offered before proceeding with any procedure.
+
+					</p>
+				</li>
+				<li>
+					<h3>Where do you get your data?</h3>
+					<p>
+						We began this project by surveying vets directly. We are in the process of transitioning to a model based on prices reported by users.
+					</p>
+				</li>
+				<li>
+					<h3>Do you hate vets?</h3>
+					<p>
+						No! We believe veterinarians offer a valuable and necessary service in keeping our beloved pets healthy and happy. We also believe that all pet owners deserve access to honest reviews, transparent pricing, and other useful information that will allow them to choose the vet that’s right for them.
+					</p>
+				</li>
+				<li>
+					<h3>How can I contact you?</h3>
+					<p>
+						We can be reached at <a href="mailto:vetcompare@gmail.com" target="_blank">vetcompare@gmail.com</a>. Please provide as much detail as you can, and we will attempt to answer as many inquiries as possible.
+					</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
