@@ -226,6 +226,25 @@ def result():
 								clinic_id = newVetData.clinic_yelp_id,
 								percentile = percentile)
 
+@app.route('/faq')
+def faq():
+	return render_template('faq.html')
+
+# Admin commented out so FAQ and better text can be pushed
+# @app.route('/admin', methods=['GET', 'POST'])
+# def admin():
+# 	if request.method == 'GET':
+# 		if session['logged-in']:
+# 			return render_template('download.html')
+# 		else:
+# 			return render_template('login.html')
+# 	else:
+# 		if request.form['password'] == app.config['PASSWORD']:
+# 			session['logged-in'] = True
+# 			return render_template('download.html')
+# 		else:
+# 			return render_template('login.html', error='Incorrect password.')
+
 # Routes for AJAX
 @app.route('/_update-procedures', methods=['POST'])
 def updateProcedures():

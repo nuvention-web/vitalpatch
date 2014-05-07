@@ -5,8 +5,8 @@
 	<div class="row">
 		<div  class="col-sm-8 col-md-6 col-lg-6 well">
             <div id="header_text">
-            		<h1>Is your vet ripping you off?</h1>
-            		<h2 class="subtitle">Tell us what procedure you last paid for at your vet, and we'll tell you whether you overpaid.</h2>                
+            		<h1>Is your veterinarian affordable?</h1>
+            		<h2 class="subtitle">Find out how much your vet charges relative to other US veterinary clinics.</h2>                
             </div>
 
       		<form role="form" method="post" action="{{ url_for('interstitial') }}">                                        
@@ -140,7 +140,7 @@
                         <option value="" disabled selected>-- Select Clinic / Animal Hospital --</option>
                     </select>
                 </div>
-                <a id="show_other" hidden>Your vet not on the list?</a>
+                <a id="show_other" hidden>I don't see my vet on the list.</a>
                 <input type="hidden" id="hidden_vet_field" name="vet_name">
 
                 {% endif %}
@@ -150,6 +150,7 @@
                 <br>
                       
                 <button id="submit" type="submit" class="btn btn-primary">See Results!</button>
+                <a class="btn btn-info pull-right" href="{{ url_for('faq') }}">FAQ</a>
       		</form>					
 		</div>
 

@@ -46,7 +46,7 @@ fb_param.currency = 'USD';
             
           <div id="header_text">          
             {% if percentile <= 20 %}
-            <h1>Congratulations!</h1>
+            <h1>That’s a deal!</h1>
             <h3>You were charged one of the lowest possible prices.</h3>
             <h4> 
               <strong>
@@ -55,32 +55,32 @@ fb_param.currency = 'USD';
                 {% else %}
                   Only {{ percentile|int }}%
                 {% endif %}              
-              </strong> of vets nationwide offer a lower price.</h4>
+              </strong> of vets nationwide offer a lower price. Depending on your area, your vet may actually be undercharging you.</h4>
             <h4>Tell your friends what a great deal your vet is below.</h4>
             
             {% elif percentile <= 40 %}
-            <h1>Good news!</h1>
+            <h1>That’s below average!</h1>
             <h3>You were charged a below-average price for this procedure.</h3>
             <h4>Only <strong>{{ percentile|int }}%</strong> of vets nationwide offer a lower price.</h4>
             <h4>Tell your friends how affordable your vet is below.</h4>
 
             {% elif percentile <= 60 %}
-            <h1>Nothing Unusual</h1>
+            <h1>That’s normal.</h1>
             <h3>You were charged an average price for this procedure.</h3>
-            <h4>You might be able to shop around for a lower price since <strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
+            <h4><strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet. You may be able to find a more affordable option in your area.</h4>
             <h4>Share your results with your friends below.</h4>
 
             {% elif percentile <= 80 %}
-            <h1>Watch out!</h1>
+            <h1>That's on the high side.</h1>
             <h3>You were charged an above-average price for this procedure.</h3>
             <h4>It's likely that you would be able to find a more affordable vet since <strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
             <h4>Share your results with your friends below.</h4>
 
             {% else %}
-            <h1>You got ripped off!</h1>
+            <h1>That's high!</h1>
             <h3>You were charged one of the highest possible prices for this procedure.</h3>
             <h4>A full <strong>{{ percentile|int }}%</strong> of vets nationwide offer a lower price, so it's likely you'd be able to find a more affordable vet in your area.</h4>
-            <h4>Share with your friends so they don't get ripped off too!</h4>
+            <h4>Share your results with your friends below.</h4>
 
             {% endif %}
 
@@ -91,8 +91,12 @@ fb_param.currency = 'USD';
             <span id="gauge"></span>
 
             <a class="btn btn-primary" href="{{ url_for('index') }}?animal={{ animal}}&zip={{ zip }}&clinic_name={{ clinic_name }}&clinic_id={{ clinic_id }}">
-              Check another price!
+              Check another price from this vet!
             </a>
+            <br><br>            
+            <p>
+              Disclaimer: The information above is not meant to be a comprehensive analysis of all factors that influence veterinary prices. For more information on the methodology and limitations of this service, please <a href="{{ url_for('faq') }}">see our FAQs</a>.
+            </p>
           </div>
         
           <div id="sign_up">
