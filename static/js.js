@@ -235,6 +235,8 @@ function gauge(percentile) {
         ]);
 
         var options = {
+            height: 175,
+            width: 175,
             greenFrom: 0, greenTo: 33,
             yellowFrom: 33, yellowTo: 67,
             redFrom: 67, redTo: 100,
