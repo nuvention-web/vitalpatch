@@ -294,7 +294,7 @@ def feedback():
 	# Email
 	msg = Message(subject, sender = sender, recipients = recipients)
 	msg.body = 'From: ' + request.form['email'] + '\n\n' + 'What are you thinking: ' + request.form['description']
-	msg.html = 'From: ' + request.form['email'] + '<br><br>' + 'What are you thinking: ' + request.form['description']
+	msg.html = 'From: ' + request.form['email'] + '<br><br>' + request.form['description']
 	# Send
 	mail.send(msg)
 	return jsonify({"message": "Thanks!"})
