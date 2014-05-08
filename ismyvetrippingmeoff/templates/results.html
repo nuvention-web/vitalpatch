@@ -45,41 +45,41 @@ fb_param.currency = 'USD';
 				<div class="col-sm-6">
             
           <div id="header_text">          
-            {% if percentile <= 20 %}
+            {% if percentileData.national <= 20 %}
             <h1>That’s a deal!</h1>
             <h3>You were charged one of the lowest possible prices.</h3>
             <h4> 
               <strong>
-                {% if percentile|int < 1 %}
+                {% if percentileData.national|int < 1 %}
                   Less than 1%
                 {% else %}
-                  Only {{ percentile|int }}%
+                  Only {{ percentileData.national|int }}%
                 {% endif %}              
               </strong> of vets nationwide offer a lower price. Depending on your area, your vet may actually be undercharging you.</h4>
             <h4>Tell your friends what a great deal your vet is below.</h4>
             
-            {% elif percentile <= 40 %}
+            {% elif percentileData.national <= 40 %}
             <h1>That’s below average!</h1>
             <h3>You were charged a below-average price for this procedure.</h3>
-            <h4>Only <strong>{{ percentile|int }}%</strong> of vets nationwide offer a lower price.</h4>
+            <h4>Only <strong>{{ percentileData.national|int }}%</strong> of vets nationwide offer a lower price.</h4>
             <h4>Tell your friends how affordable your vet is below.</h4>
 
-            {% elif percentile <= 60 %}
+            {% elif percentileData.national <= 60 %}
             <h1>That’s normal.</h1>
             <h3>You were charged an average price for this procedure.</h3>
-            <h4><strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet. You may be able to find a more affordable option in your area.</h4>
+            <h4><strong>{{ percentileData.national|int }}%</strong> of vets nationwide charge less for this procedure than does your vet. You may be able to find a more affordable option in your area.</h4>
             <h4>Share your results with your friends below.</h4>
 
-            {% elif percentile <= 80 %}
+            {% elif percentileData.national <= 80 %}
             <h1>That's on the high side.</h1>
             <h3>You were charged an above-average price for this procedure.</h3>
-            <h4>It's likely that you would be able to find a more affordable vet since <strong>{{ percentile|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
+            <h4>It's likely that you would be able to find a more affordable vet since <strong>{{ percentileData.national|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
             <h4>Share your results with your friends below.</h4>
 
             {% else %}
             <h1>That's high!</h1>
             <h3>You were charged one of the highest possible prices for this procedure.</h3>
-            <h4>A full <strong>{{ percentile|int }}%</strong> of vets nationwide offer a lower price, so it's likely you'd be able to find a more affordable vet in your area.</h4>
+            <h4>A full <strong>{{ percentileData.national|int }}%</strong> of vets nationwide offer a lower price, so it's likely you'd be able to find a more affordable vet in your area.</h4>
             <h4>Share your results with your friends below.</h4>
 
             {% endif %}
@@ -88,7 +88,18 @@ fb_param.currency = 'USD';
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.ismyvetrippingmeoff.com" data-text="I just found out whether my vet overcharges! Does yours?" data-via="vetcompare">Tweet</a>
             <div class="fb-share-button" data-href="http://www.ismyvetrippingmeoff.com" data-type="button_count"></div>
 
-            <span id="gauge"></span>
+            <div class="row">                            
+              <span id="gauge" class="pull-left"></span>
+              <div class="btn-group-vertical area-button-group">
+                  <button type="button" class="btn btn-default area-button active">National</button>
+                  <button type="button" class="btn btn-default area-button">Urban</button>
+                  <button type="button" class="btn btn-default area-button">Suburban</button>
+                  <button type="button" class="btn btn-default area-button">Rural</button>
+              </div>              
+            </div>
+            <p id="gauge-text">
+              <span id="gauge-percentile">{{ percentileData.national|int }}%</span> of vets <span id="gauge-area">nationwide</span> offer a lower price.
+            </p>
 
             <a class="btn btn-primary" href="{{ url_for('index') }}?animal={{ animal}}&zip={{ zip }}&clinic_name={{ clinic_name }}&clinic_id={{ clinic_id }}">
               Check another price from this vet!
@@ -141,7 +152,7 @@ fb_param.currency = 'USD';
 
   <!-- Start loading and drawing Google gauge -->
   <script type="text/javascript">
-    gauge({{ percentile|safe }});
+    gauge({{ percentileData|safe }});
   </script>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-// Make buttons active
+// Set all other buttons unactive and make this button active
 $('.animal button').click(function() {
     $('.animal button').removeClass('active');
     $(this).addClass('active');
@@ -219,22 +219,30 @@ $('document').ready(function(){
 });
 
 // Guage
-function gauge(percentile) {
-    // Load the Visualization API and the piechart package.
+var gauge;
+var nationalPercentile;
+var urbanPercentile;
+var suburbanPercentile;
+var ruralPercentile;
+var options; // Graph options
+var choice;  // Current area wealth choice
+
+function gauge(percentileData) {
+    // Load the Visualization API and the piechart package
     google.load('visualization', '1.0', {'packages':['gauge']});
 
-    // Set a callback to run when the Google Visualization API is loaded.
+    // Set a callback to run when the Google Visualization API is loaded
     google.setOnLoadCallback(drawGauge);
 
     // Actually draw it!
     function drawGauge() {
-        // Create and populate the data table.  Storing 0 initially so we get fun animation.
-        var data = google.visualization.arrayToDataTable([
+        // Create and populate the data table.  Storing 0 initially so we get fun animation
+        data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
             ['%', 0]
         ]);
 
-        var options = {
+        options = {
             height: 175,
             width: 175,
             greenFrom: 0, greenTo: 33,
@@ -247,18 +255,69 @@ function gauge(percentile) {
             }
         };
 
-        // Create and draw the visualization.
-        var gauge = new google.visualization.Gauge($('#gauge')[0]);
+        // Create and draw the visualization
+        gauge = new google.visualization.Gauge($('#gauge')[0]);
         gauge.draw(data, options);
 
-        // Populate data with real value, redraw gauge.
-        data = google.visualization.arrayToDataTable([
-            ['Label', 'Value'],
-            ['%', parseInt(percentile)]
-        ]);
-        gauge.draw(data, options);   
+        // Populate data with real values, redraw gauge
+        nationalPercentile = parseInt(percentileData.national);
+        urbanPercentile    = parseInt(percentileData.urban);
+        suburbanPercentile = parseInt(percentileData.suburban);
+        ruralPercentile    = parseInt(percentileData.rural);
+
+        if (choice === undefined) {
+            choice = 0;            
+        }          
+
+        // In case someone clicks a button before the gauge loads
+        updateGauge();
     }
 }
+
+function updateGauge() {
+    var percentile;
+
+    switch(choice) {
+    case 1:
+        percentile = urbanPercentile;
+        areaText = 'in urban areas'
+        break;
+    case 2:
+        percentile = suburbanPercentile;
+        areaText = 'in suburban areas'
+        break;
+    case 3:
+        percentile = ruralPercentile;
+        areaText = 'in rural areas'
+        break;
+    default:
+        percentile = nationalPercentile;
+        areaText = 'nationwide'
+        break;
+    }
+
+    // Gauge
+    data = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['%', parseInt(percentile)]
+    ]);
+    gauge.draw(data, options);
+
+    // Set text below gauge
+    $('#gauge-percentile').text(percentile + '%');
+    $('#gauge-area').text(areaText);
+}
+
+// Change active state of buttons, update gauge
+$('.area-button').click(function() {
+    $('.area-button').removeClass('active');
+    $(this).addClass('active');
+
+    choice = $(this).index();
+
+    // Update gauge
+    updateGauge();
+});
 
 // Send feedback form email
 $("#barometer_tab").removeAttr('onclick').attr({

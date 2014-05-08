@@ -210,21 +210,58 @@ def result():
 		else:
 			price = vetprocedure.query.filter_by(procedure = newVetData.procedure).first()
 
-		# Calculate percentile
+		## Calculate percentiles ##
+		# National
+		if float(newVetData.price) < price.national_median:
+			std = (price.national_median - price.national_25th_percentile) / 0.67449
+		else:
+			std = (price.national_75th_percentile - price.national_median) / 0.67449
+		
+		z_score = (float(newVetData.price) - price.national_median) / std
+		national_percentile = cdf(z_score)*100
+
+		# Urban
+		if float(newVetData.price) < price.urban_median:
+			std = (price.urban_median - price.urban_25th_percentile) / 0.67449
+		else:
+			std = (price.urban_75th_percentile - price.urban_median) / 0.67449
+		
+		z_score = (float(newVetData.price) - price.urban_median) / std
+		urban_percentile = cdf(z_score)*100
+
+		# Suburban
 		if float(newVetData.price) < price.suburban_median:
 			std = (price.suburban_median - price.suburban_25th_percentile) / 0.67449
 		else:
 			std = (price.suburban_75th_percentile - price.suburban_median) / 0.67449
 		
 		z_score = (float(newVetData.price) - price.suburban_median) / std
-		percentile = cdf(z_score)*100
+		suburban_percentile = cdf(z_score)*100		
+
+		# Rural
+		if float(newVetData.price) < price.rural_median:
+			std = (price.rural_median - price.rural_25th_percentile) / 0.67449
+		else:
+			std = (price.rural_75th_percentile - price.rural_median) / 0.67449
+		
+		z_score = (float(newVetData.price) - price.rural_median) / std
+		rural_percentile = cdf(z_score)*100
+
+		percentileData = {
+			'national': national_percentile,
+			'urban':    urban_percentile,
+			'suburban': suburban_percentile,			
+			'rural':    rural_percentile
+		}
+
+		###########################
 
 		return render_template('results.html', 
 								animal = newVetData.animal_type,
 								zip = newVetData.zip,
 								clinic_name = newVetData.clinic_name,
 								clinic_id = newVetData.clinic_yelp_id,
-								percentile = percentile)
+								percentileData = percentileData)
 
 @app.route('/faq')
 def faq():
