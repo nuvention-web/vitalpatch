@@ -67,3 +67,12 @@ ul {
     list-style: none;
     padding-left: 0;
 }
+
+.area-button-group {
+    padding-left:20px;
+    padding-top: 20px; 
+}
+
+#gauge-text span {
+    font-weight: bold;
+}
