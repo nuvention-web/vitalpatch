@@ -1,0 +1,20 @@
+.animal {
+    /*display: block;*/
+}
+
+.animal button img {
+    height: auto;
+    width: 40px;
+}
+
+#weight {
+    display: none;
+}
+
+.form-control[disabled] {
+    background-color: #ccc;
+}
+
+#zip-error {
+    color: red;
+}

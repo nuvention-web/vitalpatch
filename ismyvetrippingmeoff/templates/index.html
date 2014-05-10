@@ -1,4 +1,8 @@
 {% extends "root.html" %}
+{% block head %}
+<link href="{{url_for('static', filename='css/index.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block page %}
 
 <div class="container">
@@ -170,8 +174,8 @@
 </div>	
 </div>
 
+<script src="{{url_for('static', filename='js/index.js' )}}"></script>
 {% if prefilledData %}
-<script src="{{url_for('static', filename='index.js' )}}"></script>
 <script>
     checkRadioButton("{{ prefilledData.animal }}");
 </script>

@@ -1,0 +1,29 @@
+body {
+    background: url('../bg.jpg') no-repeat center center fixed; 
+    background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        -webkit-background-size: cover;
+}
+
+.well {
+    top: 20px;
+}
+
+#header_text {
+    background-color: #B8B8E6;
+    border-radius: 20px;
+        -moz-border-radius: 20px;
+        -webkit-border-radius: 20px;
+    margin: 10px;
+    padding: 30px;    
+}
+
+/* For feedback confirmation */
+.flash {
+    background: #cee5f5;
+    border: 1px solid #aacbe2;
+    color: #3e7cbb;
+    padding: 5px; 
+    width: 90%;
+}

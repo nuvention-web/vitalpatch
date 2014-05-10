@@ -16,6 +16,8 @@ fb_param.currency = 'USD';
 })();
 </script>
 <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6013832821563&amp;value=0&amp;currency=USD" /></noscript>
+
+<link href="{{url_for('static', filename='css/results.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block page %}
@@ -146,9 +148,7 @@ fb_param.currency = 'USD';
 
   <script type="text/javascript" src="https://www.google.com/jsapi"></script> <!-- Google Charts API -->  
 
-  <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js.js') }}"></script>
+  <script src="{{url_for('static', filename='js/results.js' )}}"></script>
 
   <!-- Start loading and drawing Google gauge -->
   <script type="text/javascript">
