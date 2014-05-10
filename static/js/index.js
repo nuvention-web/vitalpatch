@@ -1,9 +1,25 @@
+/***********************************************/
+/*               Animal Buttons                */
+/***********************************************/
+// Check the radio button with the given animal
+function checkRadioButton(animal) {
+	$('input[name=animal]').each(function() {
+		if ($(this).val() == animal) {
+			$(this).prop('checked', true);
+			return;
+		}
+	});
+}
+
 // Set all other buttons unactive and make this button active
 $('.animal button').click(function() {
     $('.animal button').removeClass('active');
     $(this).addClass('active');
 });
 
+/***********************************************/
+/*       Weight Fade, Procedure Dropdown       */
+/***********************************************/
 // Fade in weight text box if "dog" radio button is selected and a surgery is selected
 function weightFadeIn() {
     var $animalRadio = $('input[name=animal]:checked');
@@ -55,6 +71,9 @@ $('select[name=procedure]').change(function() {
     weightFadeIn();
 });
 
+/***********************************************/
+/*            Vet Dropdown and Zip             */
+/***********************************************/
 var vet_drpdwn;
 var other_switch;
 $("#show_other").click(function(){
@@ -152,205 +171,6 @@ function showZipError(error) {
         $("#vetname_drpdwn").attr("disabled", "true");
     }
 }
-
-// Make sure all fields are filled out
-$('form').submit(function(e) {    
-    // If required attribute is not supported or browser is Safari (Safari thinks that it has this attribute, but it does not work), then check all fields that has required attribute
-    if (!attributeSupported('input', 'required') || isSafari()) {        
-        $(this).find('[required]').each(function(index) {
-
-            // Make sure a radio button is checked
-            if ($(this).is(':radio')) {
-                var name = $(this).attr('name');
-                if (!$('input[name=' + name + ']:checked').length) {
-                    alert("Please fill in all fields.");
-                    e.preventDefault();
-                    return false;
-                }
-            }
-            // Other input types
-            else if (!$(this).val()) {
-                alert("Please fill in all fields.");
-                e.preventDefault();
-                return false;
-            }
-       });
-    }
-
-    // Also check all select fields, regardless of browser
-    $(this).find('select').each(function(index) {
-        if ($(this).val() == "" || $(this).prop('disabled')) {
-            alert("Please fill in all fields.");
-            e.preventDefault();
-            return false;
-        }
-    });
-    
-    return true;
-});
-
-// This checks if a specific attribute is supported (we're using the required attribute)
-function attributeSupported(element, attribute) {
-    return (attribute in document.createElement(element));
-}
-
-// Detect Safari (note: browser detection is bad, but detecting required attribute doesn't work for Safari)
-function isSafari() {
-    return (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-}
-
-$('document').ready(function(){
-    $('#emailSubmitButton').click(function(){
-        $.getJSON($SCRIPT_ROOT + '/_submit_email', {
-        email: $('#email_address_input').val(),
-        }, function(data) {
-            $('#email_address_input').val('');
-            $("#signup_confirmation").remove();
-            $("#email_group").append("<p id='signup_confirmation' style='color:green;'>Thanks for signing up! We'll be in touch :)</p> ");
-        });
-        return false;
-    })
-    $('#email_address_input').keypress(function(e){
-        if(e.which == 13){  //Enter key pressed
-            $('#emailSubmitButton').click();    //Trigger search button click event
-        }
-    });
-
-});
-
-// Guage
-var gauge;
-var nationalPercentile;
-var urbanPercentile;
-var suburbanPercentile;
-var ruralPercentile;
-var options; // Graph options
-var choice;  // Current area wealth choice
-
-function gauge(percentileData) {
-    // Load the Visualization API and the piechart package
-    google.load('visualization', '1.0', {'packages':['gauge']});
-
-    // Set a callback to run when the Google Visualization API is loaded
-    google.setOnLoadCallback(drawGauge);
-
-    // Actually draw it!
-    function drawGauge() {
-        // Create and populate the data table.  Storing 0 initially so we get fun animation
-        data = google.visualization.arrayToDataTable([
-            ['Label', 'Value'],
-            ['%', 0]
-        ]);
-
-        options = {
-            height: 175,
-            width: 175,
-            greenFrom: 0, greenTo: 33,
-            yellowFrom: 33, yellowTo: 67,
-            redFrom: 67, redTo: 100,
-            minorTicks: 5,
-            animation:{
-                duration: 1000,
-                easing: 'out',
-            }
-        };
-
-        // Create and draw the visualization
-        gauge = new google.visualization.Gauge($('#gauge')[0]);
-        gauge.draw(data, options);
-
-        // Populate data with real values, redraw gauge
-        nationalPercentile = parseInt(percentileData.national);
-        urbanPercentile    = parseInt(percentileData.urban);
-        suburbanPercentile = parseInt(percentileData.suburban);
-        ruralPercentile    = parseInt(percentileData.rural);
-
-        if (choice === undefined) {
-            choice = 0;            
-        }          
-
-        // In case someone clicks a button before the gauge loads
-        updateGauge();
-    }
-}
-
-function updateGauge() {
-    var percentile;
-
-    switch(choice) {
-    case 1:
-        percentile = urbanPercentile;
-        areaText = 'in urban areas'
-        break;
-    case 2:
-        percentile = suburbanPercentile;
-        areaText = 'in suburban areas'
-        break;
-    case 3:
-        percentile = ruralPercentile;
-        areaText = 'in rural areas'
-        break;
-    default:
-        percentile = nationalPercentile;
-        areaText = 'nationwide'
-        break;
-    }
-
-    // Gauge
-    data = google.visualization.arrayToDataTable([
-            ['Label', 'Value'],
-            ['%', parseInt(percentile)]
-    ]);
-    gauge.draw(data, options);
-
-    // Set text below gauge
-    $('#gauge-percentile').text(percentile + '%');
-    $('#gauge-area').text(areaText);
-}
-
-// Change active state of buttons, update gauge
-$('.area-button').click(function() {
-    $('.area-button').removeClass('active');
-    $(this).addClass('active');
-
-    choice = $(this).index();
-
-    // Update gauge
-    updateGauge();
-});
-
-// Send feedback form email
-$("#barometer_tab").removeAttr('onclick').attr({
-    'href': '#feedbackModal',
-    'data-toggle': 'modal'
-}).click(function() {
-    $("#feedback-submit").fadeIn();
-    $(".flash").fadeOut();
-    $("#feedback-form").find('input').val('');
-    $("#feedback-form").find('textarea').val('');
-});
-
-$("#feedback-form").submit(function() {
-    $.post(
-        "feedback", 
-        {
-            'email': $(this).find('input[name="email"]').val(),
-            'subject': $(this).find('input[name="subject"]').val(),
-            'description': $(this).find('textarea[name="description"]').val(),
-        }, 
-        function(data) {
-            $("#feedbackModal .modal-body").prepend(
-                "<div class='flash'>" + data.message + "</div>"
-            );
-        }, 
-        'json');
-    return false;
-});
-
-$("#feedback-submit").click(function() {
-    $("#feedback-form").submit();
-    $(this).fadeOut();
-});
 
 //This code does an action when typing stops for "delay" number of milliseconds. Not used.
 /*
