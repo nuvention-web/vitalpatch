@@ -268,15 +268,6 @@ def result():
 def faq():
 	return render_template('faq.html')
 
-@app.route('/dev', methods=['GET'])
-def dev():
-	animal = 'Dog' # Assumes dog as initially selected animal
-	prefilledData = None
-
-	topicProcedureDict = getProcedures(animal)
-
-	return render_template('devindex.html', topicProcedureDict=topicProcedureDict, prefilledData = prefilledData)
-
 # Admin commented out so FAQ and better text can be pushed
 # @app.route('/admin', methods=['GET', 'POST'])
 # def admin():
