@@ -3,19 +3,16 @@
 /***********************************************/
 // Check the radio button with the given animal
 function checkRadioButton(animal) {
-	$('input[name=animal]').each(function() {
+    $('.animal-radio label').removeClass('active'); // Initially remove active state from all buttons
+
+	$('input[name=animal]').each(function() {        
 		if ($(this).val() == animal) {
 			$(this).prop('checked', true);
+            $(this).parent().addClass('active');
 			return;
 		}
 	});
 }
-
-// Set all other buttons unactive and make this button active
-$('.animal button').click(function() {
-    $('.animal button').removeClass('active');
-    $(this).addClass('active');
-});
 
 /***********************************************/
 /*       Weight Fade, Procedure Dropdown       */
