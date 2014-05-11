@@ -15,8 +15,8 @@
 
       		<form role="form" method="post" action="{{ url_for('interstitial') }}">                                        
                 
-                <!-- New buttons -->
-                <!-- <div class="btn-group animal-radio col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="buttons">
+                <!-- Buttons -->
+                <div class="btn-group animal-radio col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="buttons">
                     <label class="btn btn-default col-xs-2 col-sm-2 col-md-2 col-lg-2 active">
                         <input type="radio" name="animal" value="dog"><img src="{{ url_for('static', filename='Animal Buttons/dog.png') }}">
                     </label>                    
@@ -36,16 +36,14 @@
                         <input type="radio" name="animal" value="ferret"><img src="{{ url_for('static', filename='Animal Buttons/ferret.png') }}">
                     </label>
                 </div>
-                <div class="labels col-md-12">
+                <div class="animal-labels col-md-12">
                     <label class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">Dog</label>
                     <label class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">Cat</label>
                     <label class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">Bird</label>
                     <label class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">Reptile</label>
                     <label class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">Rabbit</label>
                     <label class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">Ferret</label>
-                </div> -->
-
-                <!-- Old buttons -->
+                </div>
                 <!-- <div class="row animal">
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                         <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/dog.png') }}"></button>
@@ -71,8 +69,8 @@
                         <button type="button" class="btn btn-default"><img src="{{ url_for('static', filename='Animal Buttons/ferret.png') }}"></button>
                         <label class="text-center">Ferret</label>
                     </div>                
-                </div> 
-                <br> -->
+                </div> --> 
+                <br>
 
                 <!-- Select -->
                 <!-- <select class="form-control" name="animal">
@@ -87,7 +85,7 @@
                 </select>
                 <br> -->
 
-                <div class="radio-inline">
+                <!-- <div class="radio-inline">
                     <label>
                         <input type="radio" name="animal" value="dog" checked required>
                         Dog
@@ -98,7 +96,7 @@
                         <input type="radio" name="animal" value="cat" required>
                         Cat
                     </label>
-                </div>
+                </div> -->
 
                 <select class="form-control" name="procedure">
                   <option value="">-- Select Procedure -- </option>

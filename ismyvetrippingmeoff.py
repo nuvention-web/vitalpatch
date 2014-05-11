@@ -58,7 +58,7 @@ class vetprocedure(db.Model):
 
 class input_prices(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	animal_type = db.Column(db.String(3))
+	animal_type = db.Column(db.String(20))
 	weight = db.Column(db.Integer)
 	procedure = db.Column(db.String(80))
 	price = db.Column(db.Float)
@@ -189,26 +189,27 @@ def result():
 		db.session.add(newVetData)
 		db.session.commit()
 
+		# Procedures we need a weight value for
+		needWeightProcedures = ['Neuter (male)', 'Spay (female)', 'Hernia', 'Gastrotomy: Foreign-body removal']
+
 		# Pull price from db
-		if newVetData.procedure == 'Neuter' or newVetData.procedure == 'Spay (OHE)':
-			if newVetData.animal_type == 'dog':
-				if newVetData.weight == '0':
-					weightString = "<25 Pound Dog"
-				elif newVetData.weight == '1':
-					weightString = "25-50 Pound Dog"
-				elif newVetData.weight == '2':
-					weightString = "51-75 Pound Dog"
-				else:
-					weightString = ">75 Pound Dog"
-				price = vetprocedure.query \
-							.filter_by(procedure = newVetData.procedure) \
-							.filter_by(animal = newVetData.animal_type.title()) \
-							.filter_by(details = weightString) \
-							.first()
+		# If we need the weight for the procedure and the animal is a dog
+		if newVetData.procedure in needWeightProcedures and newVetData.animal_type == 'dog':
+			if newVetData.weight == '0':
+				weightString = "<25 Pound Dog"
+			elif newVetData.weight == '1':
+				weightString = "25-50 Pound Dog"
+			elif newVetData.weight == '2':
+				weightString = "51-75 Pound Dog"
 			else:
-				price = vetprocedure.query.filter_by(procedure = newVetData.procedure).filter_by(animal = newVetData.animal_type.title()).first()
+				weightString = ">75 Pound Dog"
+			price = vetprocedure.query \
+						.filter_by(procedure = newVetData.procedure) \
+						.filter_by(animal = newVetData.animal_type.title()) \
+						.filter_by(details = weightString) \
+						.first()		
 		else:
-			price = vetprocedure.query.filter_by(procedure = newVetData.procedure).first()
+			price = vetprocedure.query.filter_by(procedure = newVetData.procedure).filter_by(animal = newVetData.animal_type.title()).first()
 
 		## Calculate percentiles ##
 		# National
@@ -266,6 +267,15 @@ def result():
 @app.route('/faq')
 def faq():
 	return render_template('faq.html')
+
+@app.route('/dev', methods=['GET'])
+def dev():
+	animal = 'Dog' # Assumes dog as initially selected animal
+	prefilledData = None
+
+	topicProcedureDict = getProcedures(animal)
+
+	return render_template('devindex.html', topicProcedureDict=topicProcedureDict, prefilledData = prefilledData)
 
 # Admin commented out so FAQ and better text can be pushed
 # @app.route('/admin', methods=['GET', 'POST'])

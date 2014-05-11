@@ -1,10 +1,30 @@
-.animal {
-    /*display: block;*/
+.animal-labels {
+	padding-bottom: 20px;
 }
 
-.animal button img {
-    height: auto;
+.animal-labels label {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+label img {
+	height: auto;
     width: 40px;
+}
+
+@media (max-width: 768px) {
+	label img {
+		height: auto;
+		left: -5px;
+		position: relative;
+	    width: 35px;
+	}
+}
+
+@media (max-width: 500px) {
+	.animal-labels label {
+		font-size: 10px;
+	}
 }
 
 #weight {
