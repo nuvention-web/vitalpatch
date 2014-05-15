@@ -209,7 +209,11 @@ def result():
 						.filter_by(details = weightString) \
 						.first()		
 		else:
-			price = vetprocedure.query.filter_by(procedure = newVetData.procedure).filter_by(animal = newVetData.animal_type.title()).first()
+			price = vetprocedure.query \
+						.filter_by(procedure = newVetData.procedure) \
+						.filter(or_(vetprocedure.animal == newVetData.animal_type.title(), vetprocedure.animal == 'All')) \
+						.first()
+
 
 		## Calculate percentiles ##
 		# National
