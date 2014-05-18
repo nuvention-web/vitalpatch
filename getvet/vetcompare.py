@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, render_template, json, flash, session
 from email.MIMEText import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
-from flask.ext.admin import Admin, BaseView, expose
+from flask.ext.admin import Admin, BaseView, AdminIndexView, expose
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, desc
 from flask.ext.admin.contrib.sqla import ModelView
@@ -14,9 +14,9 @@ from pygeocoder import Geocoder
 app = Flask(__name__) 
 app.secret_key="very1secret9secrets90078"
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'] 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/getvet'
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
+app.config['ADMIN_PASSWORD'] = 'whistle'
 db = SQLAlchemy(app)
 
 # API Keys
@@ -29,17 +29,17 @@ yelp_token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
 google_maps_key = 'AIzaSyA9a1FhUt8S46UrlxOGIOikYWp8uz5v3Zc'
 
 # Blog Schema
-class Entry(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(max), unique=True)
-    text = db.Column(db.String(max), unique=True)
+# class Entry(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.String(max), unique=True)
+#     text = db.Column(db.String(max), unique=True)
 
-    def __init__(self, title, text):
-        self.title = title
-        self.text = text
+#     def __init__(self, title, text):
+#         self.title = title
+#         self.text = text
 
-    def __repr__(self):
-        return '<Entry %r>' % self.title
+#     def __repr__(self):
+#         return '<Entry %r>' % self.title
 
 ## Models
 class Clinic(db.Model):
@@ -98,15 +98,32 @@ class PriceView(ModelView):
     column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
     form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
 
-
-class MyView(BaseView):
+class LoginAdminView(AdminIndexView):
     @expose('/')
     def index(self):
-        return self.render('index.html')    
+        if 'logged_in' in session:
+            return super(LoginAdminView, self).index()
+        else:
+            return redirect(url_for('.login_view'))
 
+    @expose('/login/', methods=['GET', 'POST'])
+    def login_view(self):
+        if request.method == 'GET':
+            if 'logged_in' in session:
+                return redirect(url_for('.index'))
+            else:
+                return render_template('admin_login.html')
+        else:
+            # Check password
+            if request.form['password'] == app.config['ADMIN_PASSWORD']:
+                session['logged_in'] = True
+                return super(LoginAdminView, self).index()
+            else:
+                return render_template('admin_login.html', error='Incorrect Password')
+                
 app.debug = True
 db.create_all()
-admin = Admin(app, name='GetVet Admin Console')
+admin = Admin(app, name='VetCompare Admin Console', index_view=LoginAdminView())
 admin.add_view(ClinicView(Clinic, db.session, name='Clinic', endpoint='clinics', category='Data'))
 admin.add_view(ProcedureView(Procedure, db.session, name='Procedure', endpoint='procedures', category='Data'))
 admin.add_view(PriceView(Price, db.session, name='Price', endpoint='prices', category='Data'))
