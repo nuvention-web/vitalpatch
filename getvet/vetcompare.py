@@ -29,17 +29,17 @@ yelp_token_secret = "-vi4CSK58xt4HfxaoA82_BGZ01Q"
 google_maps_key = 'AIzaSyA9a1FhUt8S46UrlxOGIOikYWp8uz5v3Zc'
 
 # Blog Schema
-class Entry(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(max), unique=True)
-    text = db.Column(db.String(max), unique=True)
+# class Entry(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.String(max), unique=True)
+#     text = db.Column(db.String(max), unique=True)
 
-    def __init__(self, title, text):
-        self.title = title
-        self.text = text
+#     def __init__(self, title, text):
+#         self.title = title
+#         self.text = text
 
-    def __repr__(self):
-        return '<Entry %r>' % self.title
+#     def __repr__(self):
+#         return '<Entry %r>' % self.title
 
 ## Models
 class Clinic(db.Model):
