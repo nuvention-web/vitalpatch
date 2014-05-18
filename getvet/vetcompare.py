@@ -98,6 +98,16 @@ class PriceView(ModelView):
     column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
     form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
 
+class ZipCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    zip = db.Column(db.String(5))
+    city = db.Column(db.String(80))
+    state = db.Column(db.String(2))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    timezone = db.Column(db.Integer)
+    dst = db.Column(db.Boolean)
+
 class LoginAdminView(AdminIndexView):
     @expose('/')
     def index(self):
