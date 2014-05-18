@@ -83,7 +83,7 @@ $("#show_other").click(function(){
         other_switch=null;
     }else{
         vet_drpdwn = $("#vetname_drpdwn").detach();         //Detach the vetname dropdown
-        $("#clinicSelect_group").append("<input type='text' id='other_vet' name='vet_name' class='form-control' placeholder='Please enter the name of your vet here'>");    //Replace it with the free text input
+        $("#clinicSelect_group").append("<input type='text' id='other_vet' name='vet_name' class='form-control' placeholder='Please enter the name of your vet here' required>");    //Replace it with the free text input
         $("#hidden_vet_field").attr('name', "vet_id");      //Set the hidden vet field's name to vet_id (which we don't know, because now the user is only inputting the vet's name)
         $("#hidden_vet_field").val("Null");                 //Set the hidden vet field's value to "Null", because we don't know the vet_id
         other_switch=1;
