@@ -132,7 +132,7 @@ def cdf(x):
 # User-Facing Routes
 @app.route('/', methods=['GET'])
 def index():
-	if len(request.args):
+	if len(request.args) and request.args.get('animal'): # Make sure we have the animal arg (coming from results page)
 		animal = request.args.get('animal').title()
 		prefilledData = {
 			'animal':      request.args.get('animal'),
