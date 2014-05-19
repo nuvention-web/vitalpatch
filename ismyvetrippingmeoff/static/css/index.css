@@ -1,0 +1,62 @@
+/* Add padding to animal labels for every device size */
+@media (max-width: 768px) {
+	.animal-labels {
+		padding-bottom: 30px;
+		padding-top: 55px;
+	}
+}
+@media (min-width: 768px) and (max-width: 992px) {
+	.animal-labels {
+		padding-bottom: 30px;
+		padding-top: 60px;
+	}
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+	.animal-labels {
+		padding-bottom: 10px;
+		padding-top: 5px;
+	}
+}
+@media (min-width: 1200px) {
+	.animal-labels {
+		padding-bottom: 10px;
+		padding-top: 5px;
+	}
+}
+/*****************************************************/
+@media (max-width: 500px) {
+	.animal-labels label {
+		font-size: 12px;
+	}
+}
+
+.animal-labels label {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+label img {
+	height: auto;
+    width: 40px;
+}
+
+@media (max-width: 768px) {
+	label img {
+		height: auto;
+		left: -5px;
+		position: relative;
+	    width: 35px;
+	}
+}
+
+#weight {
+    display: none;
+}
+
+.form-control[disabled] {
+    background-color: #ccc;
+}
+
+#zip-error {
+    color: red;
+}

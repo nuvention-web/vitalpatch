@@ -1,0 +1,158 @@
+{% extends "root.html" %}
+
+{% block head %}
+<!-- Facebook Conversion Code for Price fully submitted -->
+<script type="text/javascript">
+var fb_param = {};
+fb_param.pixel_id = '6013832821563';
+fb_param.value = '1.00';
+fb_param.currency = 'USD';
+(function(){
+  var fpw = document.createElement('script');
+  fpw.async = true;
+  fpw.src = '//connect.facebook.net/en_US/fp.js';
+  var ref = document.getElementsByTagName('script')[0];
+  ref.parentNode.insertBefore(fpw, ref);
+})();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6013832821563&amp;value=0&amp;currency=USD" /></noscript>
+
+<link href="{{url_for('static', filename='css/results.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block page %}
+
+  <!-- Facebook Javascript SDK -->
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1494870057392781',
+        status     : true,
+        xfbml      : true
+      });
+    };
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/all.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>   
+
+	<div id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+            
+          <div id="header_text">          
+            {% if percentileData.national <= 20 %}
+            <h1>That’s a deal!</h1>
+            <h3>You were charged one of the lowest possible prices.</h3>
+            <h4> 
+              <strong>
+                {% if percentileData.national|int < 1 %}
+                  Less than 1%
+                {% else %}
+                  Only {{ percentileData.national|int }}%
+                {% endif %}              
+              </strong> of vets nationwide offer a lower price. Depending on your area, your vet may actually be undercharging you.</h4>
+            <h4>Tell your friends what a great deal your vet is below.</h4>
+            
+            {% elif percentileData.national <= 40 %}
+            <h1>That’s below average!</h1>
+            <h3>You were charged a below-average price for this procedure.</h3>
+            <h4>Only <strong>{{ percentileData.national|int }}%</strong> of vets nationwide offer a lower price.</h4>
+            <h4>Tell your friends how affordable your vet is below.</h4>
+
+            {% elif percentileData.national <= 60 %}
+            <h1>That’s normal.</h1>
+            <h3>You were charged an average price for this procedure.</h3>
+            <h4><strong>{{ percentileData.national|int }}%</strong> of vets nationwide charge less for this procedure than does your vet. You may be able to find a more affordable option in your area.</h4>
+            <h4>Share your results with your friends below.</h4>
+
+            {% elif percentileData.national <= 80 %}
+            <h1>That's on the high side.</h1>
+            <h3>You were charged an above-average price for this procedure.</h3>
+            <h4>It's likely that you would be able to find a more affordable vet since <strong>{{ percentileData.national|int }}%</strong> of vets nationwide charge less for this procedure than does your vet.</h4>
+            <h4>Share your results with your friends below.</h4>
+
+            {% else %}
+            <h1>That's high!</h1>
+            <h3>You were charged one of the highest possible prices for this procedure.</h3>
+            <h4>A full <strong>{{ percentileData.national|int }}%</strong> of vets nationwide offer a lower price, so it's likely you'd be able to find a more affordable vet in your area.</h4>
+            <h4>Share your results with your friends below.</h4>
+
+            {% endif %}
+
+            
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.ismyvetrippingmeoff.com" data-text="I just found out whether my vet overcharges! Does yours?" data-via="vetcompare">Tweet</a>
+            <div class="fb-share-button" data-href="http://www.ismyvetrippingmeoff.com" data-type="button_count"></div>
+
+            <div class="row">                            
+              <span id="gauge" class="pull-left"></span>
+              <div class="btn-group-vertical area-button-group">
+                  <button type="button" class="btn btn-default area-button active">National</button>
+                  <button type="button" class="btn btn-default area-button">Urban</button>
+                  <button type="button" class="btn btn-default area-button">Suburban</button>
+                  <button type="button" class="btn btn-default area-button">Rural</button>
+              </div>              
+            </div>
+            <p id="gauge-text">
+              <span id="gauge-percentile">{{ percentileData.national|int }}%</span> of vets <span id="gauge-area">nationwide</span> offer a lower price.
+            </p>
+
+            <a class="btn btn-primary" href="{{ url_for('index') }}?animal={{ animal}}&zip={{ zip }}&clinic_name={{ clinic_name }}&clinic_id={{ clinic_id }}">
+              Check another price from this vet!
+            </a>
+            <br><br>            
+            <p>
+              Disclaimer: The information above is not meant to be a comprehensive analysis of all factors that influence veterinary prices. For more information on the methodology and limitations of this service, please <a href="{{ url_for('faq') }}">see our FAQs</a>.
+            </p>
+          </div>
+        
+          <div id="sign_up">
+            <p style="padding-top:20px">Want to find out how much different procedures cost at different vets? <a href="http://vetcompare.co" target="_blank">VetCompare.co</a> is a price comparison engine for vets, currently in beta. Sign up to be on the waiting list here:</p>
+
+            <form method="get" action="">
+              <div id="email_group" class="form-horizontal">
+               <input id="email_address_input" name="email_addr" type="email" placeholder="Email Address">
+               <button id="emailSubmitButton" type="submit" class="btn">Submit</button>
+              </div>
+            </form>
+
+          </div>                      				
+        </div>
+
+        <div class class="col-sm-4 col-sm-offset-2">
+        <!--filler div-->
+        </div>
+        				
+     </div>
+		</div>
+	</div>
+    
+	<div id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-lg-offset-3">
+					<p class="copyright">Copyright © 2014 - VetCompare.co</p>
+			</div>
+		</div>		
+	</div>	
+	</div>
+
+  <!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script> <!-- Google Charts API -->  
+
+  <script src="{{url_for('static', filename='js/results.js' )}}"></script>
+
+  <!-- Start loading and drawing Google gauge -->
+  <script type="text/javascript">
+    gauge({{ percentileData|safe }});
+  </script>
+
+{% endblock %}
