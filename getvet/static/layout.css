@@ -77,6 +77,18 @@ body {
 }
 
 /* Footer */
+/*footer {
+	background-color: rgba(0, 0, 0, 0);
+	bottom: 0;
+>>>>>>> 22e1ef2495854677a3465bdaa38fac5584700001
+	color: white;
+	font-size: 20px;
+	text-align: center;
+<<<<<<< HEAD
+=======
+	width: 100%;
+
+}*/
 
 footer {
 	color: white;
