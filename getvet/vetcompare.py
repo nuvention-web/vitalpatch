@@ -138,7 +138,6 @@ admin.add_view(ClinicView(Clinic, db.session, name='Clinic', endpoint='clinics',
 admin.add_view(ProcedureView(Procedure, db.session, name='Procedure', endpoint='procedures', category='Data'))
 admin.add_view(PriceView(Price, db.session, name='Price', endpoint='prices', category='Data'))
 
-
 # Yelp
 def get_yelp_results(businessID):
     # Session setup
@@ -187,6 +186,12 @@ recipients = ["glennfellman2014@u.northwestern.edu", "fareeha.ali@gmail.com", "e
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/geocode/<zip_c>')
+def geocode(zip_c=None):
+    geocode = db.session.query(ZipCode).filter_by(zip=zip_c).first()
+    return jsonify(geocode.latitude, geocode.longitude)
+
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
