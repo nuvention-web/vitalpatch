@@ -1,14 +1,29 @@
 html {
 	position: relative;
+	height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    background: url("imgs/bg.jpg") no-repeat center center fixed; 
+    background: url("imgs/bg2-darkest.jpg") no-repeat center center fixed; 
     background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         -webkit-background-size: cover;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+#main-wrapper {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding: 0 0 100px;
+    position: relative;
+}
+
+
 
 /* Sidebar */
 
@@ -39,7 +54,7 @@ body {
 	font-size: 20px;
 }
 
-.sidebar input {
+.sidebar input, .sidebar select {
 	height: 30px;
 	width: 100%;
 }
@@ -62,18 +77,28 @@ body {
 }
 
 /* Footer */
-
-footer {
+/*footer {
 	background-color: rgba(0, 0, 0, 0);
 	bottom: 0;
+>>>>>>> 22e1ef2495854677a3465bdaa38fac5584700001
 	color: white;
-	display: block;
 	font-size: 20px;
-	height: 30px;
-	left: 0;
-	position: absolute;
 	text-align: center;
+<<<<<<< HEAD
+=======
 	width: 100%;
+
+}*/
+
+footer {
+	color: white;
+	font-size: 20px;
+	text-align: center;
+    bottom: 0;
+    height: 30px;
+    left: 0;
+    position: absolute;
+    width: 100%;
 }
 
 footer a {
