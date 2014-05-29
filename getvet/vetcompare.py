@@ -256,7 +256,7 @@ def get_yelp_results(businessID):
     return data
 
 # Get lat/long from an address
-def get_lat_long(address):
+def get_lat_long(address):    
     try:
         data = Geocoder.geocode(address)
         return (data.latitude, data.longitude)
@@ -310,10 +310,10 @@ recipients = ["glennfellman2014@u.northwestern.edu", "fareeha.ali@gmail.com", "e
 # Grab all topics/procedures for select field for given animal
 def getProcedures(animal):  
     topicProcedureDict = {}
-    queryResults = Procedure.query \
-        .distinct(Procedure.name) \
-        .order_by(Procedure.name) \
-        .filter(or_(Procedure.animal == animal, Procedure.animal == 'All'))   
+    queryResults = ProcedureTEMP.query \
+                            .distinct(ProcedureTEMP.name) \
+                            .order_by(ProcedureTEMP.name) \
+                            .filter(or_(ProcedureTEMP.animal == animal, ProcedureTEMP.animal == 'All'))   
     for result in queryResults:
         if result.topic in topicProcedureDict:          
             tempList = topicProcedureDict[result.topic]
@@ -380,7 +380,6 @@ def quote_request():
         flash("Thanks! Your quote request has been successfully submitted.")
         return render_template("quote_request.html")
 
-
 @app.route('/search', methods = ['GET'])
 def search():
     procedure = request.args['procedure'].lower()
@@ -400,7 +399,11 @@ def search():
                                     .order_by(Price.price) \
                                     .all()
 
-        zipLatLong = get_lat_long(zip)
+        zipObj = ZipCode.query.filter(ZipCode.zip == zip).first()
+        if zipObj:
+            zipLatLong = (zipObj.latitude, zipObj.longitude)
+        else:
+            zipLatLong = get_lat_long(zip)
 
         for business in businesses:
             yelp_result = get_yelp_results(business.clinic.yelp_id)
@@ -410,7 +413,7 @@ def search():
                 'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
                 'address': full_address,
                 'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
-                'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
+                'distance': '%.2f' % longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
                 'price': '%.2f' % business.price,
                 'yelp_rating_url': yelp_result['rating_img_url'],
                 'yelp_url': yelp_result['url']
@@ -418,51 +421,89 @@ def search():
     return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
 
 # What will replace the search function after data migration
-def search2():
+@app.route('/super_secret_dev_index')
+def indexDev():
+    return render_template("index2.html")
+
+@app.route('/super_secret_dev_search')
+def searchDev():
     animal = request.args['animal']
     procedure = request.args['procedure']
     weight = request.args['weight']
     zip = request.args['zip']
+    sortBy = request.args.get('sort')
     results = []
-    procedureObj = Procedure.query \
-                    .filter(Procedure.name == procedure) \
-                    .filter(or_(Procedure.animal == animal, Procedure.animal == 'All')) \
-                    .first()
-    if procedureObj:
-        if weight:
-            businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
-                                    .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
-                                    .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
-                                    .order_by(Price.price) \
-                                    .all()  #TODO: order by distance after price
-        else:
-            businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
-                                    .order_by(Price.price) \
-                                    .all()
+    radius = 50
 
+    zipObj = ZipCode.query.filter(ZipCode.zip == zip).first()
+    if zipObj:
+        zipLatLong = (zipObj.latitude, zipObj.longitude)
+    else:
         zipLatLong = get_lat_long(zip)
 
-        for business in businesses:
-            distance = longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude))            
+    # Get clinics within radius
+    closeClinics = []
+    clinics = ClinicTEMP.query.all()
+    for clinic in clinics:
+        distance = longlat_distance(zipLatLong, (clinic.latitude, clinic.longitude))
+        if distance <= radius:
+            closeClinics.append((clinic, distance))  # array of (clinic, distance) tuples
 
-            # Only show businesses within 50 miles
-            if distance < 50:
-                yelp_result = get_yelp_results(business.clinic.yelp_id)
-                full_address = make_full_address(business.clinic)
-                results.append({
-                    'name': business.clinic.name,
-                    'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
-                    'address': full_address,
-                    'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
-                    'distance': '%.2f' % distance,
-                    'price': '%.2f' % business.price,
-                    'yelp_rating_url': yelp_result['rating_img_url'],
-                    'yelp_url': yelp_result['url']
-                })
+    # For each clinic, average all prices for procedure/animal/weight combo
+    for clinicDistanceTuple in closeClinics:
+        clinic = clinicDistanceTuple[0]
+        procedureObj = ProcedureTEMP.query \
+                        .filter(ProcedureTEMP.name == procedure) \
+                        .filter(or_(ProcedureTEMP.animal == animal, Procedure.animal == 'All')) \
+                        .first()
+        if procedureObj:
+            if weight:
+                prices = PriceTEMP.query \
+                                        .filter(PriceTEMP.clinic == clinic) \
+                                        .filter(PriceTEMP.procedure_id == procedureObj.id) \
+                                        .filter(or_(PriceTEMP.weight_low_bound == None, PriceTEMP.weight_low_bound <= weight)) \
+                                        .filter(or_(PriceTEMP.weight_high_bound == None, PriceTEMP.weight_high_bound >= weight)) \
+                                        .filter(PriceTEMP.national_z_score > -2.5) \
+                                        .filter(PriceTEMP.national_z_score < 2) \
+                                        .filter(PriceTEMP.data_integrity < 3) \
+                                        .all()
+            else:
+                prices = PriceTEMP.query \
+                                        .filter(PriceTEMP.clinic == clinic) \
+                                        .filter(PriceTEMP.procedure_id == procedureObj.id) \
+                                        .filter(PriceTEMP.national_z_score > -2.5) \
+                                        .filter(PriceTEMP.national_z_score < 2) \
+                                        .filter(PriceTEMP.data_integrity < 3) \
+                                        .all()
+        if len(prices):
+            count = 0
+            sum = 0
+            for price in prices:
+                sum += price.price
+                count += 1
+            avgPrice = sum/count
+
+            yelp_result = get_yelp_results(clinic.yelp_id)
+            full_address = make_full_address(clinic)
+            results.append({
+                'name': clinic.name,
+                'phone': '(%s) %s-%s' % (clinic.phone[0:3], clinic.phone[3:6], clinic.phone[6:]),
+                'address': full_address,
+                'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
+                'distance': clinicDistanceTuple[1],
+                'price': avgPrice,
+                'yelp_rating_url': yelp_result['rating_img_url'],
+                'yelp_url': yelp_result['url']
+            })
+
+    # Sort results
+    if not sortBy:
+        sortBy = 'price'
+    results.sort(key=lambda x: x[sortBy])
 
     topicProcedureDict = getProcedures(animal.title())
 
-    return render_template("search.html", results=results, animal=str(animal), topicProcedureDict=topicProcedureDict, curr_procedure=str(procedure), weight=weight, zip=zip)
+    return render_template("search2.html", results=results, animal=str(animal), topicProcedureDict=topicProcedureDict, curr_procedure=str(procedure), weight=weight, zip=zip)
 
 # Get new procedures given animal selection
 @app.route('/_update-procedures', methods=['POST'])

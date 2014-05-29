@@ -3,12 +3,12 @@
 /***********************************************/
 // Format animal dropdown with image and name
 function formatAnimalDropdown(animal) {
-    return '<img class="animal-dropdown-img" src="static/imgs/Animal Buttons/' + animal.text + '.png">' + ' ' + animal.text;
+    return '<img class="animal-dropdown-img" src="static/imgs/Animal Buttons/' + animal.text.toLowerCase() + '.png">' + ' ' + animal.text;
 }
 
 // Format animal selection with image and name
 function formatAnimalSelected(animal) {
-	return '<img class="animal-selected-img" src="static/imgs/Animal Buttons/' + animal.text + '.png">' + '  ' + animal.text;
+	return '<img class="animal-selected-img" src="static/imgs/Animal Buttons/' + animal.text.toLowerCase() + '.png">' + '  ' + animal.text;
 }
 
 // Make dropdowns select2
