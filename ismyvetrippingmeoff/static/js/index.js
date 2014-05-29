@@ -83,7 +83,7 @@ $("#show_other").click(function(){
         other_switch=null;
     }else{
         vet_drpdwn = $("#vetname_drpdwn").detach();         //Detach the vetname dropdown
-        $("#clinicSelect_group").append("<input type='text' id='other_vet' name='vet_name' class='form-control' placeholder='Please enter the name of your vet here'>");    //Replace it with the free text input
+        $("#clinicSelect_group").append("<input type='text' id='other_vet' name='vet_name' class='form-control' placeholder='Please enter the name of your vet here' required>");    //Replace it with the free text input
         $("#hidden_vet_field").attr('name', "vet_id");      //Set the hidden vet field's name to vet_id (which we don't know, because now the user is only inputting the vet's name)
         $("#hidden_vet_field").val("Null");                 //Set the hidden vet field's value to "Null", because we don't know the vet_id
         other_switch=1;
@@ -99,23 +99,24 @@ $("#submit").click(function(){
 });
 
 var geocoder;
+var result_latitude;
+var result_longitude;
 //Ajax function to populate the vet clinic dropdown based on zip code field.
 $('#zipcode').keyup(function() {
     if($('#zipcode').val().length>=5){
-        //Here I will use google's javascript geocoder API to get the latlng of the given zipcode, and then I will send that to the server via AJAX
-        geocoder = new google.maps.Geocoder();
-        geocoder.geocode( { 'address':$('#zipcode').val(), 'componentRestrictions':{'postalCode':$('#zipcode').val()} }, function(results, status) {
-        
-        if (status == google.maps.GeocoderStatus.OK) {
-            result_latitude = results[0]['geometry']['location'].lat();
-            result_longitude = results[0]['geometry']['location'].lng();
-            console.log("First result latitude is: " + results[0]['geometry']['location'].lat());
-            console.log("First result longitude is: " + results[0]['geometry']['location'].lng());
-            //AJAX call:
-            $.getJSON($SCRIPT_ROOT + '/_get_clinics_in_zipcode', {
-                latitude: result_latitude,
-                longitude: result_longitude
+        $.getJSON("http://www.vetcompare.co/geocode/" + $('#zipcode').val(), function(data) {
+            result_latitude = data['latitude'];
+            result_longitude = data['longitude'];
+            console.log(result_latitude);
+            console.log(result_longitude);
+            console.log( "success" );
+        })
+            .done(function() {
+                $.getJSON($SCRIPT_ROOT + '/_get_clinics_in_zipcode', {
+                    latitude: result_latitude,
+                    longitude: result_longitude
                 }, function(data) {
+
                     $('#vetname_drpdwn')
                         .find('option')
                         .remove();
@@ -137,20 +138,15 @@ $('#zipcode').keyup(function() {
                                 .removeAttr("disabled");
                         }
                     }
+
+                    console.log("completing second ajax");
+                });
+                console.log( "second success" );
             });
-            return false;
 
-          } else { //status of google.maps.GeocoderStatus is not OK
-                //Show bad zip code error message
-                console.log("googlemaps.GeocoderStatus is not OK");
-                showZipError("Sorry, that didn't work. It may be an invalid zip code. Please try a new zip code!");                
-          }
-        });
-    //If five digits have been entered, show the link which toggles between the dropdown and free text input for vet name
-    $("#show_other").show();
-    }
-
-    // Zip code not equal to 5 characters
+        //If five digits have been entered, show the link which toggles between the dropdown and free text input for vet name
+        $("#show_other").show();
+    }// Zip code not equal to 5 characters
     else {
         showZipError("Zip codes need to be five characters!");
     }
