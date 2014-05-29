@@ -16,14 +16,26 @@ body {
     padding: 0;
 }
 
+#vetbanner {
+	background-color: rgba(223, 242, 191, 0.9);
+	border: 2px dashed rgb(60, 118, 61);;
+	color: rgb(60, 118, 61);
+	font-size: 15px;
+	margin-top: 3px;
+	padding: 5px;
+	z-index: 5;
+}
+
+#banner-close {
+	line-height: 15px;
+}
+
 #main-wrapper {
     box-sizing: border-box;
     min-height: 100%;
     padding: 0 0 100px;
     position: relative;
 }
-
-
 
 /* Sidebar */
 
@@ -59,6 +71,14 @@ body {
 	width: 100%;
 }
 
+.animal-dropdown-img {
+	width: 40px;
+}
+
+.animal-selected-img {
+	width: 20px;
+}
+
 .sidebar #weight-control-group {
 	display: none;
 }
@@ -77,17 +97,15 @@ body {
 }
 
 /* Footer */
-
 /*footer {
 	background-color: rgba(0, 0, 0, 0);
 	bottom: 0;
+>>>>>>> 22e1ef2495854677a3465bdaa38fac5584700001
 	color: white;
-	display: block;
 	font-size: 20px;
-	height: 30px;
-	left: 0;
-	position: absolute;
 	text-align: center;
+<<<<<<< HEAD
+=======
 	width: 100%;
 
 }*/
