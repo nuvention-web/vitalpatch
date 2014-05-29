@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 GETVET_ENV/**
 .DS_STORE
 =======
@@ -25,3 +26,10 @@ GETVET_ENV/**
 .DS_Store
 getvet/GETVET_ENV/**
 >>>>>>> 254f58de243a5db4607561eaaaa2cc78c3089474
+=======
+*.pyc
+.env*
+env/**
+.DS_STORE
+VENV/**
+>>>>>>> d0a664033a436887f0eeee0368b54df1869e06d0
