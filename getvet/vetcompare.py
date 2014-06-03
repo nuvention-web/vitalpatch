@@ -428,12 +428,16 @@ def indexDev():
 @app.route('/super_secret_dev_search')
 def searchDev():
     animal = request.args['animal']
-    procedure = request.args['procedure']
-    weight = request.args['weight']
+    procedure = request.args['procedure']    
     zip = request.args['zip']
-    sortBy = request.args.get('sort')
+
+    # Weight and sort/filter defaults
+    weight = request.args.get('weight') if 'weight' in request.args else ''  # Needed so weight autofill isn't 'None'
+    sortBy = request.args.get('sort')   if 'sort'   in request.args else 'price'
+    radius = float(request.args.get('radius')) if 'radius' in request.args else 10
+    rating = float(request.args.get('rating')) if 'rating' in request.args else 0
+
     results = []
-    radius = 50
 
     zipObj = ZipCode.query.filter(ZipCode.zip == zip).first()
     if zipObj:
@@ -446,6 +450,7 @@ def searchDev():
     clinics = ClinicTEMP.query.all()
     for clinic in clinics:
         distance = longlat_distance(zipLatLong, (clinic.latitude, clinic.longitude))
+        # print distance
         if distance <= radius:
             closeClinics.append((clinic, distance))  # array of (clinic, distance) tuples
 
@@ -483,27 +488,42 @@ def searchDev():
                 count += 1
             avgPrice = sum/count
 
+            # Get rating/image from Yelp
             yelp_result = get_yelp_results(clinic.yelp_id)
-            full_address = make_full_address(clinic)
-            results.append({
-                'name': clinic.name,
-                'phone': '(%s) %s-%s' % (clinic.phone[0:3], clinic.phone[3:6], clinic.phone[6:]),
-                'address': full_address,
-                'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
-                'distance': clinicDistanceTuple[1],
-                'price': avgPrice,
-                'yelp_rating_url': yelp_result['rating_img_url'],
-                'yelp_url': yelp_result['url']
-            })
+
+            # Check if the result rating is greater than our filter rating
+            if yelp_result['rating'] > rating:
+                full_address = make_full_address(clinic)
+                results.append({
+                    'name': clinic.name,
+                    'phone': '(%s) %s-%s' % (clinic.phone[0:3], clinic.phone[3:6], clinic.phone[6:]),
+                    'address': full_address,
+                    'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
+                    'distance': clinicDistanceTuple[1],
+                    'price': avgPrice,
+                    'rating': yelp_result['rating'],
+                    'yelp_rating_url': yelp_result['rating_img_url'],
+                    'yelp_url': yelp_result['url']
+                })
 
     # Sort results
-    if not sortBy:
-        sortBy = 'price'
     results.sort(key=lambda x: x[sortBy])
 
     topicProcedureDict = getProcedures(animal.title())
 
-    return render_template("search2.html", results=results, animal=str(animal), topicProcedureDict=topicProcedureDict, curr_procedure=str(procedure), weight=weight, zip=zip)
+    return render_template("search2.html", 
+                            results=results,
+                            animal=str(animal),
+                            topicProcedureDict=topicProcedureDict,
+                            curr_procedure=str(procedure),
+                            weight=weight,
+                            zip=zip,
+                            sort=sortBy,
+                            sortInParams='sort' in request.args,
+                            radius=int(radius),
+                            radiusInParams='radius' in request.args,
+                            rating=int(rating),
+                            ratingInParams='rating' in request.args)
 
 # Get new procedures given animal selection
 @app.route('/_update-procedures', methods=['POST'])

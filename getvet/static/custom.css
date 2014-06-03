@@ -2,6 +2,59 @@ ul {
 	list-style-type: none;
 }
 
+.sort-options-block {
+	background-color: rgba(255, 255, 255, 0.5);
+	margin-left: 25px;
+	width: auto;
+}
+
+@media (max-width: 768px) {
+	#sort-container > div {
+		display: inline-block;
+		margin: 0;
+		width: 30%;
+	}
+}
+
+@media (max-width: 471px) {
+	.sort-options-group > label {
+		font-size: 11px;
+	}
+}
+
+#sort-buttons {
+	padding-bottom: 10px;
+}
+
+.sort-options-title {
+	font-size: 15px;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.sort-options-radio {
+	display: none;
+}
+
+.sort-options-label {
+	margin-left: 25px;
+}
+
+input[type="radio"]:not(:checked)+label:hover {
+	color: #0088cc;
+	font-weight: bold;
+}
+
+input[type="radio"]:checked+label {
+	cursor: default;
+	font-weight: bold;
+}
+
+.sort-option li:hover {
+	cursor: pointer;
+	font-weight: bold;	
+}
+
 ul.well {
 	background-color: rgba(255, 255, 255, 0.5);
 }

@@ -78,6 +78,17 @@ $('#banner-close').click(function() {
 /***********************************************/
 // Make sure all fields are filled out
 $('form').submit(function(e) {    
+	// First, let's remove the weight field if it's invisible
+	$hiddenWeight = $('#weight:hidden');
+	if ($hiddenWeight) {
+		$hiddenWeight.attr('disabled', true);   // Removes param from form
+	}
+
+	// Now let's remove the unselected sort/filters
+	$(this).find('.hidden-sort-option')
+			.filter(function() { return this.value == ""; }) // Only select the ones with no value
+			.attr('disabled', true);
+
     // If required attribute is not supported or browser is Safari (Safari thinks that it has this attribute, but it does not work), then check all fields that has required attribute
     if (!attributeSupported('input', 'required') || isSafari()) {        
         $(this).find('[required]').each(function(index) {

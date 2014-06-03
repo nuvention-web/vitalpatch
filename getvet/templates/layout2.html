@@ -21,7 +21,7 @@
 	    	<!-- Sidebar -->
 	        <div class="span3">
 	            <div class="sidebar affix">
-	                <a href="{{ url_for('index') }}"><img id="title" src="{{ url_for('static', filename='imgs/logo.png') }}" alt="VetCompare"></a>    <form class="well" action="{{ url_for('searchDev') }}">
+	                <a href="{{ url_for('index') }}"><img id="title" src="{{ url_for('static', filename='imgs/logo.png') }}" alt="VetCompare"></a>    <form class="well" id="search-form" action="{{ url_for('searchDev') }}">
 	                    <div class="control-group">
 	                    	<label class="control-label" for="animal">Animal</label>
 	                    	<div class="controls">
@@ -69,7 +69,9 @@
 	                            <input type="text" id="zip" name="zip" placeholder="Zip" value="{{ zip }}" autocomplete="off" required>
 	                        </div>
 	                    </div>
-	                    <input type="hidden" name="sort">
+	                    <input type="hidden" class="hidden-sort-option" name="sort"   {% if sortInParams %}value={{ sort }}{% endif %}>
+	                    <input type="hidden" class="hidden-sort-option" name="radius" {% if radiusInParams %}value={{ radius }}{% endif %}>
+	                    <input type="hidden" class="hidden-sort-option" name="rating" {% if ratingInParams %}value={{ rating }}{% endif %}>
 	                    <button type="submit" class="btn">Search</button>
 	                </form>
 	                <!-- <div class="text-center" id="vetbanner">
