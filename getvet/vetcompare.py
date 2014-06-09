@@ -45,85 +45,6 @@ google_maps_key = 'AIzaSyA9a1FhUt8S46UrlxOGIOikYWp8uz5v3Zc'
 #         return '<Entry %r>' % self.title
 
 ## Models
-class ClinicOLD(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    phone = db.Column(db.String(15))
-    street_address = db.Column(db.String(80))
-    city = db.Column(db.String(80))
-    state = db.Column(db.String(80))
-    zip = db.Column(db.Integer)
-    yelp_id = db.Column(db.String(150))
-    latitude = db.Column(db.Float)
-    longitude = db.Column(db.Float)
-    price = db.relationship('PriceOLD', backref='clinic', lazy='dynamic')
-
-    def __init__(self, yelp_id = None):
-        if yelp_id:
-            self.yelp_id = yelp_id
-            initializeClinic(self) # Yelp and lat/long
-
-    def __repr__(self):
-        return self.name
-
-class ClinicViewOLD(ModelView):
-    column_list = ('id', 'name', 'phone', 'street_address', 'city', 'state', 'zip', 'yelp_id', 'latitude', 'longitude')
-    form_columns = ['yelp_id']
-
-    # Input everything from Yelp, lat/long when user enters data
-    def on_model_change(self, form, model, is_created):
-        initializeClinic(model) # Yelp and lat/long
-
-class ProcedureOLD(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    topic = db.Column(db.String(20))
-    animal = db.Column(db.String(20))
-    price = db.relationship('PriceOLD', backref='procedure', lazy='dynamic')
-
-    def __repr__(self):
-        return self.name
-
-class ProcedureViewOLD(ModelView):
-    column_list = ('id', 'topic', 'name', 'animal')
-    form_excluded_columns = ('price')
-
-class PriceOLD(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    clinic_id = db.Column(db.Integer, db.ForeignKey('clinicOLD.id'))
-    procedure_id = db.Column(db.Integer, db.ForeignKey('procedureOLD.id'))    
-    weight_low_bound = db.Column(db.Float)
-    weight_high_bound = db.Column(db.Float)
-    price = db.Column(db.Float)
-    number_of_prices = db.Column(db.Integer)
-
-    def __init__(self, clinic_id, procedure_id, price, weight_low_bound = None, weight_high_bound = None):
-        self.clinic_id = clinic_id
-        self.procedure_id = procedure_id
-
-        self.weight_low_bound = weight_low_bound
-        self.weight_high_bound = weight_high_bound
-
-        self.price = price
-        self.number_of_prices = 1
-
-class PriceViewOLD(ModelView):
-    column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'number_of_prices')
-    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
-
-class ZipCode(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    zip = db.Column(db.String(5))
-    city = db.Column(db.String(80))
-    state = db.Column(db.String(2))
-    latitude = db.Column(db.Float)
-    longitude = db.Column(db.Float)
-    timezone = db.Column(db.Integer)
-    dst = db.Column(db.Boolean)
-
-###############################################
-#       TEMPORARY TABLES FOR MIGRATION        #
-###############################################
 class Clinic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
@@ -132,7 +53,7 @@ class Clinic(db.Model):
     city = db.Column(db.String(80))
     state = db.Column(db.String(80))
     zip = db.Column(db.String(10))
-    yelp_id = db.Column(db.String(150))
+    yelp_id = db.Column(db.String(150), unique=True)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     price = db.relationship('Price', backref='clinic', lazy='dynamic')
@@ -202,6 +123,85 @@ class Price(db.Model):
 
 class PriceView(ModelView):
     column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'national_z_score', 'urban_z_score', 'suburban_z_score', 'rural_z_score', 'data_integrity')
+    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
+
+class ZipCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    zip = db.Column(db.String(5))
+    city = db.Column(db.String(80))
+    state = db.Column(db.String(2))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    timezone = db.Column(db.Integer)
+    dst = db.Column(db.Boolean)
+
+###############################################
+#                 OLD TABLES                  #
+###############################################
+class ClinicOLD(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    phone = db.Column(db.String(15))
+    street_address = db.Column(db.String(80))
+    city = db.Column(db.String(80))
+    state = db.Column(db.String(80))
+    zip = db.Column(db.Integer)
+    yelp_id = db.Column(db.String(150))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    price = db.relationship('PriceOLD', backref='clinic', lazy='dynamic')
+
+    def __init__(self, yelp_id = None):
+        if yelp_id:
+            self.yelp_id = yelp_id
+            initializeClinic(self) # Yelp and lat/long
+
+    def __repr__(self):
+        return self.name
+
+class ClinicViewOLD(ModelView):
+    column_list = ('id', 'name', 'phone', 'street_address', 'city', 'state', 'zip', 'yelp_id', 'latitude', 'longitude')
+    form_columns = ['yelp_id']
+
+    # Input everything from Yelp, lat/long when user enters data
+    def on_model_change(self, form, model, is_created):
+        initializeClinic(model) # Yelp and lat/long
+
+class ProcedureOLD(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    topic = db.Column(db.String(20))
+    animal = db.Column(db.String(20))
+    price = db.relationship('PriceOLD', backref='procedure', lazy='dynamic')
+
+    def __repr__(self):
+        return self.name
+
+class ProcedureViewOLD(ModelView):
+    column_list = ('id', 'topic', 'name', 'animal')
+    form_excluded_columns = ('price')
+
+class PriceOLD(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    clinic_id = db.Column(db.Integer, db.ForeignKey('clinicOLD.id'))
+    procedure_id = db.Column(db.Integer, db.ForeignKey('procedureOLD.id'))    
+    weight_low_bound = db.Column(db.Float)
+    weight_high_bound = db.Column(db.Float)
+    price = db.Column(db.Float)
+    number_of_prices = db.Column(db.Integer)
+
+    def __init__(self, clinic_id, procedure_id, price, weight_low_bound = None, weight_high_bound = None):
+        self.clinic_id = clinic_id
+        self.procedure_id = procedure_id
+
+        self.weight_low_bound = weight_low_bound
+        self.weight_high_bound = weight_high_bound
+
+        self.price = price
+        self.number_of_prices = 1
+
+class PriceViewOLD(ModelView):
+    column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'number_of_prices')
     form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
 
 class LoginAdminView(AdminIndexView):
@@ -324,16 +324,9 @@ def getProcedures(animal):
     return topicProcedureDict
 
 # Routes
-# @app.route('/')
-# def index():
-#     return render_template("index.html")
-
-@app.route('/geocode/<zip_c>', methods=['GET', 'OPTIONS'])
-@crossdomain(origin='*')
-def geocode(zip_c=None):
-    geocode = db.session.query(ZipCode).filter_by(zip=zip_c).first()
-    return jsonify({"latitude": geocode.latitude, "longitude": geocode.longitude})
-
+@app.route('/')
+def index():
+    return render_template("index.html")
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
@@ -379,51 +372,6 @@ def quote_request():
 
         flash("Thanks! Your quote request has been successfully submitted.")
         return render_template("quote_request.html")
-
-# @app.route('/search', methods = ['GET'])
-# def search():
-#     procedure = request.args['procedure'].lower()
-#     weight = request.args['weight']
-#     zip = request.args['zip']
-#     results = []
-#     procedureObj = Procedure.query.filter(Procedure.name == procedure.lower()).first()
-#     if procedureObj:
-#         if weight:
-#             businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
-#                                     .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
-#                                     .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
-#                                     .order_by(Price.price) \
-#                                     .all()  #TODO: order by distance after price
-#         else:
-#             businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
-#                                     .order_by(Price.price) \
-#                                     .all()
-
-#         zipObj = ZipCode.query.filter(ZipCode.zip == zip).first()
-#         if zipObj:
-#             zipLatLong = (zipObj.latitude, zipObj.longitude)
-#         else:
-#             zipLatLong = get_lat_long(zip)
-
-#         for business in businesses:
-#             yelp_result = get_yelp_results(business.clinic.yelp_id)
-#             full_address = make_full_address(business.clinic)
-#             results.append({
-#                 'name': business.clinic.name,
-#                 'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
-#                 'address': full_address,
-#                 'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
-#                 'distance': '%.2f' % longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
-#                 'price': '%.2f' % business.price,
-#                 'yelp_rating_url': yelp_result['rating_img_url'],
-#                 'yelp_url': yelp_result['url']
-#             })
-#     return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
-
-# What will replace the search function after data migration
-@app.route('/')
-def index():
-    return render_template("index.html")
 
 @app.route('/search')
 def search():
@@ -529,6 +477,12 @@ def search():
 @app.route('/_update-procedures', methods=['POST'])
 def updateProcedures():
     return jsonify(getProcedures(request.form['animal'].title()))
+
+@app.route('/geocode/<zip_c>', methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
+def geocode(zip_c=None):
+    geocode = db.session.query(ZipCode).filter_by(zip=zip_c).first()
+    return jsonify({"latitude": geocode.latitude, "longitude": geocode.longitude})
 
 # Receive data from IMVRMO to be added to db
 @app.route('/add_data', methods=['POST'])
