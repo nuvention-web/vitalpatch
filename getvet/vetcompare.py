@@ -9,7 +9,9 @@ from flask.ext.admin.contrib.sqla import ModelView
 from wtforms.fields import SelectField
 import os, smtplib, math
 import rauth # OAuth for Yelp
-from pygeocoder import Geocoder
+from pygeocoder import Geocoder, GeocoderError
+
+from crossdomain import *
 
 app = Flask(__name__) 
 app.secret_key="very1secret9secrets90078"
@@ -17,6 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 30
 app.config['ADMIN_PASSWORD'] = 'whistle'
+app.config['API_KEY'] = 'whistle'
 db = SQLAlchemy(app)
 
 # API Keys
@@ -49,11 +52,16 @@ class Clinic(db.Model):
     street_address = db.Column(db.String(80))
     city = db.Column(db.String(80))
     state = db.Column(db.String(80))
-    zip = db.Column(db.Integer)
-    yelp_id = db.Column(db.String(150))
+    zip = db.Column(db.String(10))
+    yelp_id = db.Column(db.String(150), unique=True)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     price = db.relationship('Price', backref='clinic', lazy='dynamic')
+
+    def __init__(self, yelp_id = None):
+        if yelp_id:
+            self.yelp_id = yelp_id
+            initializeClinic(self) # Yelp and lat/long
 
     def __repr__(self):
         return self.name
@@ -62,28 +70,27 @@ class ClinicView(ModelView):
     column_list = ('id', 'name', 'phone', 'street_address', 'city', 'state', 'zip', 'yelp_id', 'latitude', 'longitude')
     form_columns = ['yelp_id']
 
-    # Input latitude and longitude when user enters data
-    def on_model_change(self, form, model):
-        business = get_yelp_results(model.yelp_id)
-        model.name = business['name']
-        model.phone = business['phone']
-        model.street_address = business['location']['address'][0]
-        model.city = business['location']['city']
-        model.state = business['location']['state_code']
-        model.zip = business['location']['postal_code']
-        full_address = make_full_address(model)
-        model.latitude, model.longitude = get_lat_long(full_address)
+    # Input everything from Yelp, lat/long when user enters data
+    def on_model_change(self, form, model, is_created):
+        initializeClinic(model) # Yelp and lat/long
 
 class Procedure(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
+    topic = db.Column(db.String(20))
+    animal = db.Column(db.String(20))
     price = db.relationship('Price', backref='procedure', lazy='dynamic')
+
+    def __init__(self, name, topic, animal):
+        self.name = name
+        self.topic = topic
+        self.animal = animal
 
     def __repr__(self):
         return self.name
 
 class ProcedureView(ModelView):
-    column_list = ('id', 'name')
+    column_list = ('id', 'topic', 'name', 'animal')
     form_excluded_columns = ('price')
 
 class Price(db.Model):
@@ -93,10 +100,30 @@ class Price(db.Model):
     weight_low_bound = db.Column(db.Float)
     weight_high_bound = db.Column(db.Float)
     price = db.Column(db.Float)
+    national_z_score = db.Column(db.Float)
+    urban_z_score = db.Column(db.Float)
+    suburban_z_score = db.Column(db.Float)
+    rural_z_score = db.Column(db.Float)
+    data_integrity = db.Column(db.Integer)
+
+    def __init__(self, clinic_id, procedure_id, price, national_z_score, urban_z_score, suburban_z_score, rural_z_score, data_integrity = None, weight_low_bound = None, weight_high_bound = None):
+        self.clinic_id = clinic_id
+        self.procedure_id = procedure_id
+
+        self.weight_low_bound = weight_low_bound
+        self.weight_high_bound = weight_high_bound
+
+        self.price = price
+
+        self.national_z_score = national_z_score
+        self.urban_z_score = urban_z_score
+        self.suburban_z_score = suburban_z_score
+        self.rural_z_score = rural_z_score
+        self.data_integrity = data_integrity
 
 class PriceView(ModelView):
-    column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
-    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
+    column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'national_z_score', 'urban_z_score', 'suburban_z_score', 'rural_z_score', 'data_integrity')
+    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'national_z_score', 'urban_z_score', 'suburban_z_score', 'rural_z_score', 'data_integrity')
 
 class ZipCode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -107,6 +134,75 @@ class ZipCode(db.Model):
     longitude = db.Column(db.Float)
     timezone = db.Column(db.Integer)
     dst = db.Column(db.Boolean)
+
+###############################################
+#                 OLD TABLES                  #
+###############################################
+class ClinicOLD(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    phone = db.Column(db.String(15))
+    street_address = db.Column(db.String(80))
+    city = db.Column(db.String(80))
+    state = db.Column(db.String(80))
+    zip = db.Column(db.Integer)
+    yelp_id = db.Column(db.String(150))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    price = db.relationship('PriceOLD', backref='clinic', lazy='dynamic')
+
+    def __init__(self, yelp_id = None):
+        if yelp_id:
+            self.yelp_id = yelp_id
+            initializeClinic(self) # Yelp and lat/long
+
+    def __repr__(self):
+        return self.name
+
+class ClinicViewOLD(ModelView):
+    column_list = ('id', 'name', 'phone', 'street_address', 'city', 'state', 'zip', 'yelp_id', 'latitude', 'longitude')
+    form_columns = ['yelp_id']
+
+    # Input everything from Yelp, lat/long when user enters data
+    def on_model_change(self, form, model, is_created):
+        initializeClinic(model) # Yelp and lat/long
+
+class ProcedureOLD(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    topic = db.Column(db.String(20))
+    animal = db.Column(db.String(20))
+    price = db.relationship('PriceOLD', backref='procedure', lazy='dynamic')
+
+    def __repr__(self):
+        return self.name
+
+class ProcedureViewOLD(ModelView):
+    column_list = ('id', 'topic', 'name', 'animal')
+    form_excluded_columns = ('price')
+
+class PriceOLD(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    clinic_id = db.Column(db.Integer, db.ForeignKey('clinicOLD.id'))
+    procedure_id = db.Column(db.Integer, db.ForeignKey('procedureOLD.id'))    
+    weight_low_bound = db.Column(db.Float)
+    weight_high_bound = db.Column(db.Float)
+    price = db.Column(db.Float)
+    number_of_prices = db.Column(db.Integer)
+
+    def __init__(self, clinic_id, procedure_id, price, weight_low_bound = None, weight_high_bound = None):
+        self.clinic_id = clinic_id
+        self.procedure_id = procedure_id
+
+        self.weight_low_bound = weight_low_bound
+        self.weight_high_bound = weight_high_bound
+
+        self.price = price
+        self.number_of_prices = 1
+
+class PriceViewOLD(ModelView):
+    column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'number_of_prices')
+    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
 
 class LoginAdminView(AdminIndexView):
     @expose('/')
@@ -138,6 +234,10 @@ admin.add_view(ClinicView(Clinic, db.session, name='Clinic', endpoint='clinics',
 admin.add_view(ProcedureView(Procedure, db.session, name='Procedure', endpoint='procedures', category='Data'))
 admin.add_view(PriceView(Price, db.session, name='Price', endpoint='prices', category='Data'))
 
+admin.add_view(ClinicViewOLD(ClinicOLD, db.session, name='ClinicOLD', endpoint='clinicsOLD', category='Data'))
+admin.add_view(ProcedureViewOLD(ProcedureOLD, db.session, name='ProcedureOLD', endpoint='proceduresOLD', category='Data'))
+admin.add_view(PriceViewOLD(PriceOLD, db.session, name='PriceOLD', endpoint='pricesOLD', category='Data'))
+
 # Yelp
 def get_yelp_results(businessID):
     # Session setup
@@ -155,19 +255,44 @@ def get_yelp_results(businessID):
 
     return data
 
-def get_lat_long(address):
-    data = Geocoder.geocode(address)
-    return (data.latitude, data.longitude)
+# Get lat/long from an address
+def get_lat_long(address):    
+    try:
+        data = Geocoder.geocode(address)
+        return (data.latitude, data.longitude)
+    except GeocoderError:
+        print "Geocoder Error"
+        return (0, 0)
 
 # Make full address string with "Street, City, State Zip"
 def make_full_address(model):
     return '%s, %s, %s %s' % (model.street_address, model.city, model.state, model.zip)
 
+# Put Yelp and lat/long data in clinic instance when it's created
+# Assumes model has a yelp_id already
+def initializeClinic(model):
+    business = get_yelp_results(model.yelp_id)
+    if 'name' in business.keys():
+        model.name = business['name']
+    if 'phone' in business.keys():
+        model.phone = business['phone']
+    if 'location' in business.keys():
+        if 'address' in business['location'].keys() and len(business['location']['address']):
+            model.street_address = business['location']['address'][0]
+        if 'city' in business['location'].keys():
+            model.city = business['location']['city']
+        if 'state_code' in business['location'].keys():
+            model.state = business['location']['state_code']
+        if 'postal_code' in business['location'].keys():
+            model.zip = business['location']['postal_code']
+    full_address = make_full_address(model)
+    model.latitude, model.longitude = get_lat_long(full_address)
+
 # Find distance between two different longs/lats
 def longlat_distance(start, destination):
     lat1, lon1 = start
     lat2, lon2 = destination
-    radius = 6371 # km
+    radius = 3959 # miles
 
     dlat = math.radians(lat2-lat1)
     dlon = math.radians(lon2-lon1)
@@ -176,22 +301,32 @@ def longlat_distance(start, destination):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     d = radius * c
 
-    return '%.2f' % d
+    return d
 
 # Define sender and recipients for email
 sender = "vetcompare@gmail.com"
 recipients = ["glennfellman2014@u.northwestern.edu", "fareeha.ali@gmail.com", "ed.bren@gmail.com", "rennaker@gmail.com", "samtoizer@gmail.com", "scott.neaves.eghs@gmail.com"]
 
+# Grab all topics/procedures for select field for given animal
+def getProcedures(animal):  
+    topicProcedureDict = {}
+    queryResults = Procedure.query \
+                            .distinct(Procedure.name) \
+                            .order_by(Procedure.name) \
+                            .filter(or_(Procedure.animal == animal, Procedure.animal == 'All'))   
+    for result in queryResults:
+        if result.topic in topicProcedureDict:          
+            tempList = topicProcedureDict[result.topic]
+            tempList.append(result.name)
+            topicProcedureDict[result.topic] = tempList
+        else:
+            topicProcedureDict[result.topic] = [result.name]
+    return topicProcedureDict
+
 # Routes
 @app.route('/')
 def index():
     return render_template("index.html")
-
-@app.route('/geocode/<zip_c>')
-def geocode(zip_c=None):
-    geocode = db.session.query(ZipCode).filter_by(zip=zip_c).first()
-    return jsonify(geocode.latitude, geocode.longitude)
-
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
@@ -238,45 +373,181 @@ def quote_request():
         flash("Thanks! Your quote request has been successfully submitted.")
         return render_template("quote_request.html")
 
-
-@app.route('/search', methods = ['GET'])
+@app.route('/search')
 def search():
-    procedure = request.args['procedure'].lower()
-    weight = request.args['weight']
+    animal = request.args['animal']
+    procedure = request.args['procedure']    
     zip = request.args['zip']
-    results = []
-    procedureObj = Procedure.query.filter(Procedure.name == procedure.lower()).first()
-    if procedureObj:
-        if weight:
-            businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
-                                    .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
-                                    .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound > weight)) \
-                                    .order_by(Price.price) \
-                                    .all()  #TODO: order by distance after price
-        else:
-            businesses = Price.query.filter(Price.procedure_id == procedureObj.id) \
-                                    .order_by(Price.price) \
-                                    .all()
 
+    # Weight and sort/filter defaults
+    weight = request.args.get('weight') if 'weight' in request.args else ''  # Needed so weight autofill isn't 'None'
+    sortBy = request.args.get('sort')   if 'sort'   in request.args else 'price'
+    radius = float(request.args.get('radius')) if 'radius' in request.args else 10
+    rating = float(request.args.get('rating')) if 'rating' in request.args else 0
+
+    results = []
+
+    zipObj = ZipCode.query.filter(ZipCode.zip == zip).first()
+    if zipObj:
+        zipLatLong = (zipObj.latitude, zipObj.longitude)
+    else:
         zipLatLong = get_lat_long(zip)
 
-        for business in businesses:
-            yelp_result = get_yelp_results(business.clinic.yelp_id)
-            full_address = make_full_address(business.clinic)
-            results.append({
-                'name': business.clinic.name,
-                'phone': '(%s) %s-%s' % (business.clinic.phone[0:3], business.clinic.phone[3:6], business.clinic.phone[6:]),
-                'address': full_address,
-                'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
-                'distance': longlat_distance(zipLatLong, (business.clinic.latitude, business.clinic.longitude)),
-                'price': '%.2f' % business.price,
-                'yelp_rating_url': yelp_result['rating_img_url'],
-                'yelp_url': yelp_result['url']
-            })
-    return render_template("search.html", results=results, procedure=str(procedure).title(), weight=weight, zip=zip)
+    # Get clinics within radius
+    closeClinics = []
+    clinics = Clinic.query.all()
+    for clinic in clinics:
+        distance = longlat_distance(zipLatLong, (clinic.latitude, clinic.longitude))
+        # print distance
+        if distance <= radius:
+            closeClinics.append((clinic, distance))  # array of (clinic, distance) tuples
 
+    # For each clinic, average all prices for procedure/animal/weight combo
+    for clinicDistanceTuple in closeClinics:
+        clinic = clinicDistanceTuple[0]
+        procedureObj = Procedure.query \
+                        .filter(Procedure.name == procedure) \
+                        .filter(or_(Procedure.animal == animal, Procedure.animal == 'All')) \
+                        .first()
+        if procedureObj:
+            if weight:
+                prices = Price.query \
+                                        .filter(Price.clinic == clinic) \
+                                        .filter(Price.procedure_id == procedureObj.id) \
+                                        .filter(or_(Price.weight_low_bound == None, Price.weight_low_bound <= weight)) \
+                                        .filter(or_(Price.weight_high_bound == None, Price.weight_high_bound >= weight)) \
+                                        .filter(Price.national_z_score > -2.5) \
+                                        .filter(Price.national_z_score < 2) \
+                                        .filter(Price.data_integrity < 3) \
+                                        .all()
+            else:
+                prices = Price.query \
+                                        .filter(Price.clinic == clinic) \
+                                        .filter(Price.procedure_id == procedureObj.id) \
+                                        .filter(Price.national_z_score > -2.5) \
+                                        .filter(Price.national_z_score < 2) \
+                                        .filter(Price.data_integrity < 3) \
+                                        .all()
+        if len(prices):
+            count = 0
+            sum = 0
+            for price in prices:
+                sum += price.price
+                count += 1
+            avgPrice = sum/count
 
+            # Get rating/image from Yelp
+            yelp_result = get_yelp_results(clinic.yelp_id)
 
+            # Check if the result rating is greater than or equal to our filter rating
+            if yelp_result['rating'] >= rating:
+                full_address = make_full_address(clinic)
+                results.append({
+                    'name': clinic.name,
+                    'phone': '(%s) %s-%s' % (clinic.phone[0:3], clinic.phone[3:6], clinic.phone[6:]),
+                    'address': full_address,
+                    'address_url': "http://google.com/maps/search/" + full_address.replace(' ', '+'),
+                    'distance': clinicDistanceTuple[1],
+                    'price': avgPrice,
+                    'rating': yelp_result['rating'],
+                    'yelp_rating_url': yelp_result['rating_img_url'],
+                    'yelp_url': yelp_result['url']
+                })
+
+    # Sort results
+    results.sort(key=lambda x: x[sortBy])
+
+    topicProcedureDict = getProcedures(animal.title())
+
+    return render_template("search.html", 
+                            results=results,
+                            animal=str(animal),
+                            topicProcedureDict=topicProcedureDict,
+                            curr_procedure=str(procedure),
+                            weight=weight,
+                            zip=zip,
+                            sort=sortBy,
+                            sortInParams='sort' in request.args,
+                            radius=int(radius),
+                            radiusInParams='radius' in request.args,
+                            rating=int(rating),
+                            ratingInParams='rating' in request.args)
+
+# Get new procedures given animal selection
+@app.route('/_update-procedures', methods=['POST'])
+def updateProcedures():
+    return jsonify(getProcedures(request.form['animal'].title()))
+
+@app.route('/geocode/<zip_c>', methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
+def geocode(zip_c=None):
+    geocode = db.session.query(ZipCode).filter_by(zip=zip_c).first()
+    return jsonify({"latitude": geocode.latitude, "longitude": geocode.longitude})
+
+# Receive data from IMVRMO to be added to db
+@app.route('/add_data', methods=['POST'])
+def add_data():
+    if request.form['api_key'] != app.config['API_KEY']:
+        message = 'Error: invalid API key.'
+    else:
+        message = ""
+
+        ## Clinic ##
+        clinic = Clinic.query.filter(Clinic.yelp_id == request.form['yelp_id']).first()
+        if not clinic:
+            clinic = Clinic(request.form['yelp_id'])
+            db.session.add(clinic)
+            db.session.commit()
+            message += "\nAdded new clinic"
+
+        ## Procedure ##
+        procedure = Procedure.query \
+                        .filter(Procedure.name == request.form['procedure']) \
+                        .filter(Procedure.topic == request.form['topic']) \
+                        .filter(or_(Procedure.animal == request.form['animal'].title(), Procedure.animal == 'All')) \
+                        .first()
+        if not procedure:
+            procedure = Procedure(
+                request.form['procedure'],
+                request.form['topic'],
+                request.form['animal'].title()
+            )
+            db.session.add(procedure)
+            db.session.commit()
+            message += "\nAdded new procedure"
+
+        ## Price ##            
+        priceInstance = Price(
+            clinic.id,
+            procedure.id,
+            request.form['price'],
+            request.form['national_z_score'],
+            request.form['urban_z_score'],
+            request.form['suburban_z_score'],
+            request.form['rural_z_score']
+        )
+
+        # If price needs weight, data integrity
+        if str(request.form['weight_low_bound']) != 'None':
+            priceInstance.weight_low_bound = request.form['weight_low_bound']
+        if str(request.form['weight_high_bound']) != 'None':
+            priceInstance.weight_high_bound = request.form['weight_high_bound']
+        if str(request.form['data_integrity']) != 'None':
+            priceInstance.data_integrity = request.form['data_integrity']
+
+        message += "\nAdded new price"
+        
+        # Add price to db
+        db.session.add(priceInstance)
+        db.session.commit()
+
+        message = "Success!" + message
+
+    return message
+
+#################################################
+##                 Blog Routes                 ##
+#################################################
 @app.route('/blog')
 def show_entries():
     query = Entry.query.order_by(desc(Entry.id))

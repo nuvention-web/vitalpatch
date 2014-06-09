@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for, redirect
+from flask import Flask, render_template, request, jsonify, url_for, redirect, send_from_directory
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.mail import Mail, Message
 from sqlalchemy import or_
@@ -8,6 +8,9 @@ from pygeocoder import Geocoder
 from math import erf, sqrt
 import json
 from operator import attrgetter
+import urllib
+import urllib2
+import csv
 
 app = Flask(__name__)
 
@@ -24,6 +27,8 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'vetcompare'
 app.config['MAIL_PASSWORD'] = 'bestvet.com'
+# Other
+app.config['API_KEY'] = 'whistle'
 
 # API Keys
 # Yelp
@@ -194,15 +199,23 @@ def result():
 
 		# Pull price from db
 		# If we need the weight for the procedure and the animal is a dog
+		weight_low_bound = None
+		weight_high_bound = None
 		if newVetData.procedure in needWeightProcedures and newVetData.animal_type == 'dog':
-			if newVetData.weight == '0':
+			if newVetData.weight == 0:
 				weightString = "<25 Pound Dog"
-			elif newVetData.weight == '1':
+				weight_high_bound = 25
+			elif newVetData.weight == 1:
 				weightString = "25-50 Pound Dog"
-			elif newVetData.weight == '2':
+				weight_low_bound = 25
+				weight_high_bound = 50
+			elif newVetData.weight == 2:
 				weightString = "51-75 Pound Dog"
+				weight_low_bound = 51
+				weight_high_bound = 75
 			else:
 				weightString = ">75 Pound Dog"
+				weight_low_bound = 76
 			price = vetprocedure.query \
 						.filter_by(procedure = newVetData.procedure) \
 						.filter_by(animal = newVetData.animal_type.title()) \
@@ -214,7 +227,6 @@ def result():
 						.filter(or_(vetprocedure.animal == newVetData.animal_type.title(), vetprocedure.animal == 'All')) \
 						.first()
 
-
 		## Calculate percentiles ##
 		# National
 		if float(newVetData.price) < price.national_median:
@@ -222,8 +234,8 @@ def result():
 		else:
 			std = (price.national_75th_percentile - price.national_median) / 0.67449
 		
-		z_score = (float(newVetData.price) - price.national_median) / std
-		national_percentile = cdf(z_score)*100
+		national_z_score = (float(newVetData.price) - price.national_median) / std
+		national_percentile = cdf(national_z_score)*100
 
 		# Urban
 		if float(newVetData.price) < price.urban_median:
@@ -231,8 +243,8 @@ def result():
 		else:
 			std = (price.urban_75th_percentile - price.urban_median) / 0.67449
 		
-		z_score = (float(newVetData.price) - price.urban_median) / std
-		urban_percentile = cdf(z_score)*100
+		urban_z_score = (float(newVetData.price) - price.urban_median) / std
+		urban_percentile = cdf(urban_z_score)*100
 
 		# Suburban
 		if float(newVetData.price) < price.suburban_median:
@@ -240,8 +252,8 @@ def result():
 		else:
 			std = (price.suburban_75th_percentile - price.suburban_median) / 0.67449
 		
-		z_score = (float(newVetData.price) - price.suburban_median) / std
-		suburban_percentile = cdf(z_score)*100		
+		suburban_z_score = (float(newVetData.price) - price.suburban_median) / std
+		suburban_percentile = cdf(suburban_z_score)*100		
 
 		# Rural
 		if float(newVetData.price) < price.rural_median:
@@ -249,8 +261,8 @@ def result():
 		else:
 			std = (price.rural_75th_percentile - price.rural_median) / 0.67449
 		
-		z_score = (float(newVetData.price) - price.rural_median) / std
-		rural_percentile = cdf(z_score)*100
+		rural_z_score = (float(newVetData.price) - price.rural_median) / std
+		rural_percentile = cdf(rural_z_score)*100
 
 		percentileData = {
 			'national': national_percentile,
@@ -258,6 +270,68 @@ def result():
 			'suburban': suburban_percentile,			
 			'rural':    rural_percentile
 		}
+
+		# Send to VetCompare
+		if str(newVetData.clinic_yelp_id) != 'Null': 	# If the clinic has a Yelp ID, send it to VetCompare
+			url = 'http://vetcompare.herokuapp.com/add_data'
+			values = {
+				'api_key': app.config['API_KEY'],
+				'yelp_id': newVetData.clinic_yelp_id,
+				'procedure': newVetData.procedure,
+				'topic': price.topic,
+				'animal': newVetData.animal_type,
+				'price': newVetData.price,
+				'weight_low_bound': weight_low_bound,
+				'weight_high_bound': weight_high_bound,
+				'national_z_score': national_z_score,
+				'urban_z_score': urban_z_score,
+				'suburban_z_score': suburban_z_score,
+				'rural_z_score': rural_z_score,
+				'data_integrity': newVetData.data_integrity
+			}
+			data = urllib.urlencode(values)
+			response = urllib2.urlopen(url, data)
+
+		else: 											# Otherwise, send an email telling one of us to fill in the data
+			# Setup
+			subject = 'Clinic "' + newVetData.clinic_name + '" needs filling in on VetCompare'
+			sender = ('IMVRMO', app.config['MAIL_USERNAME'] + '@gmail.com')
+			recipients = ['glennfellman2014@u.northwestern.edu', 'fareeha.ali@gmail.com', 'ed.bren@gmail.com', 'rennaker@gmail.com', 'samtoizer@gmail.com', 'scott.neaves.eghs@gmail.com']
+			recipients = ['samtoizer@gmail.com']
+			# Email
+			msg = Message(subject, sender = sender, recipients = recipients)
+			msg.body = 'Clinic Info' + '\n' + \
+						'\n' + \
+						'Clinic Name: ' + newVetData.clinic_name + '\n' + \
+						'Zip Code: ' + str(newVetData.zip) + '\n' + \
+						'\n' + \
+						'Procedure Info' + '\n' + \
+						'\n' + \
+						'Topic: ' + price.topic + '\n' + \
+						'Procedure Name: ' + newVetData.procedure + '\n' + \
+						'Animal: ' + newVetData.animal_type + '\n' + \
+						'Price: ' + str(newVetData.price) + '\n' + \
+						'Weight Low Bound: ' + str(weight_low_bound) + '\n' + \
+						'Weight High Bound: ' + str(weight_high_bound) + '\n' + \
+						'\n' + \
+						'(If the weight bound(s) are None, don\'t enter anything.)\n' + \
+						'Let everyone know if you\'ve entered this price in!'
+			msg.html = '<h3>Clinic Info</h3>' + '<br>' + \
+						'<em>Clinic Name</em>: ' + newVetData.clinic_name + '<br>' + \
+						'<em>Zip Code</em>: ' + str(newVetData.zip) + '<br>' + \
+						'<br>' + \
+						'<h3>Procedure Info</h3>' + '<br>' + \
+						'<em>Topic</em>: ' + price.topic + '<br>' + \
+						'<em>Procedure Name</em>: ' + newVetData.procedure + '<br>' + \
+						'<em>Animal</em>: ' + newVetData.animal_type.title() + '<br>' + \
+						'<em>Price</em>: ' + str(newVetData.price) + '<br>' + \
+						'<em>Weight Low Bound</em>: ' + str(weight_low_bound) + '<br>' + \
+						'<em>Weight High Bound</em>: ' + str(weight_high_bound) + '<br>' + \
+						'<br>' + \
+						'(If the weight bound(s) are None, don\'t enter anything.)<br>' + \
+						'Let everyone know if you\'ve entered this price in!'
+			# Send
+			mail.send(msg)
 
 		###########################
 
@@ -310,7 +384,6 @@ def get_clinics_in_zipcode():
 	params["ll"] = str(latitude) + ',' + str(longitude)
 	params["limit"] = "20"
 	params["category_filter"] = "vet"
-	print str(latitude) + ',' + str(longitude)
 	params["sort"] = "1"
 
 	data = session.get('http://api.yelp.com/v2/search/', params=params) #returns response object, which we now name "data"

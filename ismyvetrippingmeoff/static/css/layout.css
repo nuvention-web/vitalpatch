@@ -19,6 +19,16 @@ body {
     padding: 30px;    
 }
 
+@media (max-width: 768px) {
+    a#barometer_tab {
+        left: auto;
+        right: 0;
+        transform:rotate(180deg);
+            -ms-transform:rotate(180deg); /* IE 9 */
+            -webkit-transform:rotate(180deg); /* Opera, Chrome, and Safari */
+    }
+}
+
 /* For feedback confirmation */
 .flash {
     background: #cee5f5;
