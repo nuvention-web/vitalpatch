@@ -5,12 +5,57 @@
 
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
 
+<div class="row-fluid sort-options-block well">
+    <div id="sort-buttons">
+        <button class='btn btn-default' id="hide-sort-button">Hide sort and filter options</button>
+        <button class='btn btn-default' id="default-sort-button">Reset options</button>        
+    </div>
+    <div id="sort-container">
+        <div class="span4 sort-options-group">
+            <span class="sort-options-title">Sort</span>        
+
+            <input type="radio" name="sort" class="sort-options-radio" value="price" id="price">
+                <label class="sort-options-label" for="price">Price</label>        
+            <input type="radio" name="sort" class="sort-options-radio" value="distance" id="distance">
+                <label class="sort-options-label" for="distance">Distance</label>
+            <input type="radio" name="sort" class="sort-options-radio" value="name" id="name">
+                <label class="sort-options-label" for="name">Name</label>
+            <input type="radio" name="sort" class="sort-options-radio" value="rating" id="rating">
+                <label class="sort-options-label" for="rating">Rating</label>
+        </div>
+        <div class="span4 sort-options-group">
+            <span class="sort-options-title">Radius</span>
+
+            <input type="radio" name="radius" class="sort-options-radio" value="5" id="5-miles">
+                <label class="sort-options-label" for="5-miles">5 miles</label>        
+            <input type="radio" name="radius" class="sort-options-radio" value="10" id="10-miles">
+                <label class="sort-options-label" for="10-miles">10 miles</label>
+            <input type="radio" name="radius" class="sort-options-radio" value="25" id="25-miles">
+                <label class="sort-options-label" for="25-miles">25 miles</label>
+            <input type="radio" name="radius" class="sort-options-radio" value="50" id="50-miles">
+                <label class="sort-options-label" for="50-miles">50 miles</label>
+        </div>
+        <div class="span4 sort-options-group">
+            <span class="sort-options-title">Rating</span>
+
+            <input type="radio" name="rating" class="sort-options-radio" value="2" id="2-stars">
+                <label class="sort-options-label" for="2-stars">2 stars or more</label>        
+            <input type="radio" name="rating" class="sort-options-radio" value="3" id="3-stars">
+                <label class="sort-options-label" for="3-stars">3 stars or more</label>
+            <input type="radio" name="rating" class="sort-options-radio" value="4" id="4-stars">
+                <label class="sort-options-label" for="4-stars">4 stars or more</label>
+            <input type="radio" name="rating" class="sort-options-radio" value="5" id="5-stars">
+                <label class="sort-options-label" for="5-stars">5 stars</label>
+        </div>
+    </div>
+</div>
+
 <ul class="well">
 	{% for result in results %}                
     <li class="result">
         <div class="row">
             <span class="name span7 pull-left">{{ result.name | truncate(30) }}</span>
-            <span class="distance span2 pull-right text-right">{{ result.distance }} mi</span>
+            <span class="distance span2 pull-right text-right">{{ '%.2f'| format(result.distance|float) }} mi</span>
         </div>                
         <div class="row">
             <div class="result-left-col pull-left">
@@ -20,7 +65,7 @@
         </div>
         <div class="row bottom-row">
             <img class="rating span2 pull-left" src={{ result.yelp_rating_url }}> <a href={{ result.yelp_url }} target="_blank">Read reviews...</a>
-            <span class="price span3 offset4 pull-right text-right">${{ result.price }}</span>
+            <span class="price span3 offset4 pull-right text-right">${{ '%.2f'| format(result.price|float) }}</span>
         </div>
     </li>
     {% else %}
@@ -36,6 +81,9 @@
 <script type="text/javascript" src={{ url_for('static', filename='jquery-1.10.2.min.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='jquery-ui-1.10.4.custom.min.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='bootstrap.js') }}></script>
-<!-- <script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script> -->
+<script type="text/javascript" src={{ url_for('static', filename='custom.js') }}></script>
+<script>
+    checkSortRadios("{{ sort|safe }}", "{{ radius|safe }}", "{{ rating|safe }}");
+</script>
 
 {% endblock %}
