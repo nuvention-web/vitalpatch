@@ -123,7 +123,7 @@ class Price(db.Model):
 
 class PriceView(ModelView):
     column_list = ('id', 'clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'national_z_score', 'urban_z_score', 'suburban_z_score', 'rural_z_score', 'data_integrity')
-    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price')
+    form_columns = ('clinic', 'procedure', 'weight_low_bound', 'weight_high_bound', 'price', 'national_z_score', 'urban_z_score', 'suburban_z_score', 'rural_z_score', 'data_integrity')
 
 class ZipCode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
